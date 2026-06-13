@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water_intake_logger/const/app_color.dart';
+import 'package:water_intake_logger/widgets/button_widget.dart';
 import 'package:water_intake_logger/widgets/text.dart';
 
 class HomePage extends StatelessWidget {
@@ -27,6 +28,14 @@ class HomePage extends StatelessWidget {
               ),
             ),
             ElevatedButton(onPressed: () => {}, child: Text("Test Button")),
+
+            ButtonWidget(
+              text: "aran",
+              onPressed: () {},
+              fullWidth: false,
+              icon: Icons.access_alarm,
+              isLoading: false,
+            ),
           ],
         ),
       ),
