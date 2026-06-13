@@ -36,6 +36,20 @@ class HomePage extends StatelessWidget {
               icon: Icons.access_alarm,
               isLoading: false,
             ),
+
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: ButtonWidget(
+                text: "testing by aran",
+                onPressed: () {},
+                fullWidth: true,
+                variant: ButtonVariantApp.primary,
+                icon: Icons.abc,
+                isLoading: false,
+                key: key,
+              ),
+            ),
           ],
         ),
       ),

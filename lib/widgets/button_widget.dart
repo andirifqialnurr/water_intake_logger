@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:water_intake_logger/const/app_color.dart';
 
-enum ButtonVariantApp { primary, secondary, teriatry, outline }
+enum ButtonVariantApp { primary, secondary, teriatry, outline, inverted }
 
 class ButtonWidget extends StatelessWidget {
   final String text;
@@ -70,7 +70,7 @@ class ButtonWidget extends StatelessWidget {
     return OutlinedButton.styleFrom(
       foregroundColor: _foregroundColor(),
       disabledForegroundColor: AppColors.primary.withAlpha(140),
-      side: BorderSide(color: AppColors.primary),
+      side: BorderSide(color: AppColors.outline),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       textStyle: TextStyle(fontWeight: FontWeight.w700),
       padding: EdgeInsets.symmetric(horizontal: 16),
@@ -79,16 +79,18 @@ class ButtonWidget extends StatelessWidget {
 
   Color _backgroundColor() => switch (variant) {
     ButtonVariantApp.primary => AppColors.primary,
-    ButtonVariantApp.secondary => AppColors.primary,
-    ButtonVariantApp.teriatry => AppColors.primary,
-    ButtonVariantApp.outline => AppColors.primary,
+    ButtonVariantApp.secondary => AppColors.surfaceContainerHigh,
+    ButtonVariantApp.teriatry => AppColors.tertiary,
+    ButtonVariantApp.outline => AppColors.outline,
+    ButtonVariantApp.inverted => AppColors.inverseSurface,
   };
 
   Color _foregroundColor() => switch (variant) {
     ButtonVariantApp.primary => AppColors.neutral,
-    ButtonVariantApp.secondary => AppColors.neutral,
-    ButtonVariantApp.teriatry => AppColors.primary,
-    ButtonVariantApp.outline => AppColors.primary,
+    ButtonVariantApp.secondary => AppColors.onSurfaceVariant,
+    ButtonVariantApp.teriatry => AppColors.neutral,
+    ButtonVariantApp.outline => AppColors.onSurfaceVariant,
+    ButtonVariantApp.inverted => AppColors.neutral,
   };
 }
 
