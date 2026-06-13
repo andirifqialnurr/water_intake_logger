@@ -40,7 +40,7 @@ class TextWidget extends StatelessWidget {
       TextWidgetStyle.subtitle => theme.titleMedium,
       TextWidgetStyle.body => theme.bodyLarge,
       TextWidgetStyle.caption => theme.bodySmall,
-      TextWidgetStyle.buttonLabel => theme.labelMedium,
+      TextWidgetStyle.buttonLabel => theme.labelLarge,
       TextWidgetStyle.micro => theme.labelSmall,
     };
     return Text(

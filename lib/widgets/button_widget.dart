@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water_intake_logger/const/app_color.dart';
+import 'package:water_intake_logger/widgets/text_widget.dart';
 
 enum ButtonVariantApp { primary, secondary, teriatry, outline, inverted }
 
@@ -124,12 +125,27 @@ class _ButtonContent extends StatelessWidget {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: fullWidth ? MainAxisSize.max : MainAxisSize.min,
       children: [
         if (leading != null) ...[leading, const SizedBox(width: 8)],
         fullWidth
-            ? Flexible(child: Text(text, overflow: TextOverflow.ellipsis))
-            : Text(text),
+            ? Flexible(
+                child: TextWidget(
+                  text: text,
+                  variant: TextWidgetStyle.buttonLabel,
+                  color: foregroundColor,
+                  maxLines: 1,
+                  textOverflow: TextOverflow.ellipsis,
+                ),
+              )
+            : TextWidget(
+                text: text,
+                variant: TextWidgetStyle.buttonLabel,
+                color: foregroundColor,
+                maxLines: 1,
+                textOverflow: TextOverflow.ellipsis,
+              ),
       ],
     );
   }

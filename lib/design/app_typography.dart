@@ -42,15 +42,15 @@ class AppTypography {
             fontWeight: FontWeight.w400,
             height: 1.4,
           ),
-          labelMedium: GoogleFonts.plusJakartaSans(
+          labelLarge: GoogleFonts.plusJakartaSans(
             fontSize: 12,
             fontWeight: FontWeight.w600,
-            height: 0.3,
+            height: 1.4,
           ),
           labelSmall: GoogleFonts.plusJakartaSans(
             fontSize: 10,
             fontWeight: FontWeight.w600,
-            height: 0.4,
+            height: 1.0,
           ),
         ),
       );

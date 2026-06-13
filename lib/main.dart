@@ -23,6 +23,11 @@ class WaterIntakeLoggerApp extends StatelessWidget {
           foregroundColor: AppColors.neutral,
         ),
         textTheme: AppTypography.textTheme(Colors.black),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            textStyle: Theme.of(context).textTheme.labelLarge,
+          ),
+        ),
       ),
 
       initialRoute: '/',
