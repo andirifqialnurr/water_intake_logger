@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:water_intake_logger/const/app_color.dart';
 import 'package:water_intake_logger/widgets/button_widget.dart';
-import 'package:water_intake_logger/widgets/text.dart';
+import 'package:water_intake_logger/widgets/text_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -15,28 +15,6 @@ class HomePage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            Image.asset('assets/images/wolf-pointing-left.png'),
-            SizedBox(height: 20),
-            Container(
-              color: AppColors.primary,
-              width: double.infinity,
-              child: TextApp(
-                "aran ganteng",
-                AppColors.neutral,
-                variant: TextVariantApp.h1,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            ElevatedButton(onPressed: () => {}, child: Text("Test Button")),
-
-            ButtonWidget(
-              text: "aran",
-              onPressed: () {},
-              fullWidth: false,
-              icon: Icons.access_alarm,
-              isLoading: false,
-            ),
-
             SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -50,6 +28,8 @@ class HomePage extends StatelessWidget {
                 key: key,
               ),
             ),
+            SizedBox(height: 20),
+            TextWidget(text: "aran ganteng", variant: TextWidgetStyle.headline),
           ],
         ),
       ),

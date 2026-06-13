@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water_intake_logger/const/app_color.dart';
+import 'package:water_intake_logger/design/app_typography.dart';
 import 'package:water_intake_logger/pages/home_page.dart';
 import 'package:water_intake_logger/pages/profile_page.dart';
 
@@ -21,12 +22,7 @@ class WaterIntakeLoggerApp extends StatelessWidget {
           backgroundColor: AppColors.primary,
           foregroundColor: AppColors.neutral,
         ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primary,
-            foregroundColor: AppColors.neutral,
-          ),
-        ),
+        textTheme: AppTypography.textTheme(Colors.black),
       ),
 
       initialRoute: '/',
