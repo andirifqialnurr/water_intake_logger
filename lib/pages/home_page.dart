@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:water_intake_logger/const/app_color.dart';
 import 'package:water_intake_logger/widgets/floating_appbar_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -20,9 +21,12 @@ class HomePage extends StatelessWidget {
               right: 16,
               child: FloatingAppbarWidget(
                 title: "Aran jenius",
-                onProfileTap: () {
-                  Navigator.pushNamed(context, '/profile');
-                },
+                actions: [
+                  IconButton(
+                    onPressed: () => Navigator.pushNamed(context, '/profile'),
+                    icon: const Icon(Icons.person, color: AppColors.outline),
+                  ),
+                ],
               ),
             ),
           ],

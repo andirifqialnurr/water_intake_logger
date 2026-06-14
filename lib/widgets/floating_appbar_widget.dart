@@ -4,10 +4,13 @@ import 'package:water_intake_logger/widgets/text_widget.dart';
 
 class FloatingAppbarWidget extends StatelessWidget {
   final String title;
-  final VoidCallback? onProfileTap;
+  final bool showBackButton;
+  final List<Widget> actions;
+
   const FloatingAppbarWidget({
     required this.title,
-    this.onProfileTap,
+    this.showBackButton = false,
+    this.actions = const [],
     super.key,
   });
 
@@ -30,15 +33,18 @@ class FloatingAppbarWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.water_drop, color: AppColors.primary),
-          const SizedBox(width: 12),
+          if (showBackButton)
+            IconButton(
+              onPressed: () => Navigator.pop(context),
+              icon: const Icon(Icons.arrow_back, color: AppColors.outline),
+            ),
+          if (showBackButton) const SizedBox(width: 8),
+
           Expanded(
-            child: TextWidget(text: title, variant: TextWidgetStyle.body),
+            child: TextWidget(text: title, variant: TextWidgetStyle.subtitle),
           ),
-          IconButton(
-            onPressed: onProfileTap,
-            icon: Icon(Icons.person, color: AppColors.onSurface),
-          ),
+
+          ...actions,
         ],
       ),
     );

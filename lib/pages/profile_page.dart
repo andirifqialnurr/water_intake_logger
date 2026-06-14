@@ -12,17 +12,15 @@ class ProfilePage extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.only(top: 90),
-              child: Center(child: Text("Ini halaman profile")),
+              child: Center(child: Text("Ini halaman Profile")),
             ),
             Positioned(
               top: 16,
               left: 16,
               right: 16,
               child: FloatingAppbarWidget(
-                title: "Aran jenius",
-                onProfileTap: () {
-                  Navigator.pushNamed(context, '/');
-                },
+                title: "Aran profile",
+                showBackButton: true,
               ),
             ),
           ],
