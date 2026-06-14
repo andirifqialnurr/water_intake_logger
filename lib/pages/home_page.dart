@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/const/app_color.dart';
-import 'package:water_intake_logger/widgets/button_widget.dart';
-import 'package:water_intake_logger/widgets/text_widget.dart';
+import 'package:water_intake_logger/widgets/floating_appbar_widget.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -9,27 +7,24 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Water Intake Logger", style: TextStyle(fontSize: 20)),
-      ),
-      body: Center(
-        child: Column(
+      body: SafeArea(
+        child: Stack(
           children: [
-            SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: ButtonWidget(
-                text: "testing by aran",
-                onPressed: () {},
-                fullWidth: true,
-                variant: ButtonVariantApp.primary,
-                icon: Icons.abc,
-                isLoading: false,
-                key: key,
+              padding: EdgeInsets.only(top: 90),
+              child: Center(child: Text("Ini halaman home")),
+            ),
+            Positioned(
+              top: 16,
+              left: 16,
+              right: 16,
+              child: FloatingAppbarWidget(
+                title: "Aran jenius",
+                onProfileTap: () {
+                  Navigator.pushNamed(context, '/profile');
+                },
               ),
             ),
-            SizedBox(height: 20),
-            TextWidget(text: "aran ganteng", variant: TextWidgetStyle.headline),
           ],
         ),
       ),
