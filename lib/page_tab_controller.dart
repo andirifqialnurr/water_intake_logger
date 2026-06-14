@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:water_intake_logger/pages/settings_page.dart';
+import 'package:water_intake_logger/pages/tabs/history_page.dart';
+import 'package:water_intake_logger/pages/tabs/home_page.dart';
+import 'package:water_intake_logger/pages/tabs/profile_page.dart';
+import 'package:water_intake_logger/pages/tabs/progress_page.dart';
 import 'package:water_intake_logger/widgets/floating_appbar_widget.dart';
+import 'package:water_intake_logger/widgets/floating_bottombar_widget.dart';
 
 class PageTabController extends StatefulWidget {
   const PageTabController({super.key});
@@ -13,12 +18,13 @@ class _PageTabControllerState extends State<PageTabController> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = const [
-    Center(child: Text('Ini halaman home')),
-    Center(child: Text('Ini halaman history')),
-    Center(child: Text('Ini halaman progress')),
+    HomePage(),
+    ProgressPage(),
+    HistoryPage(),
+    ProfilePage(),
   ];
 
-  final List<String> _title = const ['Home', 'History', 'Progress'];
+  final List<String> _title = const ['Home', 'History', 'Progress', 'Profile'];
 
   @override
   Widget build(BuildContext context) {
@@ -53,21 +59,19 @@ class _PageTabControllerState extends State<PageTabController> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: FloatingBottombarWidget(
         currentIndex: _currentIndex,
+        items: const [
+          FloatingNavItem(icon: Icons.water_drop_outlined),
+          FloatingNavItem(icon: Icons.bar_chart_rounded),
+          FloatingNavItem(icon: Icons.history_rounded),
+          FloatingNavItem(icon: Icons.person_2_outlined),
+        ],
         onTap: (value) {
           setState(() {
             _currentIndex = value;
           });
         },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'Progress',
-          ),
-        ],
       ),
     );
   }

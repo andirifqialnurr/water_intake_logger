@@ -5,6 +5,8 @@ class HistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: SafeArea(child: Text("ini halaman home")));
+    return Scaffold(
+      body: SafeArea(child: Center(child: Text("ini halaman history"))),
+    );
   }
 }

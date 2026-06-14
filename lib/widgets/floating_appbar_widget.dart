@@ -27,7 +27,6 @@ class FloatingAppbarWidget extends StatelessWidget {
             color: AppColors.outlineVariant,
             blurRadius: 6,
             offset: Offset(1, 4),
-            blurStyle: BlurStyle.normal,
           ),
         ],
       ),
