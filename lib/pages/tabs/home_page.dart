@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water_intake_logger/const/app_color.dart';
-import 'package:water_intake_logger/widgets/cards/dashboard_summary/card.dart';
-import 'package:water_intake_logger/widgets/cards/dashboard_summary/sections.dart';
+import 'package:water_intake_logger/widgets/cards/button_add_water/sections.dart';
 import 'package:water_intake_logger/widgets/text_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -45,17 +44,35 @@ class HomePage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-            DashboardSummarySections(
+            ButtonAddWaterSections(
               items: [
-                DashboardSummaryItems(
-                  iconData: Icons.fireplace_outlined,
-                  title: "3 Days",
-                  caption: "Current Winstreak",
+                ButtonAddWaterItems(
+                  iconData: Icons.coffee,
+                  title: "Cup",
+                  volume: 250,
+                  unit: "ml",
+                  backgroundColor: AppColors.onTertiaryContainer,
                 ),
-                DashboardSummaryItems(
-                  iconData: Icons.timer,
-                  title: "45 m",
-                  caption: "Since Last Sip",
+                ButtonAddWaterItems(
+                  iconData: Icons.water_drop_outlined,
+                  title: "Bottole",
+                  volume: 700,
+                  unit: "ml",
+                  backgroundColor: AppColors.onPrimaryContainer,
+                ),
+                ButtonAddWaterItems(
+                  iconData: Icons.local_drink,
+                  title: "Glass",
+                  volume: 500,
+                  unit: "ml",
+                  backgroundColor: AppColors.onTertiaryContainer,
+                ),
+                ButtonAddWaterItems(
+                  iconData: Icons.hourglass_bottom_outlined,
+                  title: "Bottle",
+                  volume: 1,
+                  unit: "liter",
+                  backgroundColor: AppColors.onPrimary,
                 ),
               ],
             ),
