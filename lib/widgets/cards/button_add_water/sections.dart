@@ -7,6 +7,7 @@ class ButtonAddWaterItems {
   final int volume;
   final String unit;
   final Color backgroundColor;
+  final VoidCallback? onTap;
 
   const ButtonAddWaterItems({
     required this.iconData,
@@ -14,6 +15,7 @@ class ButtonAddWaterItems {
     required this.volume,
     required this.unit,
     required this.backgroundColor,
+    this.onTap,
   });
 }
 
@@ -44,6 +46,7 @@ class ButtonAddWaterSections extends StatelessWidget {
                   volume: item.volume,
                   unit: item.unit,
                   backgroundColor: item.backgroundColor,
+                  onTap: item.onTap,
                 ),
               );
             }).toList(),

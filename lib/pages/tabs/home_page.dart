@@ -52,6 +52,9 @@ class HomePage extends StatelessWidget {
                   volume: 250,
                   unit: "ml",
                   backgroundColor: AppColors.onTertiaryContainer,
+                  onTap: () {
+                    print("tambah 250 ml");
+                  },
                 ),
                 ButtonAddWaterItems(
                   iconData: Icons.water_drop_outlined,
@@ -59,6 +62,9 @@ class HomePage extends StatelessWidget {
                   volume: 700,
                   unit: "ml",
                   backgroundColor: AppColors.onPrimaryContainer,
+                  onTap: () {
+                    print("tambah 250 ml");
+                  },
                 ),
                 ButtonAddWaterItems(
                   iconData: Icons.local_drink,
@@ -66,6 +72,9 @@ class HomePage extends StatelessWidget {
                   volume: 500,
                   unit: "ml",
                   backgroundColor: AppColors.onTertiaryContainer,
+                  onTap: () {
+                    print("tambah 250 ml");
+                  },
                 ),
                 ButtonAddWaterItems(
                   iconData: Icons.hourglass_bottom_outlined,
@@ -73,6 +82,9 @@ class HomePage extends StatelessWidget {
                   volume: 1,
                   unit: "liter",
                   backgroundColor: AppColors.onPrimary,
+                  onTap: () {
+                    print("tambah 250 ml");
+                  },
                 ),
               ],
             ),
