@@ -33,8 +33,12 @@ class FloatingAppbarWidget extends StatelessWidget {
       child: Row(
         children: [
           CircleAvatar(
-            radius: 20,
-            backgroundImage: AssetImage(profileImagePath),
+            radius: 22,
+            backgroundColor: AppColors.primary,
+            child: CircleAvatar(
+              radius: 20,
+              backgroundImage: AssetImage(profileImagePath),
+            ),
           ),
           const SizedBox(width: 20),
           Expanded(
