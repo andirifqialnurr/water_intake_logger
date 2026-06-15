@@ -8,6 +8,7 @@ class ButtonAddWaterItems {
   final String unit;
   final Color backgroundColor;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
   const ButtonAddWaterItems({
     required this.iconData,
@@ -16,6 +17,7 @@ class ButtonAddWaterItems {
     required this.unit,
     required this.backgroundColor,
     this.onTap,
+    this.onLongPress,
   });
 }
 
@@ -47,6 +49,7 @@ class ButtonAddWaterSections extends StatelessWidget {
                   unit: item.unit,
                   backgroundColor: item.backgroundColor,
                   onTap: item.onTap,
+                  onLongPress: item.onLongPress,
                 ),
               );
             }).toList(),

@@ -43,7 +43,7 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 40),
             ButtonAddWaterSections(
               items: [
                 ButtonAddWaterItems(
@@ -53,17 +53,23 @@ class HomePage extends StatelessWidget {
                   unit: "ml",
                   backgroundColor: AppColors.onTertiaryContainer,
                   onTap: () {
-                    print("tambah 250 ml");
+                    print("tambah 1 cup");
+                  },
+                  onLongPress: () {
+                    print("kurangi 1 cup");
                   },
                 ),
                 ButtonAddWaterItems(
                   iconData: Icons.water_drop_outlined,
-                  title: "Bottole",
+                  title: "Bottle",
                   volume: 700,
                   unit: "ml",
                   backgroundColor: AppColors.onPrimaryContainer,
                   onTap: () {
-                    print("tambah 250 ml");
+                    print("tambah 1 bottle");
+                  },
+                  onLongPress: () {
+                    print("kurangi 1 bottle");
                   },
                 ),
                 ButtonAddWaterItems(
@@ -73,17 +79,23 @@ class HomePage extends StatelessWidget {
                   unit: "ml",
                   backgroundColor: AppColors.onTertiaryContainer,
                   onTap: () {
-                    print("tambah 250 ml");
+                    print("tambah 1 glass");
+                  },
+                  onLongPress: () {
+                    print("kurangi 1 glass");
                   },
                 ),
                 ButtonAddWaterItems(
                   iconData: Icons.hourglass_bottom_outlined,
-                  title: "Bottle",
+                  title: "Thumbler",
                   volume: 1,
                   unit: "liter",
                   backgroundColor: AppColors.onPrimary,
                   onTap: () {
-                    print("tambah 250 ml");
+                    print("tambah 1 thumbler");
+                  },
+                  onLongPress: () {
+                    print("kurangi 1 thumbler");
                   },
                 ),
               ],
