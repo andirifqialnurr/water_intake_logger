@@ -10,7 +10,7 @@ class WaterBarChartData {
   const WaterBarChartData({required this.day, required this.ml});
 }
 
-class BarChartProgressWidget extends StatelessWidget {
+class BarChartProgressWidget extends StatefulWidget {
   final List<WaterBarChartData> data;
   final double maxMl;
   final int? activeIndex;
@@ -21,6 +21,37 @@ class BarChartProgressWidget extends StatelessWidget {
     this.activeIndex,
     super.key,
   });
+
+  @override
+  State<BarChartProgressWidget> createState() => _BarChartProgressWidgetState();
+}
+
+class _BarChartProgressWidgetState extends State<BarChartProgressWidget>
+    with TickerProviderStateMixin {
+  late final AnimationController _fillController;
+  late final AnimationController _waveController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _fillController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    )..forward();
+
+    _waveController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _fillController.dispose();
+    _waveController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +73,23 @@ class BarChartProgressWidget extends StatelessWidget {
           TextWidget(text: "Weekly Intake", variant: TextWidgetStyle.subtitle),
           SizedBox(height: 12),
           Expanded(
-            child: CustomPaint(
-              size: Size.infinite,
-              painter: WaterIntakeBarChartPainter(
-                data: data,
-                maxMl: maxMl,
-                labelStyle: labelStyle!,
-                activeIndex: activeIndex,
-              ),
+            child: AnimatedBuilder(
+              animation: Listenable.merge([_fillController, _waveController]),
+              builder: (context, child) {
+                return CustomPaint(
+                  size: Size.infinite,
+                  painter: WaterIntakeBarChartPainter(
+                    data: widget.data,
+                    maxMl: widget.maxMl,
+                    labelStyle: labelStyle!,
+                    activeIndex: widget.activeIndex,
+                    fillProgress: Curves.easeOutCubic.transform(
+                      _fillController.value,
+                    ),
+                    waveProgress: _waveController.value,
+                  ),
+                );
+              },
             ),
           ),
         ],

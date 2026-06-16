@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:water_intake_logger/const/app_color.dart';
 import 'package:water_intake_logger/widgets/charts/bar_chart/cover_widget.dart';
+import 'dart:math';
 
 class WaterIntakeBarChartPainter extends CustomPainter {
   final List<WaterBarChartData> data;
   final double maxMl;
   final TextStyle labelStyle;
   final int? activeIndex;
+  final double fillProgress;
+  final double waveProgress;
 
   WaterIntakeBarChartPainter({
     required this.data,
     required this.maxMl,
     required this.labelStyle,
+    required this.fillProgress,
+    required this.waveProgress,
     this.activeIndex,
   });
 
@@ -67,8 +72,29 @@ class WaterIntakeBarChartPainter extends CustomPainter {
       final barCenterX = chartLeft + (barAreaWidth * i) + (barAreaWidth / 2);
       final barLeft = barCenterX - (barWidth / 2);
       final barRight = barCenterX + (barWidth / 2);
+
+      // Up bar animation
       final ratio = (item.ml / maxMl).clamp(0.0, 1.0);
-      final barHeight = chartHeight * ratio;
+      final animatedRatio = ratio * fillProgress;
+      final barHeight = chartHeight * animatedRatio;
+
+      // Wave animation for each bar
+      final waterTop = chartBottom - barHeight;
+      final waveHeight = 5.0;
+      final waveLength = barWidth * 1.2;
+      final phase = waveProgress * 2 * pi;
+
+      final wavePath = Path();
+      wavePath.moveTo(barLeft, waterTop);
+
+      for (double x = 0; x <= barWidth; x++) {
+        final y = sin((x / waveLength * 2 * pi) + phase) * waveHeight;
+        wavePath.lineTo(barLeft + x, waterTop + y);
+      }
+
+      wavePath.lineTo(barRight, chartBottom);
+      wavePath.lineTo(barLeft, chartBottom);
+      wavePath.close();
 
       final isActive = i == activeIndex;
 
@@ -86,6 +112,13 @@ class WaterIntakeBarChartPainter extends CustomPainter {
 
       canvas.drawRRect(backgroundRect, barBackgroundPaint);
       canvas.drawRRect(filledRect, isActive ? activeBarPaint : barPaint);
+
+      if (barHeight > 0) {
+        canvas.save();
+        canvas.clipRRect(backgroundRect);
+        canvas.drawPath(wavePath, isActive ? activeBarPaint : barPaint);
+        canvas.restore();
+      }
 
       _drawText(
         canvas,
@@ -113,6 +146,8 @@ class WaterIntakeBarChartPainter extends CustomPainter {
   bool shouldRepaint(covariant WaterIntakeBarChartPainter oldDeletage) {
     return oldDeletage.data != data ||
         oldDeletage.maxMl != maxMl ||
-        oldDeletage.activeIndex != activeIndex;
+        oldDeletage.activeIndex != activeIndex ||
+        oldDeletage.fillProgress != fillProgress ||
+        oldDeletage.waveProgress != waveProgress;
   }
 }
