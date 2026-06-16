@@ -5,8 +5,13 @@ import 'package:water_intake_logger/widgets/charts/bar_chart/cover_widget.dart';
 class WaterIntakeBarChartPainter extends CustomPainter {
   final List<WaterBarChartData> data;
   final double maxMl;
+  final TextStyle labelStyle;
 
-  WaterIntakeBarChartPainter({required this.data, required this.maxMl});
+  WaterIntakeBarChartPainter({
+    required this.data,
+    required this.maxMl,
+    required this.labelStyle,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -14,7 +19,7 @@ class WaterIntakeBarChartPainter extends CustomPainter {
     final chartLeft = 44.0;
     final chartTop = 12.0;
     final chartRight = size.width;
-    final chartBottom = size.height - 30;
+    final chartBottom = size.height - 24;
 
     // width and height
     final chartWidth = chartRight - chartLeft;
@@ -49,7 +54,7 @@ class WaterIntakeBarChartPainter extends CustomPainter {
         text: '${(step / 1000).toStringAsFixed(1)}L',
         // text: '${step.toInt()}ml',
         offset: Offset(0, y - 8),
-        style: const TextStyle(color: AppColors.inverseSurface, fontSize: 11),
+        style: labelStyle,
       );
     }
 
@@ -62,14 +67,16 @@ class WaterIntakeBarChartPainter extends CustomPainter {
       final ratio = (item.ml / maxMl).clamp(0.0, 1.0);
       final barHeight = chartHeight * ratio;
 
-      final backgroundRect = RRect.fromRectAndRadius(
+      final backgroundRect = RRect.fromRectAndCorners(
         Rect.fromLTRB(barLeft, chartTop, barRight, chartBottom),
-        const Radius.circular(12),
+        topLeft: const Radius.circular(12),
+        topRight: const Radius.circular(12),
       );
 
-      final filledRect = RRect.fromRectAndRadius(
+      final filledRect = RRect.fromRectAndCorners(
         Rect.fromLTRB(barLeft, chartBottom - barHeight, barRight, chartBottom),
-        const Radius.circular(12),
+        topLeft: const Radius.circular(12),
+        topRight: const Radius.circular(12),
       );
 
       canvas.drawRRect(backgroundRect, barBackgroundPaint);
@@ -79,7 +86,7 @@ class WaterIntakeBarChartPainter extends CustomPainter {
         canvas,
         text: item.day,
         offset: Offset(barCenterX - 12, chartBottom + 10),
-        style: const TextStyle(color: AppColors.inverseSurface, fontSize: 11),
+        style: labelStyle,
       );
     }
   }
