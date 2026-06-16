@@ -141,6 +141,7 @@ class ProgressPage extends StatelessWidget {
             ),
             SizedBox(height: 30),
             BarChartProgressWidget(
+              activeIndex: 3,
               maxMl: 3000,
               data: [
                 WaterBarChartData(day: 'Mon', ml: 1800),

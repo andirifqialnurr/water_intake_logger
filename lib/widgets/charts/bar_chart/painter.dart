@@ -6,11 +6,13 @@ class WaterIntakeBarChartPainter extends CustomPainter {
   final List<WaterBarChartData> data;
   final double maxMl;
   final TextStyle labelStyle;
+  final int? activeIndex;
 
   WaterIntakeBarChartPainter({
     required this.data,
     required this.maxMl,
     required this.labelStyle,
+    this.activeIndex,
   });
 
   @override
@@ -38,6 +40,7 @@ class WaterIntakeBarChartPainter extends CustomPainter {
       ..color = AppColors.error.withValues(alpha: 0.18);
 
     final barPaint = Paint()..color = AppColors.inversePrimary;
+    final activeBarPaint = Paint()..color = AppColors.primary;
 
     // Grid horizontal + label Y
     final stepCount = 4;
@@ -67,6 +70,8 @@ class WaterIntakeBarChartPainter extends CustomPainter {
       final ratio = (item.ml / maxMl).clamp(0.0, 1.0);
       final barHeight = chartHeight * ratio;
 
+      final isActive = i == activeIndex;
+
       final backgroundRect = RRect.fromRectAndCorners(
         Rect.fromLTRB(barLeft, chartTop, barRight, chartBottom),
         topLeft: const Radius.circular(12),
@@ -80,7 +85,7 @@ class WaterIntakeBarChartPainter extends CustomPainter {
       );
 
       canvas.drawRRect(backgroundRect, barBackgroundPaint);
-      canvas.drawRRect(filledRect, barPaint);
+      canvas.drawRRect(filledRect, isActive ? activeBarPaint : barPaint);
 
       _drawText(
         canvas,
@@ -106,6 +111,8 @@ class WaterIntakeBarChartPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant WaterIntakeBarChartPainter oldDeletage) {
-    return oldDeletage.data != data || oldDeletage.maxMl != maxMl;
+    return oldDeletage.data != data ||
+        oldDeletage.maxMl != maxMl ||
+        oldDeletage.activeIndex != activeIndex;
   }
 }

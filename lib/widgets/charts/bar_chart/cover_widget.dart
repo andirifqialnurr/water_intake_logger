@@ -13,10 +13,12 @@ class WaterBarChartData {
 class BarChartProgressWidget extends StatelessWidget {
   final List<WaterBarChartData> data;
   final double maxMl;
+  final int? activeIndex;
 
   const BarChartProgressWidget({
     required this.data,
     required this.maxMl,
+    this.activeIndex,
     super.key,
   });
 
@@ -46,6 +48,7 @@ class BarChartProgressWidget extends StatelessWidget {
                 data: data,
                 maxMl: maxMl,
                 labelStyle: labelStyle!,
+                activeIndex: activeIndex,
               ),
             ),
           ),
