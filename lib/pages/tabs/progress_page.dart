@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:water_intake_logger/const/app_color.dart';
 import 'package:water_intake_logger/widgets/badge_widget.dart';
 import 'package:water_intake_logger/widgets/cards/dashboard_summary/sections.dart';
+import 'package:water_intake_logger/widgets/charts/bar_chart/cover_widget.dart';
 import 'package:water_intake_logger/widgets/text_widget.dart';
 
 class ProgressPage extends StatelessWidget {
@@ -137,6 +138,19 @@ class ProgressPage extends StatelessWidget {
                   // Second Row
                 ],
               ),
+            ),
+            SizedBox(height: 30),
+            BarChartProgressWidget(
+              maxMl: 3000,
+              data: [
+                WaterBarChartData(day: 'Mon', ml: 1800),
+                WaterBarChartData(day: 'Tue', ml: 2200),
+                WaterBarChartData(day: 'Wed', ml: 1600),
+                WaterBarChartData(day: 'Thu', ml: 2500),
+                WaterBarChartData(day: 'Fri', ml: 2100),
+                WaterBarChartData(day: 'Sat', ml: 2800),
+                WaterBarChartData(day: 'Sun', ml: 2400),
+              ],
             ),
             SizedBox(height: 30),
             DashboardSummarySections(

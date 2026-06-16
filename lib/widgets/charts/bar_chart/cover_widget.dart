@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:water_intake_logger/const/app_color.dart';
 import 'package:water_intake_logger/widgets/charts/bar_chart/painter.dart';
 
 class WaterBarChartData {
@@ -20,9 +21,14 @@ class BarChartProgressWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 240,
       width: double.infinity,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.errorContainer,
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: CustomPaint(
         painter: WaterIntakeBarChartPainter(data: data, maxMl: maxMl),
       ),
