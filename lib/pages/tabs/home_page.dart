@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
               text: "Stay Hydrated",
               variant: TextWidgetStyle.headline,
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 40),
             CircleAvatar(
               radius: 150,
               child: CircleAvatar(
@@ -52,12 +52,8 @@ class HomePage extends StatelessWidget {
                   volume: 250,
                   unit: "ml",
                   backgroundColor: AppColors.onTertiaryContainer,
-                  onTap: () {
-                    print("tambah 1 cup");
-                  },
-                  onLongPress: () {
-                    print("kurangi 1 cup");
-                  },
+                  onTap: () {},
+                  onLongPress: () {},
                 ),
                 ButtonAddWaterItems(
                   iconData: Icons.water_drop_outlined,
@@ -65,12 +61,8 @@ class HomePage extends StatelessWidget {
                   volume: 700,
                   unit: "ml",
                   backgroundColor: AppColors.onPrimaryContainer,
-                  onTap: () {
-                    print("tambah 1 bottle");
-                  },
-                  onLongPress: () {
-                    print("kurangi 1 bottle");
-                  },
+                  onTap: () {},
+                  onLongPress: () {},
                 ),
                 ButtonAddWaterItems(
                   iconData: Icons.local_drink,
@@ -78,12 +70,8 @@ class HomePage extends StatelessWidget {
                   volume: 500,
                   unit: "ml",
                   backgroundColor: AppColors.onTertiaryContainer,
-                  onTap: () {
-                    print("tambah 1 glass");
-                  },
-                  onLongPress: () {
-                    print("kurangi 1 glass");
-                  },
+                  onTap: () {},
+                  onLongPress: () {},
                 ),
                 ButtonAddWaterItems(
                   iconData: Icons.hourglass_bottom_outlined,
@@ -91,12 +79,8 @@ class HomePage extends StatelessWidget {
                   volume: 1,
                   unit: "liter",
                   backgroundColor: AppColors.onPrimary,
-                  onTap: () {
-                    print("tambah 1 thumbler");
-                  },
-                  onLongPress: () {
-                    print("kurangi 1 thumbler");
-                  },
+                  onTap: () {},
+                  onLongPress: () {},
                 ),
               ],
             ),
