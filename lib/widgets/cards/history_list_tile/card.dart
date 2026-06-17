@@ -1,0 +1,134 @@
+import 'package:flutter/material.dart';
+import 'package:water_intake_logger/const/app_color.dart';
+
+class HistoryCardWidget extends StatelessWidget {
+  final bool isAchieved;
+  final String date;
+  final String goal;
+  final String achieved;
+
+  const HistoryCardWidget({
+    required this.date,
+    required this.goal,
+    required this.achieved,
+    required this.isAchieved,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        color: AppColors.neutral,
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.outlineVariant.withAlpha(40),
+            blurRadius: 5,
+            offset: Offset(1, 5),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          isAchieved
+              ? Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryFixed,
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  padding: EdgeInsets.all(14),
+                  child: Icon(
+                    Icons.water_drop_rounded,
+                    color: AppColors.primary,
+                    size: 24,
+                  ),
+                )
+              : Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.inverseOnSurface,
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  padding: EdgeInsets.all(14),
+                  child: Icon(
+                    Icons.water_drop_rounded,
+                    color: AppColors.outline,
+                    size: 24,
+                  ),
+                ),
+          SizedBox(width: 12),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                date,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: AppColors.onBackground,
+                ),
+              ),
+              Text(
+                "Daily Goal: $goal L",
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  color: AppColors.onBackground,
+                ),
+              ),
+            ],
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  "$achieved L",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: isAchieved
+                        ? AppColors.primary
+                        : AppColors.onBackground,
+                  ),
+                ),
+                isAchieved
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Icon(
+                            Icons.verified,
+                            size: 14,
+                            color: AppColors.onSecondaryContainer,
+                          ),
+                          SizedBox(width: 4),
+                          Text(
+                            "ACHIEVED",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                              color: AppColors.onSecondaryContainer,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Text(
+                        "72% OF GOAL",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                          color: AppColors.outline,
+                        ),
+                      ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

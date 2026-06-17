@@ -70,39 +70,50 @@ class _ButtonAddWaterCardState extends State<ButtonAddWaterCard> {
       clipBehavior: Clip.none,
       alignment: Alignment.center,
       children: [
-        Material(
-          color: widget.backgroundColor,
-          borderRadius: BorderRadius.circular(16),
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: handleTap,
-            onLongPress: handleLogPress,
-            child: Padding(
-              padding: const EdgeInsets.all(14),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(widget.iconData, color: AppColors.primary, size: 30),
-                  SizedBox(width: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextWidget(
-                          text: widget.title,
-                          variant: TextWidgetStyle.body,
-                        ),
-                        SizedBox(height: 2),
-                        TextWidget(
-                          text: "${widget.volume} ${widget.unit}",
-                          variant: TextWidgetStyle.caption,
-                        ),
-                      ],
+        Container(
+          decoration: BoxDecoration(
+            boxShadow: const [
+              BoxShadow(
+                color: AppColors.outlineVariant,
+                offset: Offset(4, 5),
+                blurRadius: 6,
+              ),
+            ],
+          ),
+          child: Material(
+            color: widget.backgroundColor,
+            borderRadius: BorderRadius.circular(16),
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              onTap: handleTap,
+              onLongPress: handleLogPress,
+              child: Padding(
+                padding: const EdgeInsets.all(14),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(widget.iconData, color: AppColors.primary, size: 30),
+                    SizedBox(width: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextWidget(
+                            text: widget.title,
+                            variant: TextWidgetStyle.body,
+                          ),
+                          SizedBox(height: 2),
+                          TextWidget(
+                            text: "${widget.volume} ${widget.unit}",
+                            variant: TextWidgetStyle.caption,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

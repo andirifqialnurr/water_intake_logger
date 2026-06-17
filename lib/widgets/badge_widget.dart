@@ -18,7 +18,7 @@ class BadgeWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.water_drop_rounded, size: 16, color: AppColors.neutral),
+          Icon(Icons.whatshot_rounded, size: 16, color: AppColors.neutral),
           SizedBox(width: 6),
           TextWidget(
             text: text,
