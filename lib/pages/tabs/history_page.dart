@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/widgets/cards/history_list_tile/card.dart';
 import 'package:water_intake_logger/widgets/cards/history_list_tile/sectoins.dart';
 
 class HistoryPage extends StatelessWidget {
