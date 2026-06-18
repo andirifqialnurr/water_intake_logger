@@ -22,13 +22,13 @@ class RotatingRingPainter extends CustomPainter {
         endAngle: pi * 2,
         colors: [
           Colors.transparent,
-          Colors.blueGrey.withValues(alpha: 0.12),
+          Colors.blueGrey.withValues(alpha: 0.01),
           Colors.blueGrey.withValues(alpha: 0.45),
           Colors.blueGrey.withValues(alpha: 0.95),
         ],
         stops: const [0.0, 0.45, 0.75, 1.0],
       ).createShader(rect);
-    canvas.drawArc(ringRect, -pi / 2, pi * 1.45, false, paint);
+    canvas.drawArc(ringRect, pi / 2, pi * 1.45, false, paint);
   }
 
   @override
