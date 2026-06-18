@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:water_intake_logger/const/app_color.dart';
 
 class RotatingRingPainter extends CustomPainter {
   @override
@@ -21,10 +22,10 @@ class RotatingRingPainter extends CustomPainter {
         startAngle: 0,
         endAngle: pi * 2,
         colors: [
-          Colors.transparent,
-          Colors.blueGrey.withValues(alpha: 0.01),
-          Colors.blueGrey.withValues(alpha: 0.45),
-          Colors.blueGrey.withValues(alpha: 0.95),
+          AppColors.primary.withValues(alpha: 0),
+          AppColors.primary.withValues(alpha: 0.01),
+          AppColors.primary.withValues(alpha: 0.45),
+          AppColors.primary.withValues(alpha: 0.95),
         ],
         stops: const [0.0, 0.45, 0.75, 1.0],
       ).createShader(rect);

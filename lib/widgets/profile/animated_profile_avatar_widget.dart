@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:water_intake_logger/widgets/badges/verified_badge_widget.dart';
 import 'package:water_intake_logger/widgets/profile/painter.dart';
 
 class AnimatedProfileAvatarWidget extends StatefulWidget {
@@ -33,22 +34,23 @@ class _AnimatedProfileAvatarWidgetState
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 240,
-      height: 240,
+      width: 200,
+      height: 200,
       child: Stack(
         alignment: Alignment.center,
         children: [
           RotationTransition(
             turns: _controller,
             child: CustomPaint(
-              size: const Size(240, 240),
+              size: const Size(180, 180),
               painter: RotatingRingPainter(),
             ),
           ),
           const CircleAvatar(
-            radius: 60,
+            radius: 50,
             backgroundImage: AssetImage('assets/images/profile.jpg'),
           ),
+          Positioned(right: 20, bottom: 30, child: VerifiedBadgeWidget()),
         ],
       ),
     );
