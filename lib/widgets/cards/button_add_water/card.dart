@@ -72,9 +72,9 @@ class _ButtonAddWaterCardState extends State<ButtonAddWaterCard> {
       children: [
         Container(
           decoration: BoxDecoration(
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
-                color: AppColors.outlineVariant,
+                color: AppColors.outlineVariant.withAlpha(50),
                 offset: Offset(4, 5),
                 blurRadius: 6,
               ),

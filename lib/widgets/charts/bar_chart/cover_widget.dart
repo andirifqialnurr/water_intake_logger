@@ -64,8 +64,16 @@ class _BarChartProgressWidgetState extends State<BarChartProgressWidget>
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.errorContainer,
+        color: AppColors.neutral,
         borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.outlineVariant.withAlpha(50),
+            blurRadius: 6,
+            offset: Offset(0, 4),
+            spreadRadius: 6,
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

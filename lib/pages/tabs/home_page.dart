@@ -9,12 +9,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: AppColors.inversePrimary,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 30),
+            SizedBox(height: 20),
             TextWidget(
               text: "Good Morning, Aran",
               variant: TextWidgetStyle.body,

@@ -38,11 +38,12 @@ class WaterIntakeBarChartPainter extends CustomPainter {
 
     // bar painters
     final gridPaint = Paint()
-      ..color = AppColors.outline.withValues(alpha: 0.18)
-      ..strokeWidth = 1;
+      ..color = AppColors.outline.withValues(alpha: 0.2)
+      ..style = PaintingStyle.fill
+      ..isAntiAlias = true;
 
     final barBackgroundPaint = Paint()
-      ..color = AppColors.error.withValues(alpha: 0.18);
+      ..color = AppColors.outlineVariant.withValues(alpha: 0.18);
 
     final barPaint = Paint()..color = AppColors.inversePrimary;
     final activeBarPaint = Paint()..color = AppColors.primary;
@@ -55,7 +56,15 @@ class WaterIntakeBarChartPainter extends CustomPainter {
       final ratio = step / maxMl;
       final y = chartBottom - (chartHeight * ratio);
 
-      canvas.drawLine(Offset(chartLeft, y), Offset(chartRight, y), gridPaint);
+      // canvas.drawLine(Offset(chartLeft, y), Offset(chartRight, y), gridPaint);
+
+      _drawDottedHorizontalLine(
+        canvas,
+        startX: chartLeft,
+        endX: chartRight,
+        y: y,
+        paint: gridPaint,
+      );
 
       _drawText(
         canvas,
@@ -140,6 +149,20 @@ class WaterIntakeBarChartPainter extends CustomPainter {
       textDirection: TextDirection.ltr,
     )..layout();
     textPainter.paint(canvas, offset);
+  }
+
+  void _drawDottedHorizontalLine(
+    Canvas canvas, {
+    required double startX,
+    required double endX,
+    required double y,
+    required Paint paint,
+    double dotRadius = 1,
+    double spacing = 6,
+  }) {
+    for (double x = startX; x <= endX; x += spacing) {
+      canvas.drawCircle(Offset(x, y), dotRadius, paint);
+    }
   }
 
   @override

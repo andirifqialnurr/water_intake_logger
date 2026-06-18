@@ -24,7 +24,7 @@ class _PageTabControllerState extends State<PageTabController> {
     ProfilePage(),
   ];
 
-  final List<String> _title = const ['Home', 'History', 'Progress', 'Profile'];
+  final List<String> _title = const ['Home', 'Progress', 'History', 'Profile'];
 
   @override
   Widget build(BuildContext context) {
