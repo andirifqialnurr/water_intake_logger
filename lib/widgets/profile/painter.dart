@@ -4,9 +4,35 @@ import 'package:flutter/material.dart';
 import 'package:water_intake_logger/const/app_color.dart';
 
 class RotatingRingPainter extends CustomPainter {
+  final double progress;
+
+  const RotatingRingPainter({required this.progress});
+
   @override
   void paint(Canvas canvas, Size size) {
     const strokeWidth = 8.0;
+
+    const badgeAngle = pi / 4;
+    const maxArchLength = pi / 2;
+    const fullTurn = 2 * pi;
+
+    final headAngle = badgeAngle + (fullTurn * progress);
+
+    double visibleArchLength;
+
+    if (progress < 0.15) {
+      visibleArchLength = maxArchLength * (progress / 0.15);
+    } else if (progress > 0.85) {
+      visibleArchLength = maxArchLength * ((1 - progress) / 0.15);
+    } else {
+      visibleArchLength = maxArchLength;
+    }
+
+    if (visibleArchLength <= 0) {
+      return;
+    }
+
+    final startAngle = headAngle - visibleArchLength;
 
     final rect = Offset.zero & size;
     final center = size.center(Offset.zero);
@@ -19,21 +45,22 @@ class RotatingRingPainter extends CustomPainter {
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round
       ..shader = SweepGradient(
-        startAngle: 0,
-        endAngle: pi * 2,
+        startAngle: startAngle,
+        endAngle: headAngle,
         colors: [
           AppColors.primary.withValues(alpha: 0),
-          AppColors.primary.withValues(alpha: 0.01),
-          AppColors.primary.withValues(alpha: 0.45),
+          AppColors.primary.withValues(alpha: 0.15),
+          AppColors.primary.withValues(alpha: 0.65),
           AppColors.primary.withValues(alpha: 0.95),
         ],
-        stops: const [0.0, 0.45, 0.75, 1.0],
+        stops: const [0.0, 0.35, 0.75, 1.0],
       ).createShader(rect);
-    canvas.drawArc(ringRect, pi / 2, pi * 1.45, false, paint);
+
+    canvas.drawArc(ringRect, startAngle, visibleArchLength, false, paint);
   }
 
   @override
   bool shouldRepaint(covariant RotatingRingPainter oldDelegate) {
-    return false;
+    return oldDelegate.progress != progress;
   }
 }

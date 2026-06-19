@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water_intake_logger/const/app_color.dart';
-import 'package:water_intake_logger/widgets/badge_widget.dart';
+import 'package:water_intake_logger/widgets/badges/badge_widget.dart';
 import 'package:water_intake_logger/widgets/text_widget.dart';
 
 class SummaryProgressCard extends StatelessWidget {
