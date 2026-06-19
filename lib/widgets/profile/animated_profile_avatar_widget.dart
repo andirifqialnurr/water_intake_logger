@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:water_intake_logger/const/app_color.dart';
-import 'package:water_intake_logger/widgets/badges/verified_badge_widget.dart';
+import 'package:water_intake_logger/widgets/badges/verified_baged/badge_burst_painter.dart';
+import 'package:water_intake_logger/widgets/badges/verified_baged/widget.dart';
 import 'package:water_intake_logger/widgets/profile/painter.dart';
 import 'dart:math' as math;
 
@@ -80,57 +81,77 @@ class _AnimatedProfileAvatarWidgetState
             ),
           ),
           Positioned(
-            right: 20,
-            bottom: 30,
-            child: AnimatedBuilder(
-              animation: _controller,
-              builder: (context, child) {
-                final zoomIn = CurvedAnimation(
-                  parent: _controller,
-                  curve: const Interval(0.0, 0.18, curve: Curves.easeOutBack),
-                ).value;
+            right: 5,
+            bottom: 15,
+            child: SizedBox(
+              width: 68,
+              height: 68,
+              child: AnimatedBuilder(
+                animation: _controller,
+                builder: (context, child) {
+                  final t = _controller.value;
 
-                final rotate = CurvedAnimation(
-                  parent: _controller,
-                  curve: const Interval(0.18, 0.82),
-                ).value;
+                  final zoomIn = const Interval(
+                    0.0,
+                    0.18,
+                    curve: Curves.easeOutBack,
+                  ).transform(t);
 
-                final zoomOut = CurvedAnimation(
-                  parent: _controller,
-                  curve: const Interval(0.82, 1.0, curve: Curves.easeInCubic),
-                ).value;
+                  final rotate = const Interval(
+                    0.18,
+                    0.78,
+                    curve: Curves.easeInOutCubic,
+                  ).transform(t);
 
-                final scale = 1.0 + (0.8 * zoomIn) - (0.8 * zoomOut);
-                final angle = -2 * math.pi * rotate;
+                  final zoomOut = const Interval(
+                    0.78,
+                    1.0,
+                    curve: Curves.easeInCubic,
+                  ).transform(t);
 
-                // final progress = Curves.easeInOutCubic.transform(
-                //   _controller.value,
-                // );
-                // final angle = -2 * math.pi * progress;
+                  final burst = const Interval(
+                    0.72,
+                    1.0,
+                    curve: Curves.easeOutCubic,
+                  ).transform(t);
 
-                final normalizedAngle = angle.abs() % (2 * math.pi);
-                final isBackVisible =
-                    normalizedAngle > math.pi / 2 &&
-                    normalizedAngle < 3 * math.pi / 2;
+                  final scale = 1.0 + (0.18 * zoomIn) - (0.18 * zoomOut);
+                  final angle = -2 * math.pi * rotate;
 
-                return Transform.scale(
-                  scale: scale,
-                  child: Transform(
+                  final normalizedAngle = angle.abs() % (2 * math.pi);
+                  final isBackVisible =
+                      normalizedAngle > math.pi / 2 &&
+                      normalizedAngle < 3 * math.pi / 2;
+
+                  return Stack(
                     alignment: Alignment.center,
-                    transform: Matrix4.identity()
-                      ..setEntry(3, 2, 0.001)
-                      ..rotateY(angle),
-                    child: isBackVisible
-                        ? Transform(
-                            alignment: Alignment.center,
-                            transform: Matrix4.identity()..rotateY(math.pi),
-                            child: const VerifiedBadgeBackWidget(),
-                          )
-                        : const VerifiedBadgeWidget(),
-                  ),
-                );
-              },
-              child: VerifiedBadgeWidget(),
+                    children: [
+                      CustomPaint(
+                        size: const Size(68, 68),
+                        painter: BadgeBurstPainter(progress: burst),
+                      ),
+                      Transform.scale(
+                        scale: scale,
+                        child: Transform(
+                          alignment: Alignment.center,
+                          transform: Matrix4.identity()
+                            ..setEntry(3, 2, 0.001)
+                            ..rotateY(angle),
+                          child: isBackVisible
+                              ? Transform(
+                                  alignment: Alignment.center,
+                                  transform: Matrix4.identity()
+                                    ..rotateY(math.pi),
+                                  child: const VerifiedBadgeBackWidget(),
+                                )
+                              : const VerifiedBadgeWidget(),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+                child: VerifiedBadgeWidget(),
+              ),
             ),
           ),
         ],

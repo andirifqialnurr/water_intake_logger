@@ -15,21 +15,6 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 20),
-
-              // CircleAvatar(
-              //   radius: 100,
-              //   backgroundColor: AppColors.primary,
-              //   child: CircleAvatar(
-              //     radius: 95,
-              //     backgroundImage: AssetImage(
-              //       'assets/images/pexels-pixabay-302769.jpg',
-              //     ),
-              //     child: Column(
-              //       mainAxisAlignment: MainAxisAlignment.center,
-              //       children: [],
-              //     ),
-              //   ),
-              // ),
               const AnimatedProfileAvatarWidget(),
               SizedBox(height: 10),
               TextWidget(text: "Aran", variant: TextWidgetStyle.headline),
