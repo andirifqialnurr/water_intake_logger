@@ -18,3 +18,20 @@ class VerifiedBadgeWidget extends StatelessWidget {
     );
   }
 }
+
+class VerifiedBadgeBackWidget extends StatelessWidget {
+  const VerifiedBadgeBackWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 38,
+      height: 38,
+      decoration: BoxDecoration(
+        color: AppColors.primary,
+        shape: BoxShape.circle,
+        border: Border.all(color: AppColors.neutral, width: 3),
+      ),
+    );
+  }
+}

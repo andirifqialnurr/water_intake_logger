@@ -90,12 +90,23 @@ class _AnimatedProfileAvatarWidgetState
                 );
                 final angle = -2 * math.pi * progress;
 
+                final normalizedAngle = angle.abs() % (2 * math.pi);
+                final isBackVisible =
+                    normalizedAngle > math.pi / 2 &&
+                    normalizedAngle < 3 * math.pi / 2;
+
                 return Transform(
                   alignment: Alignment.center,
                   transform: Matrix4.identity()
                     ..setEntry(3, 2, 0.001)
                     ..rotateY(angle),
-                  child: child,
+                  child: isBackVisible
+                      ? Transform(
+                          alignment: Alignment.center,
+                          transform: Matrix4.identity()..rotateY(math.pi),
+                          child: const VerifiedBadgeBackWidget(),
+                        )
+                      : const VerifiedBadgeWidget(),
                 );
               },
               child: VerifiedBadgeWidget(),
