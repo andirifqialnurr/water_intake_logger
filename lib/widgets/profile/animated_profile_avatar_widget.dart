@@ -85,28 +85,49 @@ class _AnimatedProfileAvatarWidgetState
             child: AnimatedBuilder(
               animation: _controller,
               builder: (context, child) {
-                final progress = Curves.easeInOutCubic.transform(
-                  _controller.value,
-                );
-                final angle = -2 * math.pi * progress;
+                final zoomIn = CurvedAnimation(
+                  parent: _controller,
+                  curve: const Interval(0.0, 0.18, curve: Curves.easeOutBack),
+                ).value;
+
+                final rotate = CurvedAnimation(
+                  parent: _controller,
+                  curve: const Interval(0.18, 0.82),
+                ).value;
+
+                final zoomOut = CurvedAnimation(
+                  parent: _controller,
+                  curve: const Interval(0.82, 1.0, curve: Curves.easeInCubic),
+                ).value;
+
+                final scale = 1.0 + (0.8 * zoomIn) - (0.8 * zoomOut);
+                final angle = -2 * math.pi * rotate;
+
+                // final progress = Curves.easeInOutCubic.transform(
+                //   _controller.value,
+                // );
+                // final angle = -2 * math.pi * progress;
 
                 final normalizedAngle = angle.abs() % (2 * math.pi);
                 final isBackVisible =
                     normalizedAngle > math.pi / 2 &&
                     normalizedAngle < 3 * math.pi / 2;
 
-                return Transform(
-                  alignment: Alignment.center,
-                  transform: Matrix4.identity()
-                    ..setEntry(3, 2, 0.001)
-                    ..rotateY(angle),
-                  child: isBackVisible
-                      ? Transform(
-                          alignment: Alignment.center,
-                          transform: Matrix4.identity()..rotateY(math.pi),
-                          child: const VerifiedBadgeBackWidget(),
-                        )
-                      : const VerifiedBadgeWidget(),
+                return Transform.scale(
+                  scale: scale,
+                  child: Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.identity()
+                      ..setEntry(3, 2, 0.001)
+                      ..rotateY(angle),
+                    child: isBackVisible
+                        ? Transform(
+                            alignment: Alignment.center,
+                            transform: Matrix4.identity()..rotateY(math.pi),
+                            child: const VerifiedBadgeBackWidget(),
+                          )
+                        : const VerifiedBadgeWidget(),
+                  ),
                 );
               },
               child: VerifiedBadgeWidget(),
