@@ -47,29 +47,50 @@ class RotatingRingPainter extends CustomPainter {
 
     final startAngle = headAngle - visibleArcLength;
 
-    final rect = Offset.zero & size;
+    // final rect = Offset.zero & size;
     final center = size.center(Offset.zero);
     final radius = (size.width / 2) - strokeWidth;
 
     final ringRect = Rect.fromCircle(center: center, radius: radius);
 
-    final paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = strokeWidth
-      ..strokeCap = StrokeCap.round
-      ..shader = SweepGradient(
-        startAngle: startAngle,
-        endAngle: headAngle,
-        colors: [
-          AppColors.primary.withValues(alpha: 0),
-          AppColors.primary.withValues(alpha: 0.01),
-          AppColors.primary.withValues(alpha: 0.45),
-          AppColors.primary.withValues(alpha: 0.95),
-        ],
-        stops: const [0.0, 0.25, 0.75, 1.0],
-      ).createShader(rect);
+    _drawGradientArc(
+      canvas,
+      ringRect,
+      startAngle: startAngle,
+      sweepAngle: visibleArcLength,
+      strokeWidth: strokeWidth,
+    );
+  }
 
-    canvas.drawArc(ringRect, startAngle, visibleArcLength, false, paint);
+  void _drawGradientArc(
+    Canvas canvas,
+    Rect rect, {
+    required double startAngle,
+    required double sweepAngle,
+    required double strokeWidth,
+  }) {
+    const segments = 48;
+    final segmentSweep = sweepAngle / segments;
+
+    for (var i = 0; i < segments; i++) {
+      final t = (i + 1) / segments;
+      final alpha = 0.95 * Curves.easeIn.transform(t);
+
+      final paint = Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = strokeWidth
+        ..strokeCap = i == segments - 1 ? StrokeCap.round : StrokeCap.butt
+        ..isAntiAlias = true
+        ..color = AppColors.primary.withValues(alpha: alpha);
+
+      canvas.drawArc(
+        rect,
+        startAngle + (segmentSweep * i),
+        segmentSweep * 1.08,
+        false,
+        paint,
+      );
+    }
   }
 
   @override
