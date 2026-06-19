@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:water_intake_logger/const/app_color.dart';
 import 'package:water_intake_logger/widgets/badges/verified_badge_widget.dart';
 import 'package:water_intake_logger/widgets/profile/painter.dart';
+import 'dart:math' as math;
 
 class AnimatedProfileAvatarWidget extends StatefulWidget {
   const AnimatedProfileAvatarWidget({super.key});
@@ -78,7 +79,28 @@ class _AnimatedProfileAvatarWidgetState
               'assets/images/pexels-pixabay-302769.jpg',
             ),
           ),
-          Positioned(right: 20, bottom: 30, child: VerifiedBadgeWidget()),
+          Positioned(
+            right: 20,
+            bottom: 30,
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                final progress = Curves.easeInOutCubic.transform(
+                  _controller.value,
+                );
+                final angle = -2 * math.pi * progress;
+
+                return Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.identity()
+                    ..setEntry(3, 2, 0.001)
+                    ..rotateY(angle),
+                  child: child,
+                );
+              },
+              child: VerifiedBadgeWidget(),
+            ),
+          ),
         ],
       ),
     );
