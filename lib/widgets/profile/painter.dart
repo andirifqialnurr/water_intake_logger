@@ -16,23 +16,36 @@ class RotatingRingPainter extends CustomPainter {
     const maxArchLength = pi / 2;
     const fullTurn = 2 * pi;
 
-    final headAngle = badgeAngle + (fullTurn * progress);
+    const appearEnd = 0.15;
+    const sinkStart = 0.85;
 
-    double visibleArchLength;
+    final p = progress.clamp(0.0, 1.0);
 
-    if (progress < 0.15) {
-      visibleArchLength = maxArchLength * (progress / 0.15);
-    } else if (progress > 0.85) {
-      visibleArchLength = maxArchLength * ((1 - progress) / 0.15);
+    double headAngle;
+    double visibleArcLength;
+
+    if (p < appearEnd) {
+      final t = p / appearEnd;
+
+      visibleArcLength = maxArchLength * t;
+      headAngle = badgeAngle + visibleArcLength;
+    } else if (p < sinkStart) {
+      final t = (p - appearEnd) / (sinkStart - appearEnd);
+
+      visibleArcLength = maxArchLength;
+      headAngle = badgeAngle + maxArchLength + ((fullTurn - maxArchLength) * t);
     } else {
-      visibleArchLength = maxArchLength;
+      final t = (p - sinkStart) / (1 - sinkStart);
+
+      visibleArcLength = maxArchLength * (1 - t);
+      headAngle = badgeAngle;
     }
 
-    if (visibleArchLength <= 0) {
+    if (visibleArcLength <= 0) {
       return;
     }
 
-    final startAngle = headAngle - visibleArchLength;
+    final startAngle = headAngle - visibleArcLength;
 
     final rect = Offset.zero & size;
     final center = size.center(Offset.zero);
@@ -49,14 +62,14 @@ class RotatingRingPainter extends CustomPainter {
         endAngle: headAngle,
         colors: [
           AppColors.primary.withValues(alpha: 0),
-          AppColors.primary.withValues(alpha: 0.15),
-          AppColors.primary.withValues(alpha: 0.65),
+          AppColors.primary.withValues(alpha: 0.01),
+          AppColors.primary.withValues(alpha: 0.45),
           AppColors.primary.withValues(alpha: 0.95),
         ],
-        stops: const [0.0, 0.35, 0.75, 1.0],
+        stops: const [0.0, 0.25, 0.75, 1.0],
       ).createShader(rect);
 
-    canvas.drawArc(ringRect, startAngle, visibleArchLength, false, paint);
+    canvas.drawArc(ringRect, startAngle, visibleArcLength, false, paint);
   }
 
   @override
