@@ -11,10 +11,13 @@ class FloatingBottombarWidget extends StatelessWidget {
   final ValueChanged<int> onTap;
   final List<FloatingNavItem> items;
 
+  final ValueChanged<int>? onDoubleTap;
+
   const FloatingBottombarWidget({
     required this.currentIndex,
     required this.items,
     required this.onTap,
+    this.onDoubleTap,
     super.key,
   });
 
@@ -43,6 +46,7 @@ class FloatingBottombarWidget extends StatelessWidget {
 
             return GestureDetector(
               onTap: () => onTap(index),
+              onDoubleTap: () => onDoubleTap?.call(index),
               behavior: HitTestBehavior.opaque,
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 220),

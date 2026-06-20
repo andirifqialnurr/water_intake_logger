@@ -6,7 +6,8 @@ import 'package:water_intake_logger/widgets/profile/painter.dart';
 import 'dart:math' as math;
 
 class AnimatedProfileAvatarWidget extends StatefulWidget {
-  const AnimatedProfileAvatarWidget({super.key});
+  final int animationToken;
+  const AnimatedProfileAvatarWidget({this.animationToken = 0, super.key});
 
   @override
   State<AnimatedProfileAvatarWidget> createState() =>
@@ -20,6 +21,22 @@ class _AnimatedProfileAvatarWidgetState
   late final AnimationController _burstController;
 
   bool _showStaticRing = false;
+
+  void _playAnimation() {
+    _burstController
+      ..stop()
+      ..reset();
+
+    _controller
+      ..stop()
+      ..reset();
+
+    setState(() {
+      _showStaticRing = false;
+    });
+
+    _controller.forward();
+  }
 
   @override
   void initState() {
@@ -54,6 +71,15 @@ class _AnimatedProfileAvatarWidgetState
     _controller.dispose();
     _burstController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant AnimatedProfileAvatarWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.animationToken != widget.animationToken) {
+      _playAnimation();
+    }
   }
 
   @override

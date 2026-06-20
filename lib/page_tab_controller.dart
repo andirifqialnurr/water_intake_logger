@@ -16,6 +16,7 @@ class PageTabController extends StatefulWidget {
 
 class _PageTabControllerState extends State<PageTabController> {
   int _currentIndex = 0;
+  // int _profileAnimationToken = 0;
 
   final List<Widget> _pages = const [
     HomePage(),
@@ -70,6 +71,14 @@ class _PageTabControllerState extends State<PageTabController> {
         onTap: (value) {
           setState(() {
             _currentIndex = value;
+          });
+        },
+        onDoubleTap: (value) {
+          if (value != 3) return;
+
+          setState(() {
+            _currentIndex = value;
+            // _profileAnimationToken++;
           });
         },
       ),
