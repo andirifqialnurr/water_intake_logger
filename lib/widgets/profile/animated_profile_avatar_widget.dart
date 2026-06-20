@@ -80,6 +80,8 @@ class _AnimatedProfileAvatarWidgetState
               'assets/images/pexels-pixabay-302769.jpg',
             ),
           ),
+
+          // Badge Verified
           Positioned(
             right: 5,
             bottom: 15,
@@ -93,24 +95,24 @@ class _AnimatedProfileAvatarWidgetState
 
                   final zoomIn = const Interval(
                     0.0,
-                    0.18,
+                    0.15,
                     curve: Curves.easeOutBack,
                   ).transform(t);
 
                   final rotate = const Interval(
-                    0.18,
-                    0.78,
+                    0.15,
+                    0.72,
                     curve: Curves.easeInOutCubic,
                   ).transform(t);
 
                   final zoomOut = const Interval(
-                    0.78,
-                    1.0,
+                    0.72,
+                    0.85,
                     curve: Curves.easeInCubic,
                   ).transform(t);
 
                   final burst = const Interval(
-                    0.72,
+                    0.87,
                     1.0,
                     curve: Curves.easeOutCubic,
                   ).transform(t);
