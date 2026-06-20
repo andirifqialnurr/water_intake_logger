@@ -15,8 +15,9 @@ class AnimatedProfileAvatarWidget extends StatefulWidget {
 
 class _AnimatedProfileAvatarWidgetState
     extends State<AnimatedProfileAvatarWidget>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late final AnimationController _controller;
+  late final AnimationController _burstController;
 
   bool _showStaticRing = false;
 
@@ -34,13 +35,24 @@ class _AnimatedProfileAvatarWidgetState
         setState(() {
           _showStaticRing = true;
         });
+
+        Future.delayed(const Duration(milliseconds: 500), () {
+          if (!mounted) return;
+          _burstController.forward(from: 0);
+        });
       }
     });
+
+    _burstController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 650),
+    );
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _burstController.dispose();
     super.dispose();
   }
 
@@ -61,7 +73,7 @@ class _AnimatedProfileAvatarWidgetState
             ),
           ),
           AnimatedBuilder(
-            animation: _controller,
+            animation: Listenable.merge([_controller, _burstController]),
             builder: (context, child) {
               if (_showStaticRing) {
                 return const SizedBox.shrink();
@@ -81,41 +93,44 @@ class _AnimatedProfileAvatarWidgetState
             ),
           ),
 
-          // Badge Verified
+          // Badge
           Positioned(
-            right: 5,
-            bottom: 15,
+            right: 8,
+            bottom: 27,
             child: SizedBox(
-              width: 68,
-              height: 68,
+              width: 50,
+              height: 50,
               child: AnimatedBuilder(
-                animation: _controller,
+                animation: Listenable.merge([_controller, _burstController]),
                 builder: (context, child) {
                   final t = _controller.value;
 
                   final zoomIn = const Interval(
                     0.0,
-                    0.15,
+                    0.18,
                     curve: Curves.easeOutBack,
                   ).transform(t);
 
                   final rotate = const Interval(
-                    0.15,
-                    0.72,
+                    0.18,
+                    0.78,
                     curve: Curves.easeInOutCubic,
                   ).transform(t);
 
                   final zoomOut = const Interval(
-                    0.72,
-                    0.85,
+                    0.78,
+                    1.0,
                     curve: Curves.easeInCubic,
                   ).transform(t);
 
-                  final burst = const Interval(
-                    0.87,
-                    1.0,
-                    curve: Curves.easeOutCubic,
-                  ).transform(t);
+                  final burst = Curves.easeOutCubic.transform(
+                    _burstController.value,
+                  );
+                  // final burst = const Interval(
+                  //   0.72,
+                  //   1.0,
+                  //   curve: Curves.easeOutCubic,
+                  // ).transform(t);
 
                   final scale = 1.0 + (0.18 * zoomIn) - (0.18 * zoomOut);
                   final angle = -2 * math.pi * rotate;
