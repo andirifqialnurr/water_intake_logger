@@ -103,7 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         SizedBox(width: 8),
                         Expanded(
                           child: TextWidget(
-                            text: _modeSwitch ? "Bright Mode" : "Dark Mode",
+                            text: _modeSwitch ? "Light Mode" : "Dark Mode",
                             variant: TextWidgetStyle.body,
                           ),
                         ),
