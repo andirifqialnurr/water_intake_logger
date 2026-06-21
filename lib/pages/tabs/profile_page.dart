@@ -94,14 +94,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(
-                          Icons.wb_sunny_rounded,
+                          _modeSwitch
+                              ? Icons.wb_sunny_rounded
+                              : Icons.dark_mode_rounded,
                           size: 20,
                           color: AppColors.primary,
                         ),
                         SizedBox(width: 8),
                         Expanded(
                           child: TextWidget(
-                            text: "Dark Mode",
+                            text: _modeSwitch ? "Bright Mode" : "Dark Mode",
                             variant: TextWidgetStyle.body,
                           ),
                         ),
