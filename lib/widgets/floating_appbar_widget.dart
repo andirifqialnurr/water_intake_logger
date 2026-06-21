@@ -5,12 +5,10 @@ import 'package:water_intake_logger/widgets/text_widget.dart';
 class FloatingAppbarWidget extends StatelessWidget {
   final String title;
   final String profileImagePath;
-  final VoidCallback onSettingTap;
 
   const FloatingAppbarWidget({
     required this.title,
     required this.profileImagePath,
-    required this.onSettingTap,
     super.key,
   });
 
@@ -43,10 +41,6 @@ class FloatingAppbarWidget extends StatelessWidget {
           const SizedBox(width: 20),
           Expanded(
             child: TextWidget(text: title, variant: TextWidgetStyle.subtitle),
-          ),
-          IconButton(
-            onPressed: onSettingTap,
-            icon: Icon(Icons.settings_rounded, color: AppColors.outline),
           ),
         ],
       ),

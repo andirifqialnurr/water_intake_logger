@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:water_intake_logger/const/app_color.dart';
 import 'package:water_intake_logger/widgets/cards/dashboard_summary/sections.dart';
+import 'package:water_intake_logger/widgets/inner_thumb_switch.dart';
 import 'package:water_intake_logger/widgets/profile/animated_profile_avatar_widget.dart';
 import 'package:water_intake_logger/widgets/text_widget.dart';
 
@@ -13,6 +14,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   int _avatarAnimationToken = 0;
+  bool _languageSwitch = false;
 
   void _replayAvatarAnimation() {
     setState(() {
@@ -72,6 +74,43 @@ class _ProfilePageState extends State<ProfilePage> {
                       caption: "Since Last Sip",
                     ),
                   ],
+                ),
+                SizedBox(height: 30),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: AppColors.tertiaryFixed,
+                  ),
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.translate_rounded,
+                            size: 20,
+                            color: AppColors.primary,
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: TextWidget(
+                              text: "Ganti Bahasa",
+                              variant: TextWidgetStyle.subtitle,
+                            ),
+                          ),
+                          InnerThumbSwitch(
+                            value: _languageSwitch,
+                            onChanged: (value) {
+                              setState(() {
+                                _languageSwitch = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

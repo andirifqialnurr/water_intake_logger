@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/pages/settings_page.dart';
 import 'package:water_intake_logger/pages/tabs/history_page.dart';
 import 'package:water_intake_logger/pages/tabs/home_page.dart';
 import 'package:water_intake_logger/pages/tabs/profile_page.dart';
@@ -49,12 +48,6 @@ class _PageTabControllerState extends State<PageTabController> {
               child: FloatingAppbarWidget(
                 title: _title[_currentIndex],
                 profileImagePath: 'assets/images/wolf-pointing-left.png',
-                onSettingTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const SettingsPage()),
-                  );
-                },
               ),
             ),
           ],
