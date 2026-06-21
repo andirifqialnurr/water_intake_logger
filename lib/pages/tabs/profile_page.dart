@@ -29,132 +29,96 @@ class _ProfilePageState extends State<ProfilePage> {
       onDoubleTap: _replayAvatarAnimation,
       child: Scaffold(
         body: SafeArea(
-          child: Center(
-            child: Column(
-              children: [
-                SizedBox(height: 20),
-                AnimatedProfileAvatarWidget(
-                  animationToken: _avatarAnimationToken,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20),
+              Column(
+                children: [
+                  AnimatedProfileAvatarWidget(
+                    animationToken: _avatarAnimationToken,
+                  ),
+                  SizedBox(height: 10),
+                  TextWidget(text: "Aran", variant: TextWidgetStyle.headline),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.water_drop_outlined,
+                        size: 14,
+                        color: AppColors.primary,
+                      ),
+                      SizedBox(width: 6),
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(text: "Lifetime:"),
+                            TextSpan(
+                              text: "1,248 Liters",
+                              style: TextStyle(color: AppColors.primary),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 30),
+                ],
+              ),
+              DashboardSummarySections(
+                items: [
+                  DashboardSummaryItems(
+                    iconData: Icons.fireplace_outlined,
+                    title: "3 Days",
+                    caption: "Current Winstreak",
+                  ),
+                  DashboardSummaryItems(
+                    iconData: Icons.timer,
+                    title: "45 m",
+                    caption: "Since Last Sip",
+                  ),
+                ],
+              ),
+              SizedBox(height: 30),
+              TextWidget(text: "Setting", variant: TextWidgetStyle.subtitle),
+              SizedBox(height: 12),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: AppColors.inverseOnSurface,
                 ),
-                SizedBox(height: 10),
-                TextWidget(text: "Aran", variant: TextWidgetStyle.headline),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                padding: EdgeInsets.all(16),
+                child: Column(
                   children: [
-                    Icon(
-                      Icons.water_drop_outlined,
-                      size: 14,
-                      color: AppColors.primary,
-                    ),
-                    SizedBox(width: 6),
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          TextSpan(text: "Lifetime:"),
-                          TextSpan(
-                            text: "1,248 Liters",
-                            style: TextStyle(color: AppColors.primary),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.wb_sunny_rounded,
+                          size: 20,
+                          color: AppColors.primary,
+                        ),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: TextWidget(
+                            text: "Dark Mode",
+                            variant: TextWidgetStyle.body,
                           ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 30),
-                DashboardSummarySections(
-                  items: [
-                    DashboardSummaryItems(
-                      iconData: Icons.fireplace_outlined,
-                      title: "3 Days",
-                      caption: "Current Winstreak",
-                    ),
-                    DashboardSummaryItems(
-                      iconData: Icons.timer,
-                      title: "45 m",
-                      caption: "Since Last Sip",
+                        ),
+                        InnerThumbSwitch(
+                          value: _modeSwitch,
+                          onChanged: (value) {
+                            setState(() {
+                              _modeSwitch = value;
+                            });
+                          },
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                SizedBox(height: 30),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: AppColors.inverseOnSurface,
-                  ),
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.translate_rounded,
-                            size: 20,
-                            color: AppColors.primary,
-                          ),
-                          SizedBox(width: 8),
-                          Expanded(
-                            child: TextWidget(
-                              text: "Change Language",
-                              variant: TextWidgetStyle.subtitle,
-                            ),
-                          ),
-
-                          // TODO: modal pop up to choose language
-                          GestureDetector(
-                            onTap: () {
-                              print("test aran");
-                            },
-                            child: Icon(
-                              Icons.edit_square,
-                              size: 20,
-                              color: AppColors.primary,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 12),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: AppColors.inverseOnSurface,
-                  ),
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.wb_sunny_rounded,
-                            size: 20,
-                            color: AppColors.primary,
-                          ),
-                          SizedBox(width: 8),
-                          Expanded(
-                            child: TextWidget(
-                              text: "Dark Mode",
-                              variant: TextWidgetStyle.subtitle,
-                            ),
-                          ),
-                          InnerThumbSwitch(
-                            value: _modeSwitch,
-                            onChanged: (value) {
-                              setState(() {
-                                _modeSwitch = value;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
