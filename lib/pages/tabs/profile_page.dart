@@ -14,7 +14,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   int _avatarAnimationToken = 0;
-  bool _languageSwitch = false;
+  bool _modeSwitch = false;
 
   void _replayAvatarAnimation() {
     setState(() {
@@ -79,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: AppColors.tertiaryFixed,
+                    color: AppColors.inverseOnSurface,
                   ),
                   padding: EdgeInsets.all(16),
                   child: Column(
@@ -95,15 +95,56 @@ class _ProfilePageState extends State<ProfilePage> {
                           SizedBox(width: 8),
                           Expanded(
                             child: TextWidget(
-                              text: "Ganti Bahasa",
+                              text: "Change Language",
+                              variant: TextWidgetStyle.subtitle,
+                            ),
+                          ),
+
+                          // TODO: modal pop up to choose language
+                          GestureDetector(
+                            onTap: () {
+                              print("test aran");
+                            },
+                            child: Icon(
+                              Icons.edit_square,
+                              size: 20,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 12),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: AppColors.inverseOnSurface,
+                  ),
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.wb_sunny_rounded,
+                            size: 20,
+                            color: AppColors.primary,
+                          ),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: TextWidget(
+                              text: "Dark Mode",
                               variant: TextWidgetStyle.subtitle,
                             ),
                           ),
                           InnerThumbSwitch(
-                            value: _languageSwitch,
+                            value: _modeSwitch,
                             onChanged: (value) {
                               setState(() {
-                                _languageSwitch = value;
+                                _modeSwitch = value;
                               });
                             },
                           ),
