@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/const/app_color.dart';
-import 'package:water_intake_logger/design/app_typography.dart';
 import 'package:water_intake_logger/page_tab_controller.dart';
+import 'package:water_intake_logger/theme/app_theme.dart';
+import 'package:water_intake_logger/theme/theme_controller.dart';
+import 'package:water_intake_logger/theme/theme_scope.dart';
 
 void main() {
-  runApp(const WaterIntakeLoggerApp());
+  runApp(const ThemeScope(child: WaterIntakeLoggerApp()));
 }
 
 class WaterIntakeLoggerApp extends StatelessWidget {
@@ -14,12 +15,9 @@ class WaterIntakeLoggerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
-        scaffoldBackgroundColor: AppColors.neutral,
-        textTheme: AppTypography.textTheme(Colors.black),
-      ),
-
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: ThemeController().themeMode,
       initialRoute: '/',
       routes: {'/': (context) => const PageTabController()},
       // home: const HomePage(),

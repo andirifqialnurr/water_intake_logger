@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water_intake_logger/const/app_color.dart';
+import 'package:water_intake_logger/theme/theme_scope.dart';
 import 'package:water_intake_logger/widgets/cards/dashboard_summary/sections.dart';
 import 'package:water_intake_logger/widgets/inner_thumb_switch.dart';
 import 'package:water_intake_logger/widgets/profile/animated_profile_avatar_widget.dart';
@@ -14,7 +15,6 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   int _avatarAnimationToken = 0;
-  bool _modeSwitch = false;
 
   void _replayAvatarAnimation() {
     setState(() {
@@ -24,6 +24,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    // final colors = context.colors;
+    final themeController = ThemeScope.of(context);
+    final isDarkMode = themeController.isDarkMode;
+
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onDoubleTap: _replayAvatarAnimation,
@@ -94,7 +98,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(
-                          _modeSwitch
+                          isDarkMode
                               ? Icons.wb_sunny_rounded
                               : Icons.dark_mode_rounded,
                           size: 20,
@@ -103,17 +107,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         SizedBox(width: 8),
                         Expanded(
                           child: TextWidget(
-                            text: _modeSwitch ? "Light Mode" : "Dark Mode",
+                            text: isDarkMode ? "Light Mode" : "Dark Mode",
                             variant: TextWidgetStyle.body,
                           ),
                         ),
                         InnerThumbSwitch(
-                          value: _modeSwitch,
-                          onChanged: (value) {
-                            setState(() {
-                              _modeSwitch = value;
-                            });
-                          },
+                          value: isDarkMode,
+                          onChanged: themeController.setDarkMode,
                         ),
                       ],
                     ),
