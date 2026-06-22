@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:water_intake_logger/language/language_scope.dart';
 import 'package:water_intake_logger/page_tab_controller.dart';
 import 'package:water_intake_logger/theme/app_theme.dart';
 import 'package:water_intake_logger/theme/theme_scope.dart';
 
 void main() {
-  runApp(const ThemeScope(child: WaterIntakeLoggerApp()));
+  runApp(const ThemeScope(child: LanguageScope(child: WaterIntakeLoggerApp())));
 }
 
 class WaterIntakeLoggerApp extends StatelessWidget {

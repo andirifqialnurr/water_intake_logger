@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:water_intake_logger/language/language_scope.dart';
 import 'package:water_intake_logger/theme/app_theme_colors.dart';
 import 'package:water_intake_logger/widgets/language_switch.dart';
 import 'package:water_intake_logger/widgets/text_widget.dart';
+import 'package:water_intake_logger/language/language_controller.dart';
 
 class FloatingAppbarWidget extends StatelessWidget {
   final String title;
@@ -13,7 +15,10 @@ class FloatingAppbarWidget extends StatelessWidget {
     super.key,
   });
 
-  void _showLanguagePicker(BuildContext context) {
+  void _showLanguagePicker(
+    BuildContext context,
+    LanguageController languageController,
+  ) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -29,6 +34,7 @@ class FloatingAppbarWidget extends StatelessWidget {
                 title: const Text('Indonesia'),
                 trailing: const Text('IND'),
                 onTap: () {
+                  languageController.setLanguage(AppLanguage.ind);
                   Navigator.pop(context);
                 },
               ),
@@ -40,6 +46,7 @@ class FloatingAppbarWidget extends StatelessWidget {
                 title: const Text('English'),
                 trailing: const Text('ENG'),
                 onTap: () {
+                  languageController.setLanguage(AppLanguage.eng);
                   Navigator.pop(context);
                 },
               ),
@@ -53,6 +60,7 @@ class FloatingAppbarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final languageController = LanguageScope.of(context);
 
     return Container(
       height: 64,
@@ -80,9 +88,9 @@ class FloatingAppbarWidget extends StatelessWidget {
           ),
           const SizedBox(width: 20),
           LanguageSwitch(
-            languageCode: 'IND',
-            flag: '\u{1F1EE}\u{1F1E9}',
-            onTap: () => _showLanguagePicker(context),
+            languageCode: languageController.languageCode,
+            flag: languageController.flag,
+            onTap: () => _showLanguagePicker(context, languageController),
           ),
         ],
       ),
