@@ -116,7 +116,7 @@ class AppThemeColors extends ThemeExtension<AppThemeColors> {
     navSelectedIcon: Color(0xFF001D32),
     navUnselectedIcon: Color(0xFFBFC7D1),
 
-    switchTrackOn: Color(0xFF94CCFF),
+    switchTrackOn: Color(0xFF004B74),
     switchTrackOff: Color(0xFF707881),
     switchThumb: Color(0xFFFFFFFF),
 

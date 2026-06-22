@@ -1,12 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/const/app_color.dart';
 
 class RotatingRingPainter extends CustomPainter {
   final double progress;
+  final Color color;
 
-  const RotatingRingPainter({required this.progress});
+  const RotatingRingPainter({required this.color, required this.progress});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -81,7 +81,7 @@ class RotatingRingPainter extends CustomPainter {
         ..strokeWidth = strokeWidth
         ..strokeCap = i == segments - 1 ? StrokeCap.round : StrokeCap.butt
         ..isAntiAlias = true
-        ..color = AppColors.primary.withValues(alpha: alpha);
+        ..color = color.withValues(alpha: alpha);
 
       canvas.drawArc(
         rect,
@@ -95,6 +95,6 @@ class RotatingRingPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant RotatingRingPainter oldDelegate) {
-    return oldDelegate.progress != progress;
+    return oldDelegate.progress != progress || oldDelegate.color != color;
   }
 }

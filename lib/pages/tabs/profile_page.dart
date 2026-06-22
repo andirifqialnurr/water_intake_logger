@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/const/app_color.dart';
+import 'package:water_intake_logger/theme/app_theme_colors.dart';
 import 'package:water_intake_logger/theme/theme_scope.dart';
 import 'package:water_intake_logger/widgets/cards/dashboard_summary/sections.dart';
 import 'package:water_intake_logger/widgets/inner_thumb_switch.dart';
@@ -24,10 +24,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final colors = context.colors;
+    final colors = context.colors;
     final themeController = ThemeScope.of(context);
     final isDarkMode = themeController.isDarkMode;
-    // final colors = context.colors;
 
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
@@ -51,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Icon(
                         Icons.water_drop_outlined,
                         size: 14,
-                        color: AppColors.primary,
+                        color: colors.primary,
                       ),
                       SizedBox(width: 6),
                       Text.rich(
@@ -60,7 +59,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             TextSpan(text: "Lifetime:"),
                             TextSpan(
                               text: "1,248 Liters",
-                              style: TextStyle(color: AppColors.primary),
+                              style: TextStyle(color: colors.primary),
                             ),
                           ],
                         ),
@@ -90,7 +89,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: AppColors.inverseOnSurface,
+                  color: colors.surface,
                 ),
                 padding: EdgeInsets.all(16),
                 child: Column(
@@ -100,15 +99,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         Icon(
                           isDarkMode
-                              ? Icons.wb_sunny_rounded
-                              : Icons.dark_mode_rounded,
+                              ? Icons.dark_mode_rounded
+                              : Icons.wb_sunny_rounded,
                           size: 20,
-                          color: AppColors.primary,
+                          color: colors.surfaceElevated,
                         ),
                         SizedBox(width: 8),
                         Expanded(
                           child: TextWidget(
-                            text: isDarkMode ? "Light Mode" : "Dark Mode",
+                            text: isDarkMode ? "Dark Mode" : "Light Mode",
                             variant: TextWidgetStyle.body,
                           ),
                         ),

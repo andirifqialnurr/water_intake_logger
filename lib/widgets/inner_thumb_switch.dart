@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/const/app_color.dart';
+import 'package:water_intake_logger/theme/app_theme_colors.dart';
 
 class InnerThumbSwitch extends StatelessWidget {
   const InnerThumbSwitch({
@@ -13,6 +13,8 @@ class InnerThumbSwitch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return GestureDetector(
       onTap: () => onChanged(!value),
       child: AnimatedContainer(
@@ -23,7 +25,7 @@ class InnerThumbSwitch extends StatelessWidget {
         padding: EdgeInsets.all(3),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(999),
-          color: value ? AppColors.primary : Colors.grey.shade400,
+          color: value ? colors.switchTrackOn : colors.switchTrackOff,
         ),
         child: AnimatedAlign(
           alignment: value ? Alignment.centerRight : Alignment.centerLeft,
@@ -32,9 +34,9 @@ class InnerThumbSwitch extends StatelessWidget {
           child: Container(
             width: 20,
             height: 20,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white,
+              color: colors.switchThumb,
             ),
           ),
         ),

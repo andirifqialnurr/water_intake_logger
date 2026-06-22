@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/const/app_color.dart';
 
 enum _BurstLineType { straight, curve, curl }
 
@@ -25,8 +24,9 @@ class _BurstLine {
 
 class BadgeBurstPainter extends CustomPainter {
   final double progress;
+  final Color color;
 
-  const BadgeBurstPainter({required this.progress});
+  const BadgeBurstPainter({required this.color, required this.progress});
 
   // random lines a
   static const _lines = <_BurstLine>[
@@ -123,7 +123,7 @@ class BadgeBurstPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round
       ..isAntiAlias = true
-      ..color = AppColors.primary.withValues(alpha: 0.85 * visibility);
+      ..color = color.withValues(alpha: 0.85 * visibility);
 
     switch (line.type) {
       case _BurstLineType.straight:
@@ -172,6 +172,6 @@ class BadgeBurstPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant BadgeBurstPainter oldDelegate) {
-    return oldDelegate.progress != progress;
+    return oldDelegate.progress != progress || oldDelegate.color != color;
   }
 }

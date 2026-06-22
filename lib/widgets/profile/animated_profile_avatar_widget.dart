@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/const/app_color.dart';
+import 'package:water_intake_logger/theme/app_theme_colors.dart';
 import 'package:water_intake_logger/widgets/badges/verified_baged/badge_burst_painter.dart';
 import 'package:water_intake_logger/widgets/badges/verified_baged/widget.dart';
 import 'package:water_intake_logger/widgets/profile/painter.dart';
@@ -84,6 +84,8 @@ class _AnimatedProfileAvatarWidgetState
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return SizedBox(
       width: 200,
       height: 200,
@@ -95,7 +97,9 @@ class _AnimatedProfileAvatarWidgetState
             duration: const Duration(milliseconds: 300),
             child: CustomPaint(
               size: const Size(180, 180),
-              painter: StaticProfileRingPainter(),
+              painter: StaticProfileRingPainter(
+                color: colors.outline.withAlpha(30),
+              ),
             ),
           ),
           AnimatedBuilder(
@@ -108,6 +112,7 @@ class _AnimatedProfileAvatarWidgetState
                 size: const Size(180, 180),
                 painter: RotatingRingPainter(
                   progress: Curves.easeInOutCubic.transform(_controller.value),
+                  color: colors.primary,
                 ),
               );
             },
@@ -171,7 +176,10 @@ class _AnimatedProfileAvatarWidgetState
                     children: [
                       CustomPaint(
                         size: const Size(68, 68),
-                        painter: BadgeBurstPainter(progress: burst),
+                        painter: BadgeBurstPainter(
+                          progress: burst,
+                          color: colors.primary,
+                        ),
                       ),
                       Transform.scale(
                         scale: scale,
@@ -204,6 +212,10 @@ class _AnimatedProfileAvatarWidgetState
 }
 
 class StaticProfileRingPainter extends CustomPainter {
+  const StaticProfileRingPainter({required this.color});
+
+  final Color color;
+
   @override
   void paint(Canvas canvas, Size size) {
     const strokewidth = 8.0;
@@ -215,13 +227,14 @@ class StaticProfileRingPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokewidth
       ..strokeCap = StrokeCap.round
-      ..color = AppColors.outline.withAlpha(30);
+      ..color = color;
 
     canvas.drawCircle(center, radius, paint);
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
+    return oldDelegate is StaticProfileRingPainter &&
+        oldDelegate.color != color;
   }
 }

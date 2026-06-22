@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/const/app_color.dart';
+import 'package:water_intake_logger/theme/app_theme_colors.dart';
 import 'package:water_intake_logger/widgets/text_widget.dart';
 
 class DashboardSummaryCard extends StatelessWidget {
@@ -16,16 +16,18 @@ class DashboardSummaryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.inversePrimary,
+        color: colors.primarySoft,
         borderRadius: BorderRadius.circular(16),
       ),
       padding: EdgeInsets.all(14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(iconData, color: AppColors.primary),
+          Icon(iconData, color: colors.primary),
           SizedBox(height: 6),
           TextWidget(text: title, variant: TextWidgetStyle.title),
           SizedBox(height: 4),
