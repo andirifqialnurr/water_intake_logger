@@ -28,7 +28,7 @@ class _ThemeScopeState extends State<ThemeScope> {
   @override
   void dispose() {
     super.dispose();
-    _controller = ThemeController();
+    _controller.dispose();
   }
 
   @override

@@ -27,6 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
     // final colors = context.colors;
     final themeController = ThemeScope.of(context);
     final isDarkMode = themeController.isDarkMode;
+    // final colors = context.colors;
 
     return GestureDetector(
       behavior: HitTestBehavior.translucent,

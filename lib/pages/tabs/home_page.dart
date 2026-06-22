@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/const/app_color.dart';
 import 'package:water_intake_logger/widgets/cards/button_add_water/sections.dart';
 import 'package:water_intake_logger/widgets/text_widget.dart';
+
+import 'package:water_intake_logger/theme/app_theme_colors.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -17,7 +20,7 @@ class HomePage extends StatelessWidget {
             TextWidget(
               text: "Good Morning, Aran",
               variant: TextWidgetStyle.body,
-              color: AppColors.onSecondaryContainer,
+              color: colors.onSurfaceMuted,
             ),
             TextWidget(
               text: "Stay Hydrated",
@@ -26,9 +29,10 @@ class HomePage extends StatelessWidget {
             SizedBox(height: 40),
             CircleAvatar(
               radius: 150,
+              backgroundColor: colors.primarySoft,
               child: CircleAvatar(
                 radius: 140,
-                backgroundColor: AppColors.outlineVariant,
+                backgroundColor: colors.surfaceMuted,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -50,7 +54,7 @@ class HomePage extends StatelessWidget {
                   title: "Cup",
                   volume: 250,
                   unit: "ml",
-                  backgroundColor: AppColors.onTertiaryContainer,
+                  backgroundColor: colors.surfaceElevated,
                   onTap: () {},
                   onLongPress: () {},
                 ),
@@ -59,7 +63,7 @@ class HomePage extends StatelessWidget {
                   title: "Bottle",
                   volume: 700,
                   unit: "ml",
-                  backgroundColor: AppColors.onPrimaryContainer,
+                  backgroundColor: colors.primarySoft,
                   onTap: () {},
                   onLongPress: () {},
                 ),
@@ -68,7 +72,7 @@ class HomePage extends StatelessWidget {
                   title: "Glass",
                   volume: 500,
                   unit: "ml",
-                  backgroundColor: AppColors.onTertiaryContainer,
+                  backgroundColor: colors.surfaceElevated,
                   onTap: () {},
                   onLongPress: () {},
                 ),
@@ -77,7 +81,7 @@ class HomePage extends StatelessWidget {
                   title: "Thumbler",
                   volume: 1,
                   unit: "liter",
-                  backgroundColor: AppColors.onPrimary,
+                  backgroundColor: colors.surface,
                   onTap: () {},
                   onLongPress: () {},
                 ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/const/app_color.dart';
+import 'package:water_intake_logger/theme/app_theme_colors.dart';
 import 'package:water_intake_logger/widgets/text_widget.dart';
 
 class ButtonAddWaterCard extends StatefulWidget {
@@ -66,6 +66,8 @@ class _ButtonAddWaterCardState extends State<ButtonAddWaterCard> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.center,
@@ -74,7 +76,7 @@ class _ButtonAddWaterCardState extends State<ButtonAddWaterCard> {
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: AppColors.outlineVariant.withAlpha(50),
+                color: colors.shadow,
                 offset: Offset(4, 5),
                 blurRadius: 6,
               ),
@@ -93,7 +95,7 @@ class _ButtonAddWaterCardState extends State<ButtonAddWaterCard> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(widget.iconData, color: AppColors.primary, size: 30),
+                    Icon(widget.iconData, color: colors.primary, size: 30),
                     SizedBox(width: 10),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -129,10 +131,10 @@ class _ButtonAddWaterCardState extends State<ButtonAddWaterCard> {
               opacity: isFloating ? 0 : 1,
               child: Text(
                 floatingText!,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primary,
+                  color: colors.primary,
                 ),
               ),
             ),

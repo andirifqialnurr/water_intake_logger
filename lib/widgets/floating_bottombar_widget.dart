@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/const/app_color.dart';
+import 'package:water_intake_logger/theme/app_theme_colors.dart';
 
 class FloatingNavItem {
   final IconData icon;
@@ -23,17 +23,19 @@ class FloatingBottombarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return SafeArea(
       minimum: const EdgeInsets.fromLTRB(16, 0, 16, 16),
       child: Container(
         height: 72,
         padding: const EdgeInsets.symmetric(horizontal: 12),
         decoration: BoxDecoration(
-          color: AppColors.neutral,
+          color: colors.navBackground,
           borderRadius: BorderRadius.circular(24),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: AppColors.outlineVariant,
+              color: colors.shadow,
               blurRadius: 6,
               offset: Offset(1, 4),
             ),
@@ -55,8 +57,8 @@ class FloatingBottombarWidget extends StatelessWidget {
                 height: 52,
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? AppColors.primary
-                      : AppColors.inverseOnSurface,
+                      ? colors.navSelectedBackground
+                      : colors.navUnselectedBackground,
                   shape: BoxShape.circle,
                 ),
                 child: Center(
@@ -67,8 +69,8 @@ class FloatingBottombarWidget extends StatelessWidget {
                     child: Icon(
                       items[index].icon,
                       color: isSelected
-                          ? AppColors.neutral
-                          : AppColors.outlineVariant,
+                          ? colors.navSelectedIcon
+                          : colors.navUnselectedIcon,
                       size: 26,
                     ),
                   ),
