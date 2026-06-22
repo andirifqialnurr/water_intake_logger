@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/const/app_color.dart';
+import 'package:water_intake_logger/theme/app_theme_colors.dart';
 
 class HistoryCardWidget extends StatelessWidget {
   final bool isAchieved;
@@ -17,17 +17,15 @@ class HistoryCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        color: AppColors.neutral,
+        color: colors.surface,
         boxShadow: [
-          BoxShadow(
-            color: AppColors.outlineVariant.withAlpha(40),
-            blurRadius: 5,
-            offset: Offset(1, 5),
-          ),
+          BoxShadow(color: colors.shadow, blurRadius: 5, offset: Offset(1, 5)),
         ],
       ),
       child: Row(
@@ -36,25 +34,25 @@ class HistoryCardWidget extends StatelessWidget {
           isAchieved
               ? Container(
                   decoration: BoxDecoration(
-                    color: AppColors.primaryFixed,
+                    color: colors.primarySoft,
                     borderRadius: BorderRadius.circular(40),
                   ),
                   padding: EdgeInsets.all(14),
                   child: Icon(
                     Icons.water_drop_rounded,
-                    color: AppColors.primary,
+                    color: colors.primary,
                     size: 24,
                   ),
                 )
               : Container(
                   decoration: BoxDecoration(
-                    color: AppColors.inverseOnSurface,
+                    color: colors.surfaceMuted,
                     borderRadius: BorderRadius.circular(40),
                   ),
                   padding: EdgeInsets.all(14),
                   child: Icon(
                     Icons.water_drop_rounded,
-                    color: AppColors.outline,
+                    color: colors.outline,
                     size: 24,
                   ),
                 ),
@@ -68,7 +66,7 @@ class HistoryCardWidget extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
-                  color: AppColors.onBackground,
+                  color: colors.onSurface,
                 ),
               ),
               Text(
@@ -76,7 +74,7 @@ class HistoryCardWidget extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 12,
-                  color: AppColors.onBackground,
+                  color: colors.onSurface,
                 ),
               ),
             ],
@@ -91,27 +89,21 @@ class HistoryCardWidget extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
-                    color: isAchieved
-                        ? AppColors.primary
-                        : AppColors.onBackground,
+                    color: isAchieved ? colors.primary : colors.onSurface,
                   ),
                 ),
                 isAchieved
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Icon(
-                            Icons.verified,
-                            size: 14,
-                            color: AppColors.onSecondaryContainer,
-                          ),
+                          Icon(Icons.verified, size: 14, color: colors.success),
                           SizedBox(width: 4),
                           Text(
                             "ACHIEVED",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
-                              color: AppColors.onSecondaryContainer,
+                              color: colors.success,
                             ),
                           ),
                         ],
@@ -121,7 +113,7 @@ class HistoryCardWidget extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
-                          color: AppColors.outline,
+                          color: colors.onSurfaceMuted,
                         ),
                       ),
               ],
