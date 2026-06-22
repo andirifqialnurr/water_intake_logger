@@ -102,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ? Icons.dark_mode_rounded
                               : Icons.wb_sunny_rounded,
                           size: 20,
-                          color: colors.surfaceElevated,
+                          color: colors.onSurface,
                         ),
                         SizedBox(width: 8),
                         Expanded(
