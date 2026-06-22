@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/const/app_color.dart';
 import 'package:water_intake_logger/widgets/charts/bar_chart/cover_widget.dart';
 import 'dart:math';
 
@@ -11,6 +10,11 @@ class WaterIntakeBarChartPainter extends CustomPainter {
   final double fillProgress;
   final double waveProgress;
 
+  final Color gridColor;
+  final Color barBackgroundColor;
+  final Color barColor;
+  final Color activeBarColor;
+
   WaterIntakeBarChartPainter({
     required this.data,
     required this.maxMl,
@@ -18,6 +22,11 @@ class WaterIntakeBarChartPainter extends CustomPainter {
     required this.fillProgress,
     required this.waveProgress,
     this.activeIndex,
+
+    required this.gridColor,
+    required this.barBackgroundColor,
+    required this.barColor,
+    required this.activeBarColor,
   });
 
   @override
@@ -38,15 +47,14 @@ class WaterIntakeBarChartPainter extends CustomPainter {
 
     // bar painters
     final gridPaint = Paint()
-      ..color = AppColors.outline.withValues(alpha: 0.2)
+      ..color = gridColor
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
 
-    final barBackgroundPaint = Paint()
-      ..color = AppColors.outlineVariant.withValues(alpha: 0.18);
+    final barBackgroundPaint = Paint()..color = barBackgroundColor;
 
-    final barPaint = Paint()..color = AppColors.inversePrimary;
-    final activeBarPaint = Paint()..color = AppColors.primary;
+    final barPaint = Paint()..color = barColor;
+    final activeBarPaint = Paint()..color = activeBarColor;
 
     // Grid horizontal + label Y
     final stepCount = 4;
@@ -171,6 +179,11 @@ class WaterIntakeBarChartPainter extends CustomPainter {
         oldDeletage.maxMl != maxMl ||
         oldDeletage.activeIndex != activeIndex ||
         oldDeletage.fillProgress != fillProgress ||
-        oldDeletage.waveProgress != waveProgress;
+        oldDeletage.waveProgress != waveProgress ||
+        oldDeletage.labelStyle != labelStyle ||
+        oldDeletage.gridColor != gridColor ||
+        oldDeletage.barBackgroundColor != barBackgroundColor ||
+        oldDeletage.barColor != barColor ||
+        oldDeletage.activeBarColor != activeBarColor;
   }
 }

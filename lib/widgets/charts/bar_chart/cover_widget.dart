@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/const/app_color.dart';
+import 'package:water_intake_logger/theme/app_theme_colors.dart';
 import 'package:water_intake_logger/widgets/charts/bar_chart/painter.dart';
 import 'package:water_intake_logger/widgets/text_widget.dart';
 
@@ -55,20 +55,22 @@ class _BarChartProgressWidgetState extends State<BarChartProgressWidget>
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     final labelStyle = Theme.of(
       context,
-    ).textTheme.labelSmall?.copyWith(color: AppColors.onSurface);
+    ).textTheme.labelSmall?.copyWith(color: colors.onSurfaceMuted);
 
     return Container(
       height: 260,
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.neutral,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppColors.outlineVariant.withAlpha(50),
+            color: colors.shadow,
             blurRadius: 6,
             offset: Offset(0, 4),
             spreadRadius: 6,
@@ -94,7 +96,11 @@ class _BarChartProgressWidgetState extends State<BarChartProgressWidget>
                     fillProgress: Curves.easeOutCubic.transform(
                       _fillController.value,
                     ),
+                    barBackgroundColor: colors.outline.withValues(alpha: 0.18),
+                    barColor: colors.chartBar,
+                    activeBarColor: colors.chartBarActive,
                     waveProgress: _waveController.value,
+                    gridColor: colors.chartGrid,
                   ),
                 );
               },

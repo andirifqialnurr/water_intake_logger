@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:water_intake_logger/const/app_color.dart';
+import 'package:water_intake_logger/theme/app_theme_colors.dart';
 import 'package:water_intake_logger/widgets/badges/badge_widget.dart';
 import 'package:water_intake_logger/widgets/text_widget.dart';
 
@@ -8,9 +8,11 @@ class SummaryProgressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: colors.primary,
         borderRadius: BorderRadius.circular(20),
       ),
       padding: EdgeInsets.symmetric(vertical: 26, horizontal: 30),
@@ -27,7 +29,7 @@ class SummaryProgressCard extends StatelessWidget {
                     TextWidget(
                       text: "Weekly Average".toUpperCase(),
                       variant: TextWidgetStyle.caption,
-                      color: AppColors.neutral,
+                      color: colors.onPrimary,
                     ),
                     Text.rich(
                       TextSpan(
@@ -35,7 +37,7 @@ class SummaryProgressCard extends StatelessWidget {
                           TextSpan(
                             text: "2.4 ",
                             style: TextStyle(
-                              color: AppColors.neutral,
+                              color: colors.onPrimary,
                               fontSize: 40,
                               fontWeight: FontWeight.bold,
                             ),
@@ -43,7 +45,7 @@ class SummaryProgressCard extends StatelessWidget {
                           TextSpan(
                             text: "Liters",
                             style: TextStyle(
-                              color: AppColors.neutral,
+                              color: colors.onPrimary,
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                             ),
@@ -61,7 +63,7 @@ class SummaryProgressCard extends StatelessWidget {
                     TextWidget(
                       text: "Goal Met".toUpperCase(),
                       variant: TextWidgetStyle.caption,
-                      color: AppColors.neutral,
+                      color: colors.onPrimary,
                     ),
                     Text.rich(
                       TextSpan(
@@ -71,7 +73,7 @@ class SummaryProgressCard extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 40,
-                              color: AppColors.neutral,
+                              color: colors.onPrimary,
                             ),
                           ),
                           TextSpan(
@@ -79,7 +81,7 @@ class SummaryProgressCard extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
-                              color: AppColors.neutral,
+                              color: colors.onPrimary,
                             ),
                           ),
                         ],
@@ -91,7 +93,7 @@ class SummaryProgressCard extends StatelessWidget {
             ],
           ),
           SizedBox(height: 4),
-          Divider(),
+          Divider(color: colors.onPrimary.withValues(alpha: 0.25)),
           SizedBox(height: 10),
           // Second Row
           Row(
@@ -108,7 +110,7 @@ class SummaryProgressCard extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
-                              color: AppColors.neutral,
+                              color: colors.onPrimary,
                             ),
                           ),
                           TextSpan(
@@ -116,7 +118,7 @@ class SummaryProgressCard extends StatelessWidget {
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 10,
-                              color: AppColors.neutral,
+                              color: colors.onPrimary,
                             ),
                           ),
                         ],
