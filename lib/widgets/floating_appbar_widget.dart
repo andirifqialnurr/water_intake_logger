@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:water_intake_logger/theme/app_theme_colors.dart';
+import 'package:water_intake_logger/widgets/language_switch.dart';
 import 'package:water_intake_logger/widgets/text_widget.dart';
 
 class FloatingAppbarWidget extends StatelessWidget {
@@ -11,6 +12,43 @@ class FloatingAppbarWidget extends StatelessWidget {
     required this.profileImagePath,
     super.key,
   });
+
+  void _showLanguagePicker(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Text(
+                  '\u{1F1EE}\u{1F1E9}',
+                  style: TextStyle(fontSize: 22),
+                ),
+                title: const Text('Indonesia'),
+                trailing: const Text('IND'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Text(
+                  '\u{1F1EC}\u{1F1E7}',
+                  style: TextStyle(fontSize: 22),
+                ),
+                title: const Text('English'),
+                trailing: const Text('ENG'),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +77,12 @@ class FloatingAppbarWidget extends StatelessWidget {
           const SizedBox(width: 20),
           Expanded(
             child: TextWidget(text: title, variant: TextWidgetStyle.subtitle),
+          ),
+          const SizedBox(width: 20),
+          LanguageSwitch(
+            languageCode: 'IND',
+            flag: '\u{1F1EE}\u{1F1E9}',
+            onTap: () => _showLanguagePicker(context),
           ),
         ],
       ),
