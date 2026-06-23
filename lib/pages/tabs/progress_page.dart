@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:water_intake_logger/language/app_strings.dart';
+import 'package:water_intake_logger/language/language_scope.dart';
 import 'package:water_intake_logger/widgets/cards/summary_progress_chart.dart';
 import 'package:water_intake_logger/widgets/charts/bar_chart/cover_widget.dart';
 
@@ -7,6 +9,8 @@ class ProgressPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageController = LanguageScope.of(context);
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -19,13 +23,34 @@ class ProgressPage extends StatelessWidget {
               activeIndex: 3,
               maxMl: 3000,
               data: [
-                WaterBarChartData(day: 'Mon', ml: 1800),
-                WaterBarChartData(day: 'Tue', ml: 2200),
-                WaterBarChartData(day: 'Wed', ml: 1600),
-                WaterBarChartData(day: 'Thu', ml: 2500),
-                WaterBarChartData(day: 'Fri', ml: 2100),
-                WaterBarChartData(day: 'Sat', ml: 2800),
-                WaterBarChartData(day: 'Sun', ml: 2400),
+                WaterBarChartData(
+                  day: languageController.strings.monday,
+                  ml: 1800,
+                ),
+                WaterBarChartData(
+                  day: languageController.strings.tuesday,
+                  ml: 2200,
+                ),
+                WaterBarChartData(
+                  day: languageController.strings.wednesday,
+                  ml: 1600,
+                ),
+                WaterBarChartData(
+                  day: languageController.strings.thursday,
+                  ml: 2500,
+                ),
+                WaterBarChartData(
+                  day: languageController.strings.friday,
+                  ml: 2100,
+                ),
+                WaterBarChartData(
+                  day: languageController.strings.saturday,
+                  ml: 2800,
+                ),
+                WaterBarChartData(
+                  day: languageController.strings.sunday,
+                  ml: 2400,
+                ),
               ],
             ),
             SizedBox(height: 30),

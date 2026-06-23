@@ -16,6 +16,39 @@ class AppStrings {
 
   String get indLanguageLabel => _en ? 'Indonesian' : 'Bahasa Indonesia';
   String get engLanguageLabel => _en ? 'English' : 'Bahasa Inggris';
+
+  // Home Page
+  String get greetings => _en ? 'Good Morning, Aran' : 'Selamat Pagi, Aran';
+  String get slogan => _en ? 'Stay Hydrated' : 'Tetap Terhidrasi';
+
+  //button add waters
+  String get button1 => _en ? 'Cup' : 'Cangkir';
+  String get button2 => _en ? 'Bottle' : 'Botol';
+  String get button3 => _en ? 'Glass' : 'Gelas';
+  String get button4 => _en ? 'Thumbler' : 'Tumbler';
+
+  // ----------
+
+  // Progress Page
+
+  //summary card
+  String get labelAvg => _en ? 'Weekly Average' : 'Rata-rata Pekanan';
+  String get labelGoal => _en ? 'Goal Met' : 'Target Tercapai';
+  String get liter => _en ? 'Liters' : 'Liter';
+
+  String get lastWeek => _en ? 'last week' : 'pekan terakhir';
+  String get streak => _en ? 'Streak' : 'Beruntun';
+  String get day => _en ? 'Days' : 'Hari';
+
+  //barchart
+  String get labelChart => _en ? 'Weekly Intake' : 'Asupan Mingguan';
+  String get monday => _en ? 'Mon' : 'Sen';
+  String get tuesday => _en ? 'Tue' : 'Sel';
+  String get wednesday => _en ? 'Wed' : 'Rab';
+  String get thursday => _en ? 'Thu' : 'Kam';
+  String get friday => _en ? 'Fri' : 'Jum';
+  String get saturday => _en ? 'Sat' : 'Sab';
+  String get sunday => _en ? 'Sun' : 'Min';
 }
 
 extension LanguageControllerStrings on LanguageController {

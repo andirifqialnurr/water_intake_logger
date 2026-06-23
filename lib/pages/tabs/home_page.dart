@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:water_intake_logger/language/app_strings.dart';
+import 'package:water_intake_logger/language/language_scope.dart';
 import 'package:water_intake_logger/widgets/cards/button_add_water/sections.dart';
 import 'package:water_intake_logger/widgets/text_widget.dart';
 
@@ -11,6 +13,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
 
+    final languageController = LanguageScope.of(context);
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -18,12 +22,12 @@ class HomePage extends StatelessWidget {
           children: [
             SizedBox(height: 20),
             TextWidget(
-              text: "Good Morning, Aran",
+              text: languageController.strings.greetings,
               variant: TextWidgetStyle.body,
               color: colors.onSurfaceMuted,
             ),
             TextWidget(
-              text: "Stay Hydrated",
+              text: languageController.strings.slogan,
               variant: TextWidgetStyle.headline,
             ),
             SizedBox(height: 40),
@@ -51,7 +55,7 @@ class HomePage extends StatelessWidget {
               items: [
                 ButtonAddWaterItems(
                   iconData: Icons.coffee,
-                  title: "Cup",
+                  title: languageController.strings.button1,
                   volume: 250,
                   unit: "ml",
                   backgroundColor: colors.surface,
@@ -60,7 +64,7 @@ class HomePage extends StatelessWidget {
                 ),
                 ButtonAddWaterItems(
                   iconData: Icons.water_drop_outlined,
-                  title: "Bottle",
+                  title: languageController.strings.button2,
                   volume: 700,
                   unit: "ml",
                   backgroundColor: colors.surface,
@@ -69,7 +73,7 @@ class HomePage extends StatelessWidget {
                 ),
                 ButtonAddWaterItems(
                   iconData: Icons.local_drink,
-                  title: "Glass",
+                  title: languageController.strings.button3,
                   volume: 500,
                   unit: "ml",
                   backgroundColor: colors.surface,
@@ -78,7 +82,7 @@ class HomePage extends StatelessWidget {
                 ),
                 ButtonAddWaterItems(
                   iconData: Icons.hourglass_bottom_outlined,
-                  title: "Thumbler",
+                  title: languageController.strings.button4,
                   volume: 1,
                   unit: "liter",
                   backgroundColor: colors.surface,

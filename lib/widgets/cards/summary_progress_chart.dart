@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:water_intake_logger/language/app_strings.dart';
+import 'package:water_intake_logger/language/language_scope.dart';
 import 'package:water_intake_logger/theme/app_theme_colors.dart';
 import 'package:water_intake_logger/widgets/badges/badge_widget.dart';
 import 'package:water_intake_logger/widgets/text_widget.dart';
@@ -9,6 +11,7 @@ class SummaryProgressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final languageController = LanguageScope.of(context);
 
     return Container(
       decoration: BoxDecoration(
@@ -27,7 +30,7 @@ class SummaryProgressCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextWidget(
-                      text: "Weekly Average".toUpperCase(),
+                      text: languageController.strings.labelAvg.toUpperCase(),
                       variant: TextWidgetStyle.caption,
                       color: colors.onPrimary,
                     ),
@@ -43,7 +46,7 @@ class SummaryProgressCard extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: "Liters",
+                            text: languageController.strings.liter,
                             style: TextStyle(
                               color: colors.onPrimary,
                               fontSize: 16,
@@ -61,7 +64,7 @@ class SummaryProgressCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TextWidget(
-                      text: "Goal Met".toUpperCase(),
+                      text: languageController.strings.labelGoal.toUpperCase(),
                       variant: TextWidgetStyle.caption,
                       color: colors.onPrimary,
                     ),
@@ -106,7 +109,7 @@ class SummaryProgressCard extends StatelessWidget {
                       TextSpan(
                         children: [
                           TextSpan(
-                            text: "+ 12% ",
+                            text: "+ 12%  ",
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
@@ -114,7 +117,7 @@ class SummaryProgressCard extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: " last week",
+                            text: languageController.strings.lastWeek,
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 10,
@@ -127,7 +130,12 @@ class SummaryProgressCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(child: BadgeWidget(text: "Streak : 5 Days")),
+              Expanded(
+                child: BadgeWidget(
+                  text:
+                      "${languageController.strings.streak} : 5 ${languageController.strings.day}",
+                ),
+              ),
             ],
           ),
           // Second Row

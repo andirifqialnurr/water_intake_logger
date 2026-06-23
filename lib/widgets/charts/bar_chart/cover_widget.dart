@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:water_intake_logger/language/app_strings.dart';
+import 'package:water_intake_logger/language/language_scope.dart';
 import 'package:water_intake_logger/theme/app_theme_colors.dart';
 import 'package:water_intake_logger/widgets/charts/bar_chart/painter.dart';
 import 'package:water_intake_logger/widgets/text_widget.dart';
@@ -56,6 +58,7 @@ class _BarChartProgressWidgetState extends State<BarChartProgressWidget>
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final languageController = LanguageScope.of(context);
 
     final labelStyle = Theme.of(
       context,
@@ -80,7 +83,10 @@ class _BarChartProgressWidgetState extends State<BarChartProgressWidget>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextWidget(text: "Weekly Intake", variant: TextWidgetStyle.subtitle),
+          TextWidget(
+            text: languageController.strings.labelChart,
+            variant: TextWidgetStyle.subtitle,
+          ),
           SizedBox(height: 12),
           Expanded(
             child: AnimatedBuilder(
