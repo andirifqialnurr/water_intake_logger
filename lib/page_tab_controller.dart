@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:water_intake_logger/language/app_strings.dart';
+import 'package:water_intake_logger/language/language_scope.dart';
 import 'package:water_intake_logger/pages/tabs/history_page.dart';
 import 'package:water_intake_logger/pages/tabs/home_page.dart';
 import 'package:water_intake_logger/pages/tabs/profile_page.dart';
@@ -24,10 +26,11 @@ class _PageTabControllerState extends State<PageTabController> {
     ProfilePage(),
   ];
 
-  final List<String> _title = const ['Home', 'Progress', 'History', 'Profile'];
-
   @override
   Widget build(BuildContext context) {
+    final languageController = LanguageScope.of(context);
+    final titles = languageController.strings.tabTitles;
+
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -46,7 +49,7 @@ class _PageTabControllerState extends State<PageTabController> {
               left: 16,
               right: 16,
               child: FloatingAppbarWidget(
-                title: _title[_currentIndex],
+                title: titles[_currentIndex],
                 profileImagePath: 'assets/images/wolf-pointing-left.png',
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:water_intake_logger/language/app_strings.dart';
 import 'package:water_intake_logger/language/language_scope.dart';
 import 'package:water_intake_logger/theme/app_theme_colors.dart';
 import 'package:water_intake_logger/widgets/language_switch.dart';
@@ -19,6 +20,8 @@ class FloatingAppbarWidget extends StatelessWidget {
     BuildContext context,
     LanguageController languageController,
   ) {
+    final strings = languageController.strings;
+
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -31,7 +34,7 @@ class FloatingAppbarWidget extends StatelessWidget {
                   '\u{1F1EE}\u{1F1E9}',
                   style: TextStyle(fontSize: 22),
                 ),
-                title: const Text('Indonesia'),
+                title: Text(strings.indLanguageLabel),
                 trailing: const Text('IND'),
                 onTap: () {
                   languageController.setLanguage(AppLanguage.ind);
@@ -43,7 +46,7 @@ class FloatingAppbarWidget extends StatelessWidget {
                   '\u{1F1EC}\u{1F1E7}',
                   style: TextStyle(fontSize: 22),
                 ),
-                title: const Text('English'),
+                title: Text(strings.engLanguageLabel),
                 trailing: const Text('ENG'),
                 onTap: () {
                   languageController.setLanguage(AppLanguage.eng);
