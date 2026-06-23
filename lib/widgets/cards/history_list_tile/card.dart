@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:water_intake_logger/language/app_strings.dart';
+import 'package:water_intake_logger/language/language_scope.dart';
 import 'package:water_intake_logger/theme/app_theme_colors.dart';
 
 class HistoryCardWidget extends StatelessWidget {
@@ -18,6 +20,7 @@ class HistoryCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final languageController = LanguageScope.of(context);
 
     return Container(
       padding: EdgeInsets.all(16),
@@ -59,7 +62,7 @@ class HistoryCardWidget extends StatelessWidget {
           SizedBox(width: 12),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 date,
@@ -70,7 +73,7 @@ class HistoryCardWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                "Daily Goal: $goal L",
+                "${languageController.strings.dailyGOalCard}: $goal L",
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 12,
@@ -99,7 +102,7 @@ class HistoryCardWidget extends StatelessWidget {
                           Icon(Icons.verified, size: 14, color: colors.success),
                           SizedBox(width: 4),
                           Text(
-                            "ACHIEVED",
+                            languageController.strings.achieve.toUpperCase(),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
@@ -109,7 +112,7 @@ class HistoryCardWidget extends StatelessWidget {
                         ],
                       )
                     : Text(
-                        "72% OF GOAL",
+                        "72% ${languageController.strings.notAchieve.toUpperCase()}",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,

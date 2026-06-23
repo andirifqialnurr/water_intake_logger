@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:water_intake_logger/language/app_strings.dart';
+import 'package:water_intake_logger/language/language_scope.dart';
 import 'package:water_intake_logger/widgets/cards/history_list_tile/sectoins.dart';
 
 class HistoryPage extends StatelessWidget {
@@ -6,6 +8,8 @@ class HistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final languageController = LanguageScope.of(context);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -15,7 +19,7 @@ class HistoryPage extends StatelessWidget {
               items: [
                 HistoryListTileItems(
                   isAchieved: true,
-                  date: "Today, Jun 27",
+                  date: "${languageController.strings.dateCard}, Jun 27",
                   goal: "1.5",
                   achieved: "2.1",
                 ),

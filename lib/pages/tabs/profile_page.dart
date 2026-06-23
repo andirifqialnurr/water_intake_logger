@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:water_intake_logger/language/app_strings.dart';
+import 'package:water_intake_logger/language/language_scope.dart';
 import 'package:water_intake_logger/theme/app_theme_colors.dart';
 import 'package:water_intake_logger/theme/theme_scope.dart';
 import 'package:water_intake_logger/widgets/cards/dashboard_summary/sections.dart';
@@ -28,6 +30,8 @@ class _ProfilePageState extends State<ProfilePage> {
     final themeController = ThemeScope.of(context);
     final isDarkMode = themeController.isDarkMode;
 
+    final languageController = LanguageScope.of(context);
+
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onDoubleTap: _replayAvatarAnimation,
@@ -56,9 +60,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       Text.rich(
                         TextSpan(
                           children: [
-                            TextSpan(text: "Lifetime:"),
                             TextSpan(
-                              text: "1,248 Liters",
+                              text:
+                                  "${languageController.strings.lifeTime} :  ",
+                            ),
+                            TextSpan(
+                              text: "1,248 ${languageController.strings.liter}",
                               style: TextStyle(color: colors.primary),
                             ),
                           ],
@@ -73,18 +80,21 @@ class _ProfilePageState extends State<ProfilePage> {
                 items: [
                   DashboardSummaryItems(
                     iconData: Icons.fireplace_outlined,
-                    title: "3 Days",
-                    caption: "Current Winstreak",
+                    title: "3 ${languageController.strings.day}",
+                    caption: languageController.strings.labelWinCard,
                   ),
                   DashboardSummaryItems(
                     iconData: Icons.timer,
                     title: "45 m",
-                    caption: "Since Last Sip",
+                    caption: languageController.strings.labelSince,
                   ),
                 ],
               ),
               SizedBox(height: 30),
-              TextWidget(text: "Setting", variant: TextWidgetStyle.subtitle),
+              TextWidget(
+                text: languageController.strings.settingModeLabel,
+                variant: TextWidgetStyle.subtitle,
+              ),
               SizedBox(height: 12),
               Container(
                 decoration: BoxDecoration(
@@ -107,7 +117,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         SizedBox(width: 8),
                         Expanded(
                           child: TextWidget(
-                            text: isDarkMode ? "Dark Mode" : "Light Mode",
+                            text: isDarkMode
+                                ? languageController.strings.darkMode
+                                : languageController.strings.lightMode,
                             variant: TextWidgetStyle.body,
                           ),
                         ),

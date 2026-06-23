@@ -49,6 +49,28 @@ class AppStrings {
   String get friday => _en ? 'Fri' : 'Jum';
   String get saturday => _en ? 'Sat' : 'Sab';
   String get sunday => _en ? 'Sun' : 'Min';
+
+  // ----------
+
+  // History Page
+  String get dateCard => _en ? 'Today' : 'Hari ini';
+  String get dailyGOalCard => _en ? 'Daily Goal' : 'Target Harian';
+  String get achieve => _en ? 'Achieve' : 'Tercapai';
+  String get notAchieve => _en ? 'Of Goal' : 'Dari Goal';
+
+  // ----------
+
+  // Profile Page
+  String get lifeTime => _en ? 'Lifetime' : 'Total';
+
+  //summary card
+  String get labelWinCard => _en ? 'Current Winstreak' : 'Konsistensi Saat ini';
+  String get labelSince => _en ? 'Since Last Sip' : 'Sejak Minum Terakhir';
+
+  //mode theme section
+  String get settingModeLabel => _en ? 'Setting' : 'Pengaturan';
+  String get darkMode => _en ? 'Dark Mode' : 'Mode Gelap';
+  String get lightMode => _en ? 'Light Mode' : 'Mode Terang';
 }
 
 extension LanguageControllerStrings on LanguageController {
