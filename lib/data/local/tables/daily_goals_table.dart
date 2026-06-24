@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 
-class DailyGoalsTable extends Table {
+class DailyGoals extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get localDate => text().unique()();
   IntColumn get targetMl => integer().withDefault(const Constant(2000))();
