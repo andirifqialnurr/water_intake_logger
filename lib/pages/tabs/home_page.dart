@@ -43,7 +43,7 @@ class HomePage extends StatelessWidget {
                     TextWidget(text: "75%", variant: TextWidgetStyle.display),
                     SizedBox(height: 8),
                     TextWidget(
-                      text: "1500 / 2000ml",
+                      text: "1500ml / 2000ml",
                       variant: TextWidgetStyle.subtitle,
                     ),
                   ],
