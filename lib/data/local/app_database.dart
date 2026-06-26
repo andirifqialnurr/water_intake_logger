@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:water_intake_logger/data/local/tables/daily_goals_table.dart';
-import 'package:water_intake_logger/data/local/tables/hidration_entries_table.dart';
+import 'package:water_intake_logger/data/local/tables/hydration_entries_table.dart';
 
 part 'app_database.g.dart';
 

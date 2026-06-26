@@ -22,29 +22,6 @@ class $HydrationEntriesTable extends HydrationEntries
       'PRIMARY KEY AUTOINCREMENT',
     ),
   );
-  static const VerificationMeta _clientIdMeta = const VerificationMeta(
-    'clientId',
-  );
-  @override
-  late final GeneratedColumn<String> clientId = GeneratedColumn<String>(
-    'client_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
-  );
-  static const VerificationMeta _remoteIdMeta = const VerificationMeta(
-    'remoteId',
-  );
-  @override
-  late final GeneratedColumn<String> remoteId = GeneratedColumn<String>(
-    'remote_id',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
   static const VerificationMeta _amountMlMeta = const VerificationMeta(
     'amountMl',
   );
@@ -133,34 +110,9 @@ class $HydrationEntriesTable extends HydrationEntries
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _syncStatusMeta = const VerificationMeta(
-    'syncStatus',
-  );
-  @override
-  late final GeneratedColumn<String> syncStatus = GeneratedColumn<String>(
-    'sync_status',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    defaultValue: const Constant('pendingCreate'),
-  );
-  static const VerificationMeta _syncErrorMeta = const VerificationMeta(
-    'syncError',
-  );
-  @override
-  late final GeneratedColumn<String> syncError = GeneratedColumn<String>(
-    'sync_error',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
-    clientId,
-    remoteId,
     amountMl,
     sourceType,
     sourceLabel,
@@ -169,8 +121,6 @@ class $HydrationEntriesTable extends HydrationEntries
     createdAt,
     updatedAt,
     deletedAt,
-    syncStatus,
-    syncError,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -186,20 +136,6 @@ class $HydrationEntriesTable extends HydrationEntries
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('client_id')) {
-      context.handle(
-        _clientIdMeta,
-        clientId.isAcceptableOrUnknown(data['client_id']!, _clientIdMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_clientIdMeta);
-    }
-    if (data.containsKey('remote_id')) {
-      context.handle(
-        _remoteIdMeta,
-        remoteId.isAcceptableOrUnknown(data['remote_id']!, _remoteIdMeta),
-      );
     }
     if (data.containsKey('amount_ml')) {
       context.handle(
@@ -268,18 +204,6 @@ class $HydrationEntriesTable extends HydrationEntries
     } else if (isInserting) {
       context.missing(_deletedAtMeta);
     }
-    if (data.containsKey('sync_status')) {
-      context.handle(
-        _syncStatusMeta,
-        syncStatus.isAcceptableOrUnknown(data['sync_status']!, _syncStatusMeta),
-      );
-    }
-    if (data.containsKey('sync_error')) {
-      context.handle(
-        _syncErrorMeta,
-        syncError.isAcceptableOrUnknown(data['sync_error']!, _syncErrorMeta),
-      );
-    }
     return context;
   }
 
@@ -293,14 +217,6 @@ class $HydrationEntriesTable extends HydrationEntries
         DriftSqlType.int,
         data['${effectivePrefix}id'],
       )!,
-      clientId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}client_id'],
-      )!,
-      remoteId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}remote_id'],
-      ),
       amountMl: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}amount_ml'],
@@ -333,14 +249,6 @@ class $HydrationEntriesTable extends HydrationEntries
         DriftSqlType.dateTime,
         data['${effectivePrefix}deleted_at'],
       )!,
-      syncStatus: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}sync_status'],
-      )!,
-      syncError: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}sync_error'],
-      ),
     );
   }
 
@@ -352,8 +260,6 @@ class $HydrationEntriesTable extends HydrationEntries
 
 class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
   final int id;
-  final String clientId;
-  final String? remoteId;
   final int amountMl;
   final String sourceType;
   final String sourceLabel;
@@ -362,12 +268,8 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime deletedAt;
-  final String syncStatus;
-  final String? syncError;
   const HydrationEntry({
     required this.id,
-    required this.clientId,
-    this.remoteId,
     required this.amountMl,
     required this.sourceType,
     required this.sourceLabel,
@@ -376,17 +278,11 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
     required this.createdAt,
     required this.updatedAt,
     required this.deletedAt,
-    required this.syncStatus,
-    this.syncError,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['client_id'] = Variable<String>(clientId);
-    if (!nullToAbsent || remoteId != null) {
-      map['remote_id'] = Variable<String>(remoteId);
-    }
     map['amount_ml'] = Variable<int>(amountMl);
     map['source_type'] = Variable<String>(sourceType);
     map['source_label'] = Variable<String>(sourceLabel);
@@ -395,20 +291,12 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
     map['deleted_at'] = Variable<DateTime>(deletedAt);
-    map['sync_status'] = Variable<String>(syncStatus);
-    if (!nullToAbsent || syncError != null) {
-      map['sync_error'] = Variable<String>(syncError);
-    }
     return map;
   }
 
   HydrationEntriesCompanion toCompanion(bool nullToAbsent) {
     return HydrationEntriesCompanion(
       id: Value(id),
-      clientId: Value(clientId),
-      remoteId: remoteId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(remoteId),
       amountMl: Value(amountMl),
       sourceType: Value(sourceType),
       sourceLabel: Value(sourceLabel),
@@ -417,10 +305,6 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
       deletedAt: Value(deletedAt),
-      syncStatus: Value(syncStatus),
-      syncError: syncError == null && nullToAbsent
-          ? const Value.absent()
-          : Value(syncError),
     );
   }
 
@@ -431,8 +315,6 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return HydrationEntry(
       id: serializer.fromJson<int>(json['id']),
-      clientId: serializer.fromJson<String>(json['clientId']),
-      remoteId: serializer.fromJson<String?>(json['remoteId']),
       amountMl: serializer.fromJson<int>(json['amountMl']),
       sourceType: serializer.fromJson<String>(json['sourceType']),
       sourceLabel: serializer.fromJson<String>(json['sourceLabel']),
@@ -441,8 +323,6 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
       deletedAt: serializer.fromJson<DateTime>(json['deletedAt']),
-      syncStatus: serializer.fromJson<String>(json['syncStatus']),
-      syncError: serializer.fromJson<String?>(json['syncError']),
     );
   }
   @override
@@ -450,8 +330,6 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'clientId': serializer.toJson<String>(clientId),
-      'remoteId': serializer.toJson<String?>(remoteId),
       'amountMl': serializer.toJson<int>(amountMl),
       'sourceType': serializer.toJson<String>(sourceType),
       'sourceLabel': serializer.toJson<String>(sourceLabel),
@@ -460,15 +338,11 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
       'deletedAt': serializer.toJson<DateTime>(deletedAt),
-      'syncStatus': serializer.toJson<String>(syncStatus),
-      'syncError': serializer.toJson<String?>(syncError),
     };
   }
 
   HydrationEntry copyWith({
     int? id,
-    String? clientId,
-    Value<String?> remoteId = const Value.absent(),
     int? amountMl,
     String? sourceType,
     String? sourceLabel,
@@ -477,12 +351,8 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? deletedAt,
-    String? syncStatus,
-    Value<String?> syncError = const Value.absent(),
   }) => HydrationEntry(
     id: id ?? this.id,
-    clientId: clientId ?? this.clientId,
-    remoteId: remoteId.present ? remoteId.value : this.remoteId,
     amountMl: amountMl ?? this.amountMl,
     sourceType: sourceType ?? this.sourceType,
     sourceLabel: sourceLabel ?? this.sourceLabel,
@@ -491,14 +361,10 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
     deletedAt: deletedAt ?? this.deletedAt,
-    syncStatus: syncStatus ?? this.syncStatus,
-    syncError: syncError.present ? syncError.value : this.syncError,
   );
   HydrationEntry copyWithCompanion(HydrationEntriesCompanion data) {
     return HydrationEntry(
       id: data.id.present ? data.id.value : this.id,
-      clientId: data.clientId.present ? data.clientId.value : this.clientId,
-      remoteId: data.remoteId.present ? data.remoteId.value : this.remoteId,
       amountMl: data.amountMl.present ? data.amountMl.value : this.amountMl,
       sourceType: data.sourceType.present
           ? data.sourceType.value
@@ -511,10 +377,6 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
       deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
-      syncStatus: data.syncStatus.present
-          ? data.syncStatus.value
-          : this.syncStatus,
-      syncError: data.syncError.present ? data.syncError.value : this.syncError,
     );
   }
 
@@ -522,8 +384,6 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
   String toString() {
     return (StringBuffer('HydrationEntry(')
           ..write('id: $id, ')
-          ..write('clientId: $clientId, ')
-          ..write('remoteId: $remoteId, ')
           ..write('amountMl: $amountMl, ')
           ..write('sourceType: $sourceType, ')
           ..write('sourceLabel: $sourceLabel, ')
@@ -531,9 +391,7 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
           ..write('localDate: $localDate, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
-          ..write('deletedAt: $deletedAt, ')
-          ..write('syncStatus: $syncStatus, ')
-          ..write('syncError: $syncError')
+          ..write('deletedAt: $deletedAt')
           ..write(')'))
         .toString();
   }
@@ -541,8 +399,6 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
   @override
   int get hashCode => Object.hash(
     id,
-    clientId,
-    remoteId,
     amountMl,
     sourceType,
     sourceLabel,
@@ -551,16 +407,12 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
     createdAt,
     updatedAt,
     deletedAt,
-    syncStatus,
-    syncError,
   );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is HydrationEntry &&
           other.id == this.id &&
-          other.clientId == this.clientId &&
-          other.remoteId == this.remoteId &&
           other.amountMl == this.amountMl &&
           other.sourceType == this.sourceType &&
           other.sourceLabel == this.sourceLabel &&
@@ -568,15 +420,11 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
           other.localDate == this.localDate &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
-          other.deletedAt == this.deletedAt &&
-          other.syncStatus == this.syncStatus &&
-          other.syncError == this.syncError);
+          other.deletedAt == this.deletedAt);
 }
 
 class HydrationEntriesCompanion extends UpdateCompanion<HydrationEntry> {
   final Value<int> id;
-  final Value<String> clientId;
-  final Value<String?> remoteId;
   final Value<int> amountMl;
   final Value<String> sourceType;
   final Value<String> sourceLabel;
@@ -585,12 +433,8 @@ class HydrationEntriesCompanion extends UpdateCompanion<HydrationEntry> {
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   final Value<DateTime> deletedAt;
-  final Value<String> syncStatus;
-  final Value<String?> syncError;
   const HydrationEntriesCompanion({
     this.id = const Value.absent(),
-    this.clientId = const Value.absent(),
-    this.remoteId = const Value.absent(),
     this.amountMl = const Value.absent(),
     this.sourceType = const Value.absent(),
     this.sourceLabel = const Value.absent(),
@@ -599,13 +443,9 @@ class HydrationEntriesCompanion extends UpdateCompanion<HydrationEntry> {
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.deletedAt = const Value.absent(),
-    this.syncStatus = const Value.absent(),
-    this.syncError = const Value.absent(),
   });
   HydrationEntriesCompanion.insert({
     this.id = const Value.absent(),
-    required String clientId,
-    this.remoteId = const Value.absent(),
     required int amountMl,
     required String sourceType,
     required String sourceLabel,
@@ -614,10 +454,7 @@ class HydrationEntriesCompanion extends UpdateCompanion<HydrationEntry> {
     required DateTime createdAt,
     required DateTime updatedAt,
     required DateTime deletedAt,
-    this.syncStatus = const Value.absent(),
-    this.syncError = const Value.absent(),
-  }) : clientId = Value(clientId),
-       amountMl = Value(amountMl),
+  }) : amountMl = Value(amountMl),
        sourceType = Value(sourceType),
        sourceLabel = Value(sourceLabel),
        consumeAt = Value(consumeAt),
@@ -627,8 +464,6 @@ class HydrationEntriesCompanion extends UpdateCompanion<HydrationEntry> {
        deletedAt = Value(deletedAt);
   static Insertable<HydrationEntry> custom({
     Expression<int>? id,
-    Expression<String>? clientId,
-    Expression<String>? remoteId,
     Expression<int>? amountMl,
     Expression<String>? sourceType,
     Expression<String>? sourceLabel,
@@ -637,13 +472,9 @@ class HydrationEntriesCompanion extends UpdateCompanion<HydrationEntry> {
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<DateTime>? deletedAt,
-    Expression<String>? syncStatus,
-    Expression<String>? syncError,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (clientId != null) 'client_id': clientId,
-      if (remoteId != null) 'remote_id': remoteId,
       if (amountMl != null) 'amount_ml': amountMl,
       if (sourceType != null) 'source_type': sourceType,
       if (sourceLabel != null) 'source_label': sourceLabel,
@@ -652,15 +483,11 @@ class HydrationEntriesCompanion extends UpdateCompanion<HydrationEntry> {
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (deletedAt != null) 'deleted_at': deletedAt,
-      if (syncStatus != null) 'sync_status': syncStatus,
-      if (syncError != null) 'sync_error': syncError,
     });
   }
 
   HydrationEntriesCompanion copyWith({
     Value<int>? id,
-    Value<String>? clientId,
-    Value<String?>? remoteId,
     Value<int>? amountMl,
     Value<String>? sourceType,
     Value<String>? sourceLabel,
@@ -669,13 +496,9 @@ class HydrationEntriesCompanion extends UpdateCompanion<HydrationEntry> {
     Value<DateTime>? createdAt,
     Value<DateTime>? updatedAt,
     Value<DateTime>? deletedAt,
-    Value<String>? syncStatus,
-    Value<String?>? syncError,
   }) {
     return HydrationEntriesCompanion(
       id: id ?? this.id,
-      clientId: clientId ?? this.clientId,
-      remoteId: remoteId ?? this.remoteId,
       amountMl: amountMl ?? this.amountMl,
       sourceType: sourceType ?? this.sourceType,
       sourceLabel: sourceLabel ?? this.sourceLabel,
@@ -684,8 +507,6 @@ class HydrationEntriesCompanion extends UpdateCompanion<HydrationEntry> {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       deletedAt: deletedAt ?? this.deletedAt,
-      syncStatus: syncStatus ?? this.syncStatus,
-      syncError: syncError ?? this.syncError,
     );
   }
 
@@ -694,12 +515,6 @@ class HydrationEntriesCompanion extends UpdateCompanion<HydrationEntry> {
     final map = <String, Expression>{};
     if (id.present) {
       map['id'] = Variable<int>(id.value);
-    }
-    if (clientId.present) {
-      map['client_id'] = Variable<String>(clientId.value);
-    }
-    if (remoteId.present) {
-      map['remote_id'] = Variable<String>(remoteId.value);
     }
     if (amountMl.present) {
       map['amount_ml'] = Variable<int>(amountMl.value);
@@ -725,12 +540,6 @@ class HydrationEntriesCompanion extends UpdateCompanion<HydrationEntry> {
     if (deletedAt.present) {
       map['deleted_at'] = Variable<DateTime>(deletedAt.value);
     }
-    if (syncStatus.present) {
-      map['sync_status'] = Variable<String>(syncStatus.value);
-    }
-    if (syncError.present) {
-      map['sync_error'] = Variable<String>(syncError.value);
-    }
     return map;
   }
 
@@ -738,8 +547,6 @@ class HydrationEntriesCompanion extends UpdateCompanion<HydrationEntry> {
   String toString() {
     return (StringBuffer('HydrationEntriesCompanion(')
           ..write('id: $id, ')
-          ..write('clientId: $clientId, ')
-          ..write('remoteId: $remoteId, ')
           ..write('amountMl: $amountMl, ')
           ..write('sourceType: $sourceType, ')
           ..write('sourceLabel: $sourceLabel, ')
@@ -747,9 +554,7 @@ class HydrationEntriesCompanion extends UpdateCompanion<HydrationEntry> {
           ..write('localDate: $localDate, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
-          ..write('deletedAt: $deletedAt, ')
-          ..write('syncStatus: $syncStatus, ')
-          ..write('syncError: $syncError')
+          ..write('deletedAt: $deletedAt')
           ..write(')'))
         .toString();
   }
@@ -798,17 +603,6 @@ class $DailyGoalsTable extends DailyGoals
     requiredDuringInsert: false,
     defaultValue: const Constant(2000),
   );
-  static const VerificationMeta _remoteIdMeta = const VerificationMeta(
-    'remoteId',
-  );
-  @override
-  late final GeneratedColumn<String> remoteId = GeneratedColumn<String>(
-    'remote_id',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -831,39 +625,13 @@ class $DailyGoalsTable extends DailyGoals
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _syncStatusMeta = const VerificationMeta(
-    'syncStatus',
-  );
-  @override
-  late final GeneratedColumn<String> syncStatus = GeneratedColumn<String>(
-    'sync_status',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    defaultValue: const Constant('pendingCreate'),
-  );
-  static const VerificationMeta _syncErrorMeta = const VerificationMeta(
-    'syncError',
-  );
-  @override
-  late final GeneratedColumn<String> syncError = GeneratedColumn<String>(
-    'sync_error',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
     localDate,
     targetMl,
-    remoteId,
     createdAt,
     updatedAt,
-    syncStatus,
-    syncError,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -894,12 +662,6 @@ class $DailyGoalsTable extends DailyGoals
         targetMl.isAcceptableOrUnknown(data['target_ml']!, _targetMlMeta),
       );
     }
-    if (data.containsKey('remote_id')) {
-      context.handle(
-        _remoteIdMeta,
-        remoteId.isAcceptableOrUnknown(data['remote_id']!, _remoteIdMeta),
-      );
-    }
     if (data.containsKey('created_at')) {
       context.handle(
         _createdAtMeta,
@@ -915,18 +677,6 @@ class $DailyGoalsTable extends DailyGoals
       );
     } else if (isInserting) {
       context.missing(_updatedAtMeta);
-    }
-    if (data.containsKey('sync_status')) {
-      context.handle(
-        _syncStatusMeta,
-        syncStatus.isAcceptableOrUnknown(data['sync_status']!, _syncStatusMeta),
-      );
-    }
-    if (data.containsKey('sync_error')) {
-      context.handle(
-        _syncErrorMeta,
-        syncError.isAcceptableOrUnknown(data['sync_error']!, _syncErrorMeta),
-      );
     }
     return context;
   }
@@ -949,10 +699,6 @@ class $DailyGoalsTable extends DailyGoals
         DriftSqlType.int,
         data['${effectivePrefix}target_ml'],
       )!,
-      remoteId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}remote_id'],
-      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -961,14 +707,6 @@ class $DailyGoalsTable extends DailyGoals
         DriftSqlType.dateTime,
         data['${effectivePrefix}updated_at'],
       )!,
-      syncStatus: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}sync_status'],
-      )!,
-      syncError: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}sync_error'],
-      ),
     );
   }
 
@@ -982,20 +720,14 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
   final int id;
   final String localDate;
   final int targetMl;
-  final String? remoteId;
   final DateTime createdAt;
   final DateTime updatedAt;
-  final String syncStatus;
-  final String? syncError;
   const DailyGoal({
     required this.id,
     required this.localDate,
     required this.targetMl,
-    this.remoteId,
     required this.createdAt,
     required this.updatedAt,
-    required this.syncStatus,
-    this.syncError,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1003,15 +735,8 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
     map['id'] = Variable<int>(id);
     map['local_date'] = Variable<String>(localDate);
     map['target_ml'] = Variable<int>(targetMl);
-    if (!nullToAbsent || remoteId != null) {
-      map['remote_id'] = Variable<String>(remoteId);
-    }
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
-    map['sync_status'] = Variable<String>(syncStatus);
-    if (!nullToAbsent || syncError != null) {
-      map['sync_error'] = Variable<String>(syncError);
-    }
     return map;
   }
 
@@ -1020,15 +745,8 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
       id: Value(id),
       localDate: Value(localDate),
       targetMl: Value(targetMl),
-      remoteId: remoteId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(remoteId),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
-      syncStatus: Value(syncStatus),
-      syncError: syncError == null && nullToAbsent
-          ? const Value.absent()
-          : Value(syncError),
     );
   }
 
@@ -1041,11 +759,8 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
       id: serializer.fromJson<int>(json['id']),
       localDate: serializer.fromJson<String>(json['localDate']),
       targetMl: serializer.fromJson<int>(json['targetMl']),
-      remoteId: serializer.fromJson<String?>(json['remoteId']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
-      syncStatus: serializer.fromJson<String>(json['syncStatus']),
-      syncError: serializer.fromJson<String?>(json['syncError']),
     );
   }
   @override
@@ -1055,11 +770,8 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
       'id': serializer.toJson<int>(id),
       'localDate': serializer.toJson<String>(localDate),
       'targetMl': serializer.toJson<int>(targetMl),
-      'remoteId': serializer.toJson<String?>(remoteId),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
-      'syncStatus': serializer.toJson<String>(syncStatus),
-      'syncError': serializer.toJson<String?>(syncError),
     };
   }
 
@@ -1067,33 +779,22 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
     int? id,
     String? localDate,
     int? targetMl,
-    Value<String?> remoteId = const Value.absent(),
     DateTime? createdAt,
     DateTime? updatedAt,
-    String? syncStatus,
-    Value<String?> syncError = const Value.absent(),
   }) => DailyGoal(
     id: id ?? this.id,
     localDate: localDate ?? this.localDate,
     targetMl: targetMl ?? this.targetMl,
-    remoteId: remoteId.present ? remoteId.value : this.remoteId,
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
-    syncStatus: syncStatus ?? this.syncStatus,
-    syncError: syncError.present ? syncError.value : this.syncError,
   );
   DailyGoal copyWithCompanion(DailyGoalsCompanion data) {
     return DailyGoal(
       id: data.id.present ? data.id.value : this.id,
       localDate: data.localDate.present ? data.localDate.value : this.localDate,
       targetMl: data.targetMl.present ? data.targetMl.value : this.targetMl,
-      remoteId: data.remoteId.present ? data.remoteId.value : this.remoteId,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
-      syncStatus: data.syncStatus.present
-          ? data.syncStatus.value
-          : this.syncStatus,
-      syncError: data.syncError.present ? data.syncError.value : this.syncError,
     );
   }
 
@@ -1103,26 +804,15 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
           ..write('id: $id, ')
           ..write('localDate: $localDate, ')
           ..write('targetMl: $targetMl, ')
-          ..write('remoteId: $remoteId, ')
           ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt, ')
-          ..write('syncStatus: $syncStatus, ')
-          ..write('syncError: $syncError')
+          ..write('updatedAt: $updatedAt')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
-    id,
-    localDate,
-    targetMl,
-    remoteId,
-    createdAt,
-    updatedAt,
-    syncStatus,
-    syncError,
-  );
+  int get hashCode =>
+      Object.hash(id, localDate, targetMl, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1130,41 +820,29 @@ class DailyGoal extends DataClass implements Insertable<DailyGoal> {
           other.id == this.id &&
           other.localDate == this.localDate &&
           other.targetMl == this.targetMl &&
-          other.remoteId == this.remoteId &&
           other.createdAt == this.createdAt &&
-          other.updatedAt == this.updatedAt &&
-          other.syncStatus == this.syncStatus &&
-          other.syncError == this.syncError);
+          other.updatedAt == this.updatedAt);
 }
 
 class DailyGoalsCompanion extends UpdateCompanion<DailyGoal> {
   final Value<int> id;
   final Value<String> localDate;
   final Value<int> targetMl;
-  final Value<String?> remoteId;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
-  final Value<String> syncStatus;
-  final Value<String?> syncError;
   const DailyGoalsCompanion({
     this.id = const Value.absent(),
     this.localDate = const Value.absent(),
     this.targetMl = const Value.absent(),
-    this.remoteId = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
-    this.syncStatus = const Value.absent(),
-    this.syncError = const Value.absent(),
   });
   DailyGoalsCompanion.insert({
     this.id = const Value.absent(),
     required String localDate,
     this.targetMl = const Value.absent(),
-    this.remoteId = const Value.absent(),
     required DateTime createdAt,
     required DateTime updatedAt,
-    this.syncStatus = const Value.absent(),
-    this.syncError = const Value.absent(),
   }) : localDate = Value(localDate),
        createdAt = Value(createdAt),
        updatedAt = Value(updatedAt);
@@ -1172,21 +850,15 @@ class DailyGoalsCompanion extends UpdateCompanion<DailyGoal> {
     Expression<int>? id,
     Expression<String>? localDate,
     Expression<int>? targetMl,
-    Expression<String>? remoteId,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
-    Expression<String>? syncStatus,
-    Expression<String>? syncError,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (localDate != null) 'local_date': localDate,
       if (targetMl != null) 'target_ml': targetMl,
-      if (remoteId != null) 'remote_id': remoteId,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
-      if (syncStatus != null) 'sync_status': syncStatus,
-      if (syncError != null) 'sync_error': syncError,
     });
   }
 
@@ -1194,21 +866,15 @@ class DailyGoalsCompanion extends UpdateCompanion<DailyGoal> {
     Value<int>? id,
     Value<String>? localDate,
     Value<int>? targetMl,
-    Value<String?>? remoteId,
     Value<DateTime>? createdAt,
     Value<DateTime>? updatedAt,
-    Value<String>? syncStatus,
-    Value<String?>? syncError,
   }) {
     return DailyGoalsCompanion(
       id: id ?? this.id,
       localDate: localDate ?? this.localDate,
       targetMl: targetMl ?? this.targetMl,
-      remoteId: remoteId ?? this.remoteId,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
-      syncStatus: syncStatus ?? this.syncStatus,
-      syncError: syncError ?? this.syncError,
     );
   }
 
@@ -1224,20 +890,11 @@ class DailyGoalsCompanion extends UpdateCompanion<DailyGoal> {
     if (targetMl.present) {
       map['target_ml'] = Variable<int>(targetMl.value);
     }
-    if (remoteId.present) {
-      map['remote_id'] = Variable<String>(remoteId.value);
-    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
     if (updatedAt.present) {
       map['updated_at'] = Variable<DateTime>(updatedAt.value);
-    }
-    if (syncStatus.present) {
-      map['sync_status'] = Variable<String>(syncStatus.value);
-    }
-    if (syncError.present) {
-      map['sync_error'] = Variable<String>(syncError.value);
     }
     return map;
   }
@@ -1248,11 +905,8 @@ class DailyGoalsCompanion extends UpdateCompanion<DailyGoal> {
           ..write('id: $id, ')
           ..write('localDate: $localDate, ')
           ..write('targetMl: $targetMl, ')
-          ..write('remoteId: $remoteId, ')
           ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt, ')
-          ..write('syncStatus: $syncStatus, ')
-          ..write('syncError: $syncError')
+          ..write('updatedAt: $updatedAt')
           ..write(')'))
         .toString();
   }
@@ -1278,8 +932,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 typedef $$HydrationEntriesTableCreateCompanionBuilder =
     HydrationEntriesCompanion Function({
       Value<int> id,
-      required String clientId,
-      Value<String?> remoteId,
       required int amountMl,
       required String sourceType,
       required String sourceLabel,
@@ -1288,14 +940,10 @@ typedef $$HydrationEntriesTableCreateCompanionBuilder =
       required DateTime createdAt,
       required DateTime updatedAt,
       required DateTime deletedAt,
-      Value<String> syncStatus,
-      Value<String?> syncError,
     });
 typedef $$HydrationEntriesTableUpdateCompanionBuilder =
     HydrationEntriesCompanion Function({
       Value<int> id,
-      Value<String> clientId,
-      Value<String?> remoteId,
       Value<int> amountMl,
       Value<String> sourceType,
       Value<String> sourceLabel,
@@ -1304,8 +952,6 @@ typedef $$HydrationEntriesTableUpdateCompanionBuilder =
       Value<DateTime> createdAt,
       Value<DateTime> updatedAt,
       Value<DateTime> deletedAt,
-      Value<String> syncStatus,
-      Value<String?> syncError,
     });
 
 class $$HydrationEntriesTableFilterComposer
@@ -1319,16 +965,6 @@ class $$HydrationEntriesTableFilterComposer
   });
   ColumnFilters<int> get id => $composableBuilder(
     column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get clientId => $composableBuilder(
-    column: $table.clientId,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get remoteId => $composableBuilder(
-    column: $table.remoteId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1371,16 +1007,6 @@ class $$HydrationEntriesTableFilterComposer
     column: $table.deletedAt,
     builder: (column) => ColumnFilters(column),
   );
-
-  ColumnFilters<String> get syncStatus => $composableBuilder(
-    column: $table.syncStatus,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get syncError => $composableBuilder(
-    column: $table.syncError,
-    builder: (column) => ColumnFilters(column),
-  );
 }
 
 class $$HydrationEntriesTableOrderingComposer
@@ -1394,16 +1020,6 @@ class $$HydrationEntriesTableOrderingComposer
   });
   ColumnOrderings<int> get id => $composableBuilder(
     column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get clientId => $composableBuilder(
-    column: $table.clientId,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get remoteId => $composableBuilder(
-    column: $table.remoteId,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -1446,16 +1062,6 @@ class $$HydrationEntriesTableOrderingComposer
     column: $table.deletedAt,
     builder: (column) => ColumnOrderings(column),
   );
-
-  ColumnOrderings<String> get syncStatus => $composableBuilder(
-    column: $table.syncStatus,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get syncError => $composableBuilder(
-    column: $table.syncError,
-    builder: (column) => ColumnOrderings(column),
-  );
 }
 
 class $$HydrationEntriesTableAnnotationComposer
@@ -1469,12 +1075,6 @@ class $$HydrationEntriesTableAnnotationComposer
   });
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get clientId =>
-      $composableBuilder(column: $table.clientId, builder: (column) => column);
-
-  GeneratedColumn<String> get remoteId =>
-      $composableBuilder(column: $table.remoteId, builder: (column) => column);
 
   GeneratedColumn<int> get amountMl =>
       $composableBuilder(column: $table.amountMl, builder: (column) => column);
@@ -1503,14 +1103,6 @@ class $$HydrationEntriesTableAnnotationComposer
 
   GeneratedColumn<DateTime> get deletedAt =>
       $composableBuilder(column: $table.deletedAt, builder: (column) => column);
-
-  GeneratedColumn<String> get syncStatus => $composableBuilder(
-    column: $table.syncStatus,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get syncError =>
-      $composableBuilder(column: $table.syncError, builder: (column) => column);
 }
 
 class $$HydrationEntriesTableTableManager
@@ -1551,8 +1143,6 @@ class $$HydrationEntriesTableTableManager
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                Value<String> clientId = const Value.absent(),
-                Value<String?> remoteId = const Value.absent(),
                 Value<int> amountMl = const Value.absent(),
                 Value<String> sourceType = const Value.absent(),
                 Value<String> sourceLabel = const Value.absent(),
@@ -1561,12 +1151,8 @@ class $$HydrationEntriesTableTableManager
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime> updatedAt = const Value.absent(),
                 Value<DateTime> deletedAt = const Value.absent(),
-                Value<String> syncStatus = const Value.absent(),
-                Value<String?> syncError = const Value.absent(),
               }) => HydrationEntriesCompanion(
                 id: id,
-                clientId: clientId,
-                remoteId: remoteId,
                 amountMl: amountMl,
                 sourceType: sourceType,
                 sourceLabel: sourceLabel,
@@ -1575,14 +1161,10 @@ class $$HydrationEntriesTableTableManager
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 deletedAt: deletedAt,
-                syncStatus: syncStatus,
-                syncError: syncError,
               ),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                required String clientId,
-                Value<String?> remoteId = const Value.absent(),
                 required int amountMl,
                 required String sourceType,
                 required String sourceLabel,
@@ -1591,12 +1173,8 @@ class $$HydrationEntriesTableTableManager
                 required DateTime createdAt,
                 required DateTime updatedAt,
                 required DateTime deletedAt,
-                Value<String> syncStatus = const Value.absent(),
-                Value<String?> syncError = const Value.absent(),
               }) => HydrationEntriesCompanion.insert(
                 id: id,
-                clientId: clientId,
-                remoteId: remoteId,
                 amountMl: amountMl,
                 sourceType: sourceType,
                 sourceLabel: sourceLabel,
@@ -1605,8 +1183,6 @@ class $$HydrationEntriesTableTableManager
                 createdAt: createdAt,
                 updatedAt: updatedAt,
                 deletedAt: deletedAt,
-                syncStatus: syncStatus,
-                syncError: syncError,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
@@ -1638,22 +1214,16 @@ typedef $$DailyGoalsTableCreateCompanionBuilder =
       Value<int> id,
       required String localDate,
       Value<int> targetMl,
-      Value<String?> remoteId,
       required DateTime createdAt,
       required DateTime updatedAt,
-      Value<String> syncStatus,
-      Value<String?> syncError,
     });
 typedef $$DailyGoalsTableUpdateCompanionBuilder =
     DailyGoalsCompanion Function({
       Value<int> id,
       Value<String> localDate,
       Value<int> targetMl,
-      Value<String?> remoteId,
       Value<DateTime> createdAt,
       Value<DateTime> updatedAt,
-      Value<String> syncStatus,
-      Value<String?> syncError,
     });
 
 class $$DailyGoalsTableFilterComposer
@@ -1680,11 +1250,6 @@ class $$DailyGoalsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get remoteId => $composableBuilder(
-    column: $table.remoteId,
-    builder: (column) => ColumnFilters(column),
-  );
-
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnFilters(column),
@@ -1692,16 +1257,6 @@ class $$DailyGoalsTableFilterComposer
 
   ColumnFilters<DateTime> get updatedAt => $composableBuilder(
     column: $table.updatedAt,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get syncStatus => $composableBuilder(
-    column: $table.syncStatus,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get syncError => $composableBuilder(
-    column: $table.syncError,
     builder: (column) => ColumnFilters(column),
   );
 }
@@ -1730,11 +1285,6 @@ class $$DailyGoalsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get remoteId => $composableBuilder(
-    column: $table.remoteId,
-    builder: (column) => ColumnOrderings(column),
-  );
-
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -1742,16 +1292,6 @@ class $$DailyGoalsTableOrderingComposer
 
   ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
     column: $table.updatedAt,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get syncStatus => $composableBuilder(
-    column: $table.syncStatus,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get syncError => $composableBuilder(
-    column: $table.syncError,
     builder: (column) => ColumnOrderings(column),
   );
 }
@@ -1774,22 +1314,11 @@ class $$DailyGoalsTableAnnotationComposer
   GeneratedColumn<int> get targetMl =>
       $composableBuilder(column: $table.targetMl, builder: (column) => column);
 
-  GeneratedColumn<String> get remoteId =>
-      $composableBuilder(column: $table.remoteId, builder: (column) => column);
-
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
   GeneratedColumn<DateTime> get updatedAt =>
       $composableBuilder(column: $table.updatedAt, builder: (column) => column);
-
-  GeneratedColumn<String> get syncStatus => $composableBuilder(
-    column: $table.syncStatus,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get syncError =>
-      $composableBuilder(column: $table.syncError, builder: (column) => column);
 }
 
 class $$DailyGoalsTableTableManager
@@ -1826,40 +1355,28 @@ class $$DailyGoalsTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<String> localDate = const Value.absent(),
                 Value<int> targetMl = const Value.absent(),
-                Value<String?> remoteId = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime> updatedAt = const Value.absent(),
-                Value<String> syncStatus = const Value.absent(),
-                Value<String?> syncError = const Value.absent(),
               }) => DailyGoalsCompanion(
                 id: id,
                 localDate: localDate,
                 targetMl: targetMl,
-                remoteId: remoteId,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
-                syncStatus: syncStatus,
-                syncError: syncError,
               ),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
                 required String localDate,
                 Value<int> targetMl = const Value.absent(),
-                Value<String?> remoteId = const Value.absent(),
                 required DateTime createdAt,
                 required DateTime updatedAt,
-                Value<String> syncStatus = const Value.absent(),
-                Value<String?> syncError = const Value.absent(),
               }) => DailyGoalsCompanion.insert(
                 id: id,
                 localDate: localDate,
                 targetMl: targetMl,
-                remoteId: remoteId,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
-                syncStatus: syncStatus,
-                syncError: syncError,
               ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
