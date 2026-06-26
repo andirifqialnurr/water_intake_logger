@@ -106,9 +106,9 @@ class $HydrationEntriesTable extends HydrationEntries
   late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
     'deleted_at',
     aliasedName,
-    false,
+    true,
     type: DriftSqlType.dateTime,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
   );
   @override
   List<GeneratedColumn> get $columns => [
@@ -201,8 +201,6 @@ class $HydrationEntriesTable extends HydrationEntries
         _deletedAtMeta,
         deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta),
       );
-    } else if (isInserting) {
-      context.missing(_deletedAtMeta);
     }
     return context;
   }
@@ -248,7 +246,7 @@ class $HydrationEntriesTable extends HydrationEntries
       deletedAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}deleted_at'],
-      )!,
+      ),
     );
   }
 
@@ -267,7 +265,7 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
   final String localDate;
   final DateTime createdAt;
   final DateTime updatedAt;
-  final DateTime deletedAt;
+  final DateTime? deletedAt;
   const HydrationEntry({
     required this.id,
     required this.amountMl,
@@ -277,7 +275,7 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
     required this.localDate,
     required this.createdAt,
     required this.updatedAt,
-    required this.deletedAt,
+    this.deletedAt,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -290,7 +288,9 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
     map['local_date'] = Variable<String>(localDate);
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
-    map['deleted_at'] = Variable<DateTime>(deletedAt);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
     return map;
   }
 
@@ -304,7 +304,9 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
       localDate: Value(localDate),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
-      deletedAt: Value(deletedAt),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
     );
   }
 
@@ -322,7 +324,7 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
       localDate: serializer.fromJson<String>(json['localDate']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
-      deletedAt: serializer.fromJson<DateTime>(json['deletedAt']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
     );
   }
   @override
@@ -337,7 +339,7 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
       'localDate': serializer.toJson<String>(localDate),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
-      'deletedAt': serializer.toJson<DateTime>(deletedAt),
+      'deletedAt': serializer.toJson<DateTime?>(deletedAt),
     };
   }
 
@@ -350,7 +352,7 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
     String? localDate,
     DateTime? createdAt,
     DateTime? updatedAt,
-    DateTime? deletedAt,
+    Value<DateTime?> deletedAt = const Value.absent(),
   }) => HydrationEntry(
     id: id ?? this.id,
     amountMl: amountMl ?? this.amountMl,
@@ -360,7 +362,7 @@ class HydrationEntry extends DataClass implements Insertable<HydrationEntry> {
     localDate: localDate ?? this.localDate,
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
-    deletedAt: deletedAt ?? this.deletedAt,
+    deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
   );
   HydrationEntry copyWithCompanion(HydrationEntriesCompanion data) {
     return HydrationEntry(
@@ -432,7 +434,7 @@ class HydrationEntriesCompanion extends UpdateCompanion<HydrationEntry> {
   final Value<String> localDate;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
-  final Value<DateTime> deletedAt;
+  final Value<DateTime?> deletedAt;
   const HydrationEntriesCompanion({
     this.id = const Value.absent(),
     this.amountMl = const Value.absent(),
@@ -453,15 +455,14 @@ class HydrationEntriesCompanion extends UpdateCompanion<HydrationEntry> {
     required String localDate,
     required DateTime createdAt,
     required DateTime updatedAt,
-    required DateTime deletedAt,
+    this.deletedAt = const Value.absent(),
   }) : amountMl = Value(amountMl),
        sourceType = Value(sourceType),
        sourceLabel = Value(sourceLabel),
        consumeAt = Value(consumeAt),
        localDate = Value(localDate),
        createdAt = Value(createdAt),
-       updatedAt = Value(updatedAt),
-       deletedAt = Value(deletedAt);
+       updatedAt = Value(updatedAt);
   static Insertable<HydrationEntry> custom({
     Expression<int>? id,
     Expression<int>? amountMl,
@@ -495,7 +496,7 @@ class HydrationEntriesCompanion extends UpdateCompanion<HydrationEntry> {
     Value<String>? localDate,
     Value<DateTime>? createdAt,
     Value<DateTime>? updatedAt,
-    Value<DateTime>? deletedAt,
+    Value<DateTime?>? deletedAt,
   }) {
     return HydrationEntriesCompanion(
       id: id ?? this.id,
@@ -939,7 +940,7 @@ typedef $$HydrationEntriesTableCreateCompanionBuilder =
       required String localDate,
       required DateTime createdAt,
       required DateTime updatedAt,
-      required DateTime deletedAt,
+      Value<DateTime?> deletedAt,
     });
 typedef $$HydrationEntriesTableUpdateCompanionBuilder =
     HydrationEntriesCompanion Function({
@@ -951,7 +952,7 @@ typedef $$HydrationEntriesTableUpdateCompanionBuilder =
       Value<String> localDate,
       Value<DateTime> createdAt,
       Value<DateTime> updatedAt,
-      Value<DateTime> deletedAt,
+      Value<DateTime?> deletedAt,
     });
 
 class $$HydrationEntriesTableFilterComposer
@@ -1150,7 +1151,7 @@ class $$HydrationEntriesTableTableManager
                 Value<String> localDate = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime> updatedAt = const Value.absent(),
-                Value<DateTime> deletedAt = const Value.absent(),
+                Value<DateTime?> deletedAt = const Value.absent(),
               }) => HydrationEntriesCompanion(
                 id: id,
                 amountMl: amountMl,
@@ -1172,7 +1173,7 @@ class $$HydrationEntriesTableTableManager
                 required String localDate,
                 required DateTime createdAt,
                 required DateTime updatedAt,
-                required DateTime deletedAt,
+                Value<DateTime?> deletedAt = const Value.absent(),
               }) => HydrationEntriesCompanion.insert(
                 id: id,
                 amountMl: amountMl,

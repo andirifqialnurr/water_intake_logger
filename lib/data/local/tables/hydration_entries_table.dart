@@ -9,5 +9,5 @@ class HydrationEntries extends Table {
   TextColumn get localDate => text()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
-  DateTimeColumn get deletedAt => dateTime()();
+  DateTimeColumn get deletedAt => dateTime().nullable()();
 }
