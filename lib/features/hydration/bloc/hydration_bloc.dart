@@ -33,7 +33,7 @@ class HydrationBloc extends Bloc<HydrationEvent, HydrationState> {
     try {
       await repository.addWater(
         amountMl: event.amountMl,
-        sourceType: event.sourceLabel,
+        sourceType: event.sourceType,
         sourceLabel: event.sourceLabel,
       );
       final summary = await repository.getTodaySummary();
