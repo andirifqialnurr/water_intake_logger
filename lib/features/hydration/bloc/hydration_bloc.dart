@@ -20,8 +20,7 @@ class HydrationBloc extends Bloc<HydrationEvent, HydrationState> {
     emit(const HydrationLoading());
 
     try {
-      final summary = await repository.getTodaySummary();
-      emit(HydrationSuccess(summary: summary));
+      await _emitHydrationSuccess(emit);
     } catch (error) {
       emit(HydrationFailure(message: error.toString()));
     }
@@ -37,9 +36,7 @@ class HydrationBloc extends Bloc<HydrationEvent, HydrationState> {
         sourceType: event.sourceType,
         sourceLabel: event.sourceLabel,
       );
-      final summary = await repository.getTodaySummary();
-
-      emit(HydrationSuccess(summary: summary));
+      await _emitHydrationSuccess(emit);
     } catch (error) {
       emit(HydrationFailure(message: error.toString()));
     }
@@ -56,8 +53,7 @@ class HydrationBloc extends Bloc<HydrationEvent, HydrationState> {
         sourceLabel: event.sourceLabel,
       );
 
-      final summary = await repository.getTodaySummary();
-      emit(HydrationSuccess(summary: summary));
+      await _emitHydrationSuccess(emit);
     } catch (error) {
       emit(HydrationFailure(message: error.toString()));
     }
@@ -69,11 +65,24 @@ class HydrationBloc extends Bloc<HydrationEvent, HydrationState> {
   ) async {
     try {
       await repository.setTodayGoal(event.targetMl);
-      final summary = await repository.getTodaySummary();
 
-      emit(HydrationSuccess(summary: summary));
+      await _emitHydrationSuccess(emit);
     } catch (error) {
       emit(HydrationFailure(message: error.toString()));
     }
+  }
+
+  Future<void> _emitHydrationSuccess(Emitter<HydrationState> emit) async {
+    final summary = await repository.getTodaySummary();
+    final history = await repository.getHistorySummaries();
+    final weeklyProgress = await repository.getCurrentWeekSummaries();
+
+    emit(
+      HydrationSuccess(
+        summary: summary,
+        history: history,
+        weeklyProgress: weeklyProgress,
+      ),
+    );
   }
 }

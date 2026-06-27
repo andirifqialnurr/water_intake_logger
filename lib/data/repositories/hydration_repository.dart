@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:water_intake_logger/data/local/app_database.dart';
+import 'package:water_intake_logger/features/hydration/models/hydration_daily_summary.dart';
 import 'package:water_intake_logger/features/hydration/models/hydration_today_summary.dart';
 
 class HydrationRepository {
@@ -13,6 +14,10 @@ class HydrationRepository {
     final day = date.day.toString().padLeft(2, '0');
 
     return '$year-$month-$day';
+  }
+
+  DateTime _dateOnly(DateTime date) {
+    return DateTime(date.year, date.month, date.day);
   }
 
   Future<void> addWater({
@@ -140,5 +145,58 @@ class HydrationRepository {
     )..where((goal) => goal.id.equals(existing.id))).write(
       DailyGoalsCompanion(targetMl: Value(targetMl), updatedAt: Value(now)),
     );
+  }
+
+  Future<int> getTargetMlByDate(DateTime date) async {
+    final localDate = _dateKey(date);
+
+    final goal = await (db.select(
+      db.dailyGoals,
+    )..where((goal) => goal.localDate.equals(localDate))).getSingleOrNull();
+
+    return goal?.targetMl ?? 2000;
+  }
+
+  Future<HydrationDailySummary> getDailySummaryByDate(DateTime date) async {
+    final totalMl = await getTotalMlByDate(date);
+    final targetMl = await getTargetMlByDate(date);
+
+    return HydrationDailySummary(
+      date: _dateOnly(date),
+      totalMl: totalMl,
+      targetMl: targetMl,
+    );
+  }
+
+  Future<List<HydrationDailySummary>> getCurrentWeekSummaries() async {
+    final today = _dateOnly(DateTime.now());
+    final monday = today.subtract(Duration(days: today.weekday - 1));
+
+    final summaries = <HydrationDailySummary>[];
+
+    for (var i = 0; i < 7; i++) {
+      final date = monday.add(Duration(days: i));
+      summaries.add(await getDailySummaryByDate(date));
+    }
+
+    return summaries;
+  }
+
+  Future<List<HydrationDailySummary>> getHistorySummaries({
+    int days = 4,
+  }) async {
+    final today = _dateOnly(DateTime.now());
+    final summaries = <HydrationDailySummary>[];
+
+    for (var i = 0; i < days; i++) {
+      final date = today.subtract(Duration(days: i));
+      final summary = await getDailySummaryByDate(date);
+
+      if (summary.totalMl > 0) {
+        summaries.add(summary);
+      }
+    }
+
+    return summaries;
   }
 }
