@@ -6,7 +6,16 @@ import 'package:water_intake_logger/widgets/badges/badge_widget.dart';
 import 'package:water_intake_logger/widgets/text_widget.dart';
 
 class SummaryProgressCard extends StatelessWidget {
-  const SummaryProgressCard({super.key});
+  final String averageLiter;
+  final int goalPercentage;
+  final int streakDays;
+
+  const SummaryProgressCard({
+    required this.averageLiter,
+    required this.goalPercentage,
+    required this.streakDays,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +47,7 @@ class SummaryProgressCard extends StatelessWidget {
                       TextSpan(
                         children: [
                           TextSpan(
-                            text: "2.4 ",
+                            text: "$averageLiter ",
                             style: TextStyle(
                               color: colors.onPrimary,
                               fontSize: 40,
@@ -72,7 +81,7 @@ class SummaryProgressCard extends StatelessWidget {
                       TextSpan(
                         children: [
                           TextSpan(
-                            text: "85.8 ",
+                            text: "$goalPercentage ",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 40,
@@ -133,7 +142,7 @@ class SummaryProgressCard extends StatelessWidget {
               Expanded(
                 child: BadgeWidget(
                   text:
-                      "${languageController.strings.streak} : 5 ${languageController.strings.day}",
+                      "${languageController.strings.streak} : $streakDays ${languageController.strings.day}",
                 ),
               ),
             ],
