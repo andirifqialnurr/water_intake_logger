@@ -7,8 +7,8 @@ class HydrationTodaySummary extends Equatable {
   const HydrationTodaySummary({required this.totalMl, required this.targetMl});
 
   double get progress {
-    if (targetMl < 0) return 0;
-    return totalMl / targetMl;
+    if (targetMl <= 0) return 0;
+    return (totalMl / targetMl).clamp(0, 1).toDouble();
   }
 
   int get percentage {

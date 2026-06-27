@@ -38,6 +38,33 @@ class HydrationRepository {
         );
   }
 
+  Future<void> removeWater({
+    required int amountMl,
+    required String sourceType,
+    required String sourceLabel,
+    DateTime? consumeAt,
+  }) async {
+    final now = consumeAt ?? DateTime.now();
+    final currentTotal = await getTotalMlByDate(now);
+    final amountToRemove = amountMl > currentTotal ? currentTotal : amountMl;
+
+    if (amountToRemove <= 0) return;
+
+    await db
+        .into(db.hydrationEntries)
+        .insert(
+          HydrationEntriesCompanion.insert(
+            amountMl: -amountToRemove,
+            sourceType: sourceType,
+            sourceLabel: sourceLabel,
+            consumeAt: now,
+            localDate: _dateKey(now),
+            createdAt: now,
+            updatedAt: now,
+          ),
+        );
+  }
+
   Future<int> getTotalMlByDate(DateTime date) async {
     final localDate = _dateKey(date);
 
@@ -46,7 +73,9 @@ class HydrationRepository {
               ..where((entry) => entry.localDate.equals(localDate))
               ..where((entry) => entry.deletedAt.isNull()))
             .get();
-    return rows.fold<int>(0, (total, entry) => total + entry.amountMl);
+    final total = rows.fold<int>(0, (total, entry) => total + entry.amountMl);
+
+    return total < 0 ? 0 : total;
   }
 
   Future<DailyGoal> getOrCreateGoalByDate(DateTime date) async {

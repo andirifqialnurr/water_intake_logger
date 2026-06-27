@@ -90,7 +90,15 @@ class HomePage extends StatelessWidget {
                           ),
                         );
                       },
-                      onLongPress: () {},
+                      onLongPress: () {
+                        context.read<HydrationBloc>().add(
+                          HydrationWaterRemoved(
+                            amountMl: 250,
+                            sourceType: 'preset_removed',
+                            sourceLabel: languageController.strings.button1,
+                          ),
+                        );
+                      },
                     ),
                     ButtonAddWaterItems(
                       iconData: Icons.water_drop_outlined,
@@ -107,7 +115,15 @@ class HomePage extends StatelessWidget {
                           ),
                         );
                       },
-                      onLongPress: () {},
+                      onLongPress: () {
+                        context.read<HydrationBloc>().add(
+                          HydrationWaterRemoved(
+                            amountMl: 700,
+                            sourceType: 'preset_removed',
+                            sourceLabel: languageController.strings.button2,
+                          ),
+                        );
+                      },
                     ),
                     ButtonAddWaterItems(
                       iconData: Icons.local_drink,
@@ -124,7 +140,15 @@ class HomePage extends StatelessWidget {
                           ),
                         );
                       },
-                      onLongPress: () {},
+                      onLongPress: () {
+                        context.read<HydrationBloc>().add(
+                          HydrationWaterRemoved(
+                            amountMl: 500,
+                            sourceType: 'preset_removed',
+                            sourceLabel: languageController.strings.button3,
+                          ),
+                        );
+                      },
                     ),
                     ButtonAddWaterItems(
                       iconData: Icons.hourglass_bottom_outlined,
@@ -141,7 +165,15 @@ class HomePage extends StatelessWidget {
                           ),
                         );
                       },
-                      onLongPress: () {},
+                      onLongPress: () {
+                        context.read<HydrationBloc>().add(
+                          HydrationWaterRemoved(
+                            amountMl: 1000,
+                            sourceType: 'preset_removed',
+                            sourceLabel: languageController.strings.button4,
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),

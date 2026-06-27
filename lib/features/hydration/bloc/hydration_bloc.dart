@@ -9,6 +9,7 @@ class HydrationBloc extends Bloc<HydrationEvent, HydrationState> {
   HydrationBloc({required this.repository}) : super(const HydrationInitial()) {
     on<HydrationStarted>(_onStarted);
     on<HydrationWaterAdded>(_onWaterAdded);
+    on<HydrationWaterRemoved>(_onWaterRemoved);
     on<HydrationGoalChanged>(_onGoalChanged);
   }
 
@@ -38,6 +39,24 @@ class HydrationBloc extends Bloc<HydrationEvent, HydrationState> {
       );
       final summary = await repository.getTodaySummary();
 
+      emit(HydrationSuccess(summary: summary));
+    } catch (error) {
+      emit(HydrationFailure(message: error.toString()));
+    }
+  }
+
+  Future<void> _onWaterRemoved(
+    HydrationWaterRemoved event,
+    Emitter<HydrationState> emit,
+  ) async {
+    try {
+      await repository.removeWater(
+        amountMl: event.amountMl,
+        sourceType: event.sourceType,
+        sourceLabel: event.sourceLabel,
+      );
+
+      final summary = await repository.getTodaySummary();
       emit(HydrationSuccess(summary: summary));
     } catch (error) {
       emit(HydrationFailure(message: error.toString()));
