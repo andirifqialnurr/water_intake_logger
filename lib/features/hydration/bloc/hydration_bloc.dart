@@ -76,12 +76,14 @@ class HydrationBloc extends Bloc<HydrationEvent, HydrationState> {
     final summary = await repository.getTodaySummary();
     final history = await repository.getHistorySummaries();
     final weeklyProgress = await repository.getCurrentWeekSummaries();
+    final profileSummary = await repository.getProfileSummary();
 
     emit(
       HydrationSuccess(
         summary: summary,
         history: history,
         weeklyProgress: weeklyProgress,
+        profileSummary: profileSummary,
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:water_intake_logger/data/local/app_database.dart';
 import 'package:water_intake_logger/features/hydration/models/hydration_daily_summary.dart';
+import 'package:water_intake_logger/features/hydration/models/hydration_profile_summary.dart';
 import 'package:water_intake_logger/features/hydration/models/hydration_today_summary.dart';
 
 class HydrationRepository {
@@ -198,5 +199,64 @@ class HydrationRepository {
     }
 
     return summaries;
+  }
+
+  Future<int> getLifetimeTotalMl() async {
+    final rows = await (db.select(
+      db.hydrationEntries,
+    )..where((entry) => entry.deletedAt.isNull())).get();
+
+    final total = rows.fold<int>(0, (total, entry) {
+      return total + entry.amountMl;
+    });
+
+    return total < 0 ? 0 : total;
+  }
+
+  Future<DateTime?> getLastDrink() async {
+    final rows =
+        await (db.select(db.hydrationEntries)
+              ..where((entry) => entry.deletedAt.isNull())
+              ..where((entry) => entry.amountMl.isBiggerThanValue(0))
+              ..orderBy([
+                (entry) => OrderingTerm(
+                  expression: entry.consumeAt,
+                  mode: OrderingMode.desc,
+                ),
+              ])
+              ..limit(1))
+            .get();
+    if (rows.isEmpty) return null;
+
+    return rows.first.consumeAt;
+  }
+
+  Future<int> getCurrentStreakDays({int maxLookbackDays = 365}) async {
+    final today = _dateOnly(DateTime.now());
+
+    var streak = 0;
+
+    for (var i = 0; i < maxLookbackDays; i++) {
+      final date = today.subtract(Duration(days: i));
+      final summary = await getDailySummaryByDate(date);
+
+      if (!summary.isAchieved) break;
+
+      streak++;
+    }
+
+    return streak;
+  }
+
+  Future<HydrationProfileSummary> getProfileSummary() async {
+    final lifetimeMl = await getLifetimeTotalMl();
+    final currentStreakDays = await getCurrentStreakDays();
+    final lastDrinkAt = await getLastDrink();
+
+    return HydrationProfileSummary(
+      lifetimeMl: lifetimeMl,
+      currentStreakDays: currentStreakDays,
+      lastDrinkAt: lastDrinkAt,
+    );
   }
 }
