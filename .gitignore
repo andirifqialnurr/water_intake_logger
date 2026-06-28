@@ -33,6 +33,11 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Local agent guidance and planning docs
+agent.md
+architechture.md
+TODO.md
+
 # Symbolication related
 app.*.symbols
 
