@@ -34,6 +34,24 @@ class ProgressPage extends StatelessWidget {
     }
   }
 
+  double _chartMaxMl(List<WaterBarChartData> data) {
+    if (data.isEmpty) return 2000;
+
+    final highestMl = data.fold<double>(0, (highest, item) {
+      return item.ml > highest ? item.ml : highest;
+    });
+
+    if (highestMl <= 0) return 2000;
+
+    const yAxisSectionCount = 4;
+    const stepMultipleMl = 500.0;
+
+    final rawStep = highestMl / yAxisSectionCount;
+    final roundedStep = (rawStep / stepMultipleMl).ceil() * stepMultipleMl;
+
+    return roundedStep * yAxisSectionCount;
+  }
+
   List<HydrationDailySummary> _daysUntilToday(
     List<HydrationDailySummary> days,
   ) {
@@ -114,7 +132,7 @@ class ProgressPage extends StatelessWidget {
                 SizedBox(height: 30),
                 BarChartProgressWidget(
                   data: chartData,
-                  maxMl: 3000,
+                  maxMl: _chartMaxMl(chartData),
                   activeIndex: DateTime.now().weekday - 1,
                 ),
                 SizedBox(height: 30),
