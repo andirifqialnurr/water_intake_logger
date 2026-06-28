@@ -6,6 +6,7 @@ import 'package:water_intake_logger/features/hydration/bloc/hydration_bloc.dart'
 import 'package:water_intake_logger/features/hydration/bloc/hydration_event.dart';
 import 'package:water_intake_logger/language/language_scope.dart';
 import 'package:water_intake_logger/page_tab_controller.dart';
+import 'package:water_intake_logger/pages/splash_page.dart';
 import 'package:water_intake_logger/theme/app_theme.dart';
 import 'package:water_intake_logger/theme/theme_scope.dart';
 
@@ -51,9 +52,11 @@ class _WaterIntakeLoggerAppState extends State<WaterIntakeLoggerApp> {
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
         themeMode: themeController.themeMode,
-        initialRoute: '/',
-        routes: {'/': (context) => const PageTabController()},
-        // home: const HomePage(),
+        initialRoute: '/splash',
+        routes: {
+          '/splash': (context) => const SplashPage(),
+          '/': (context) => const PageTabController(),
+        },
       ),
     );
   }
