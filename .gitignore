@@ -37,6 +37,8 @@ migrate_working_dir/
 agent.md
 architechture.md
 TODO.md
+/docs/
+/rule/
 
 # Symbolication related
 app.*.symbols
