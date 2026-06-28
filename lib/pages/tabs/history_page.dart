@@ -4,7 +4,7 @@ import 'package:water_intake_logger/features/hydration/bloc/hydration_state.dart
 // import 'package:water_intake_logger/language/language_scope.dart';
 
 import 'package:water_intake_logger/features/hydration/bloc/hydration_bloc.dart';
-import 'package:water_intake_logger/widgets/cards/history_list_tile/sectoins.dart';
+import 'package:water_intake_logger/widgets/cards/history_list_tile/sections.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
@@ -53,6 +53,8 @@ class HistoryPage extends StatelessWidget {
                 date: _formatDate(day.date),
                 goal: day.targetLiterText,
                 achieved: day.totalLiterText,
+                isExceeded: day.isExceeded,
+                percentage: day.percentage,
               );
             }).toList();
 

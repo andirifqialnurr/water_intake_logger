@@ -17,6 +17,7 @@ class HydrationDailySummary extends Equatable {
   }
 
   bool get isAchieved => totalMl >= targetMl;
+  bool get isExceeded => totalMl > targetMl;
 
   String get totalLiterText => (totalMl / 1000).toStringAsFixed(1);
   String get targetLiterText => (targetMl / 1000).toStringAsFixed(1);

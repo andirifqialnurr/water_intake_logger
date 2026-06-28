@@ -8,12 +8,16 @@ class HistoryCardWidget extends StatelessWidget {
   final String date;
   final String goal;
   final String achieved;
+  final bool isExceeded;
+  final int percentage;
 
   const HistoryCardWidget({
     required this.date,
     required this.goal,
     required this.achieved,
     required this.isAchieved,
+    required this.isExceeded,
+    required this.percentage,
     super.key,
   });
 
@@ -21,6 +25,32 @@ class HistoryCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.colors;
     final languageController = LanguageScope.of(context);
+
+    final statusColor = isExceeded
+        ? Colors.deepOrange
+        : isAchieved
+        ? colors.success
+        : colors.onSurfaceMuted;
+
+    final iconColors = isExceeded
+        ? Colors.deepOrange
+        : isAchieved
+        ? colors.primary
+        : colors.outline;
+
+    final iconBackgroundColor = isExceeded
+        ? Colors.deepOrange.withValues(alpha: 0.14)
+        : isAchieved
+        ? colors.primarySoft
+        : colors.surfaceMuted;
+
+    final statusIcon = isExceeded
+        ? Icons.local_fire_department_rounded
+        : Icons.verified;
+
+    final statusText = isAchieved
+        ? languageController.strings.achieve.toUpperCase()
+        : "$percentage% ${languageController.strings.notAchieve.toUpperCase()}";
 
     return Container(
       padding: EdgeInsets.all(16),
@@ -34,31 +64,20 @@ class HistoryCardWidget extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          isAchieved
-              ? Container(
-                  decoration: BoxDecoration(
-                    color: colors.primarySoft,
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  padding: EdgeInsets.all(14),
-                  child: Icon(
-                    Icons.water_drop_rounded,
-                    color: colors.primary,
-                    size: 24,
-                  ),
-                )
-              : Container(
-                  decoration: BoxDecoration(
-                    color: colors.surfaceMuted,
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  padding: EdgeInsets.all(14),
-                  child: Icon(
-                    Icons.water_drop_rounded,
-                    color: colors.outline,
-                    size: 24,
-                  ),
-                ),
+          Container(
+            decoration: BoxDecoration(
+              color: iconBackgroundColor,
+              borderRadius: BorderRadius.circular(40),
+            ),
+            padding: EdgeInsets.all(14),
+            child: Icon(
+              isExceeded
+                  ? Icons.local_fire_department_rounded
+                  : Icons.water_drop_rounded,
+              color: iconColors,
+              size: 24,
+            ),
+          ),
           SizedBox(width: 12),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -92,31 +111,31 @@ class HistoryCardWidget extends StatelessWidget {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
-                    color: isAchieved ? colors.primary : colors.onSurface,
+                    color: isAchieved ? iconColors : colors.onSurface,
                   ),
                 ),
                 isAchieved
                     ? Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Icon(Icons.verified, size: 14, color: colors.success),
+                          Icon(statusIcon, size: 14, color: statusColor),
                           SizedBox(width: 4),
                           Text(
-                            languageController.strings.achieve.toUpperCase(),
+                            statusText,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 12,
-                              color: colors.success,
+                              color: statusColor,
                             ),
                           ),
                         ],
                       )
                     : Text(
-                        "72% ${languageController.strings.notAchieve.toUpperCase()}",
+                        statusText,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
-                          color: colors.onSurfaceMuted,
+                          color: statusColor,
                         ),
                       ),
               ],

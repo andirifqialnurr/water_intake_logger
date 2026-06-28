@@ -3,15 +3,19 @@ import 'package:water_intake_logger/widgets/cards/history_list_tile/card.dart';
 
 class HistoryListTileItems {
   final bool isAchieved;
+  final bool isExceeded;
   final String date;
   final String goal;
   final String achieved;
+  final int percentage;
 
   const HistoryListTileItems({
     required this.isAchieved,
+    required this.isExceeded,
     required this.date,
     required this.goal,
     required this.achieved,
+    required this.percentage,
   });
 }
 
@@ -36,6 +40,8 @@ class HistoryListTileSections extends StatelessWidget {
               goal: item.goal,
               achieved: item.achieved,
               isAchieved: item.isAchieved,
+              isExceeded: item.isExceeded,
+              percentage: item.percentage,
             ),
           );
         }).toList(),
