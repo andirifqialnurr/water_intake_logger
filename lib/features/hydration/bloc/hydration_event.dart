@@ -49,3 +49,21 @@ final class HydrationGoalChanged extends HydrationEvent {
   @override
   List<Object?> get props => [targetMl];
 }
+
+final class HydrationEntryAmountChanged extends HydrationEvent {
+  final int entryId;
+  final int amountMl;
+
+  const HydrationEntryAmountChanged({
+    required this.entryId,
+    required this.amountMl,
+  });
+
+  @override
+  List<Object?> get props => [entryId, amountMl];
+}
+
+final class HydrationEntryDeleted extends HydrationEvent {
+  final int entryId;
+  const HydrationEntryDeleted({required this.entryId});
+}

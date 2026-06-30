@@ -11,6 +11,26 @@ class HydrationBloc extends Bloc<HydrationEvent, HydrationState> {
     on<HydrationWaterAdded>(_onWaterAdded);
     on<HydrationWaterRemoved>(_onWaterRemoved);
     on<HydrationGoalChanged>(_onGoalChanged);
+    on<HydrationEntryAmountChanged>(_onEntryAmountChanged);
+    on<HydrationEntryDeleted>(_onEntryDeleted);
+  }
+
+  Future<void> _emitHydrationSuccess(Emitter<HydrationState> emit) async {
+    final summary = await repository.getTodaySummary();
+    final history = await repository.getHistorySummaries();
+    final weeklyProgress = await repository.getCurrentWeekSummaries();
+    final profileSummary = await repository.getProfileSummary();
+    final entryLogs = await repository.getHistoryEntryLogs();
+
+    emit(
+      HydrationSuccess(
+        summary: summary,
+        history: history,
+        weeklyProgress: weeklyProgress,
+        profileSummary: profileSummary,
+        entryLogs: entryLogs,
+      ),
+    );
   }
 
   Future<void> _onStarted(
@@ -72,19 +92,30 @@ class HydrationBloc extends Bloc<HydrationEvent, HydrationState> {
     }
   }
 
-  Future<void> _emitHydrationSuccess(Emitter<HydrationState> emit) async {
-    final summary = await repository.getTodaySummary();
-    final history = await repository.getHistorySummaries();
-    final weeklyProgress = await repository.getCurrentWeekSummaries();
-    final profileSummary = await repository.getProfileSummary();
+  Future<void> _onEntryAmountChanged(
+    HydrationEntryAmountChanged event,
+    Emitter<HydrationState> emit,
+  ) async {
+    try {
+      await repository.updateEntryAmount(
+        entryId: event.entryId,
+        amountMl: event.amountMl,
+      );
+      await _emitHydrationSuccess(emit);
+    } catch (error) {
+      emit(HydrationFailure(message: error.toString()));
+    }
+  }
 
-    emit(
-      HydrationSuccess(
-        summary: summary,
-        history: history,
-        weeklyProgress: weeklyProgress,
-        profileSummary: profileSummary,
-      ),
-    );
+  Future<void> _onEntryDeleted(
+    HydrationEntryDeleted event,
+    Emitter<HydrationState> emit,
+  ) async {
+    try {
+      await repository.softDeleteEntry(entryId: event.entryId);
+      await _emitHydrationSuccess(emit);
+    } catch (error) {
+      emit(HydrationFailure(message: error.toString()));
+    }
   }
 }

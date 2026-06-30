@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:water_intake_logger/features/hydration/models/hydration_daily_summary.dart';
+import 'package:water_intake_logger/features/hydration/models/hydration_entry_log.dart';
 import 'package:water_intake_logger/features/hydration/models/hydration_profile_summary.dart';
 import 'package:water_intake_logger/features/hydration/models/hydration_today_summary.dart';
 
@@ -23,16 +24,24 @@ final class HydrationSuccess extends HydrationState {
   final List<HydrationDailySummary> history;
   final List<HydrationDailySummary> weeklyProgress;
   final HydrationProfileSummary profileSummary;
+  final List<HydrationEntryLog> entryLogs;
 
   const HydrationSuccess({
     required this.summary,
     required this.history,
     required this.weeklyProgress,
     required this.profileSummary,
+    required this.entryLogs,
   });
 
   @override
-  List<Object?> get props => [summary, history, weeklyProgress, profileSummary];
+  List<Object?> get props => [
+    summary,
+    history,
+    weeklyProgress,
+    profileSummary,
+    entryLogs,
+  ];
 }
 
 final class HydrationFailure extends HydrationState {

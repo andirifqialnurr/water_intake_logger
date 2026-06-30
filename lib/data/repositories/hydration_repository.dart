@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:water_intake_logger/data/local/app_database.dart';
 import 'package:water_intake_logger/features/hydration/models/hydration_daily_summary.dart';
+import 'package:water_intake_logger/features/hydration/models/hydration_entry_log.dart';
 import 'package:water_intake_logger/features/hydration/models/hydration_profile_summary.dart';
 import 'package:water_intake_logger/features/hydration/models/hydration_today_summary.dart';
 
@@ -257,6 +258,76 @@ class HydrationRepository {
       lifetimeMl: lifetimeMl,
       currentStreakDays: currentStreakDays,
       lastDrinkAt: lastDrinkAt,
+    );
+  }
+
+  Future<List<HydrationEntryLog>> getHistoryEntryLogs({int days = 4}) async {
+    final today = _dateOnly(DateTime.now());
+    final startDate = today.subtract(Duration(days: days - 1));
+
+    final startKey = _dateKey(startDate);
+    final endKey = _dateKey(today);
+
+    final rows =
+        await (db.select(db.hydrationEntries)
+              ..where((entry) => entry.deletedAt.isNull())
+              ..where((entry) => entry.localDate.isBiggerOrEqualValue(startKey))
+              ..where((entry) => entry.localDate.isSmallerOrEqualValue(endKey))
+              ..orderBy([
+                (entry) => OrderingTerm(
+                  expression: entry.consumeAt,
+                  mode: OrderingMode.desc,
+                ),
+              ]))
+            .get();
+
+    return rows.map((entry) {
+      return HydrationEntryLog(
+        id: entry.id,
+        amountMl: entry.amountMl,
+        sourceType: entry.sourceType,
+        sourceLabel: entry.sourceLabel,
+        consumeAt: entry.consumeAt,
+        localDate: entry.localDate,
+      );
+    }).toList();
+  }
+
+  Future<void> updateEntryAmount({
+    required int entryId,
+    required int amountMl,
+  }) async {
+    if (amountMl <= 0) return;
+
+    final now = DateTime.now();
+
+    final existing =
+        await (db.select(db.hydrationEntries)
+              ..where((entry) => entry.id.equals(entryId))
+              ..where((entry) => entry.deletedAt.isNull()))
+            .getSingleOrNull();
+
+    if (existing == null) return;
+
+    final updateAmount = existing.amountMl < 0 ? -amountMl : amountMl;
+
+    await (db.update(
+      db.hydrationEntries,
+    )..where((entry) => entry.id.equals(entryId))).write(
+      HydrationEntriesCompanion(
+        amountMl: Value(updateAmount),
+        updatedAt: Value(now),
+      ),
+    );
+  }
+
+  Future<void> softDeleteEntry({required int entryId}) async {
+    final now = DateTime.now();
+
+    await (db.update(
+      db.hydrationEntries,
+    )..where((entry) => entry.id.equals(entryId))).write(
+      HydrationEntriesCompanion(deletedAt: Value(now), updatedAt: Value(now)),
     );
   }
 }
