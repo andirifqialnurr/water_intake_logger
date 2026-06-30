@@ -8,6 +8,7 @@ class HistoryListTileItems {
   final String goal;
   final String achieved;
   final int percentage;
+  final VoidCallback? onTap;
 
   const HistoryListTileItems({
     required this.isAchieved,
@@ -16,6 +17,7 @@ class HistoryListTileItems {
     required this.goal,
     required this.achieved,
     required this.percentage,
+    this.onTap,
   });
 }
 
@@ -42,6 +44,7 @@ class HistoryListTileSections extends StatelessWidget {
               isAchieved: item.isAchieved,
               isExceeded: item.isExceeded,
               percentage: item.percentage,
+              onTap: item.onTap,
             ),
           );
         }).toList(),

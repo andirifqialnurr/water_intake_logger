@@ -100,6 +100,7 @@ class HydrationBloc extends Bloc<HydrationEvent, HydrationState> {
       await repository.updateEntryAmount(
         entryId: event.entryId,
         amountMl: event.amountMl,
+        sourceLabel: event.sourceLabel,
       );
       await _emitHydrationSuccess(emit);
     } catch (error) {

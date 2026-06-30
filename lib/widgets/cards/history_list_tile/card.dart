@@ -10,6 +10,7 @@ class HistoryCardWidget extends StatelessWidget {
   final String achieved;
   final bool isExceeded;
   final int percentage;
+  final VoidCallback? onTap;
 
   const HistoryCardWidget({
     required this.date,
@@ -18,6 +19,7 @@ class HistoryCardWidget extends StatelessWidget {
     required this.isAchieved,
     required this.isExceeded,
     required this.percentage,
+    this.onTap,
     super.key,
   });
 
@@ -52,75 +54,95 @@ class HistoryCardWidget extends StatelessWidget {
         ? languageController.strings.achieve.toUpperCase()
         : "$percentage% ${languageController.strings.notAchieve.toUpperCase()}";
 
-    return Container(
-      padding: EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        color: colors.surface,
-        boxShadow: [
-          BoxShadow(color: colors.shadow, blurRadius: 5, offset: Offset(1, 5)),
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: iconBackgroundColor,
-              borderRadius: BorderRadius.circular(40),
-            ),
-            padding: EdgeInsets.all(14),
-            child: Icon(
-              isExceeded
-                  ? Icons.local_fire_department_rounded
-                  : Icons.water_drop_rounded,
-              color: iconColors,
-              size: 24,
-            ),
-          ),
-          SizedBox(width: 12),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                date,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: colors.onSurface,
-                ),
-              ),
-              Text(
-                "${languageController.strings.dailyGOalCard}: $goal L",
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 12,
-                  color: colors.onSurface,
-                ),
+    return Material(
+      color: colors.surface,
+      borderRadius: BorderRadius.circular(24),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            color: colors.surface,
+            boxShadow: [
+              BoxShadow(
+                color: colors.shadow,
+                blurRadius: 5,
+                offset: Offset(1, 5),
               ),
             ],
           ),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  "$achieved L",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: isAchieved ? iconColors : colors.onSurface,
-                  ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: iconBackgroundColor,
+                  borderRadius: BorderRadius.circular(40),
                 ),
-                isAchieved
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Icon(statusIcon, size: 14, color: statusColor),
-                          SizedBox(width: 4),
-                          Text(
+                padding: EdgeInsets.all(14),
+                child: Icon(
+                  isExceeded
+                      ? Icons.local_fire_department_rounded
+                      : Icons.water_drop_rounded,
+                  color: iconColors,
+                  size: 24,
+                ),
+              ),
+              SizedBox(width: 12),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    date,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: colors.onSurface,
+                    ),
+                  ),
+                  Text(
+                    "${languageController.strings.dailyGOalCard}: $goal L",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                      color: colors.onSurface,
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      "$achieved L",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: isAchieved ? iconColors : colors.onSurface,
+                      ),
+                    ),
+                    isAchieved
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(statusIcon, size: 14, color: statusColor),
+                              SizedBox(width: 4),
+                              Text(
+                                statusText,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                  color: statusColor,
+                                ),
+                              ),
+                            ],
+                          )
+                        : Text(
                             statusText,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -128,20 +150,12 @@ class HistoryCardWidget extends StatelessWidget {
                               color: statusColor,
                             ),
                           ),
-                        ],
-                      )
-                    : Text(
-                        statusText,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          color: statusColor,
-                        ),
-                      ),
-              ],
-            ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

@@ -296,6 +296,7 @@ class HydrationRepository {
   Future<void> updateEntryAmount({
     required int entryId,
     required int amountMl,
+    required String sourceLabel,
   }) async {
     if (amountMl <= 0) return;
 
@@ -310,12 +311,17 @@ class HydrationRepository {
     if (existing == null) return;
 
     final updateAmount = existing.amountMl < 0 ? -amountMl : amountMl;
+    final updateSourceType = existing.amountMl < 0
+        ? 'preset_removed'
+        : 'preset';
 
     await (db.update(
       db.hydrationEntries,
     )..where((entry) => entry.id.equals(entryId))).write(
       HydrationEntriesCompanion(
         amountMl: Value(updateAmount),
+        sourceType: Value(updateSourceType),
+        sourceLabel: Value(sourceLabel),
         updatedAt: Value(now),
       ),
     );
