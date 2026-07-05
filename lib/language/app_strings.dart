@@ -26,6 +26,17 @@ class AppStrings {
   String get button2 => _en ? 'Bottle' : 'Botol';
   String get button3 => _en ? 'Glass' : 'Gelas';
   String get button4 => _en ? 'Thumbler' : 'Tumbler';
+  String get customAddWater => _en ? 'Custom' : 'Manual';
+  String get customAddWaterHint => _en
+      ? 'Enter a custom amount'
+      : 'Masukkan jumlah sendiri';
+  String get customAmountLabel => _en ? 'Amount' : 'Jumlah';
+  String get customAmountHint => _en ? 'Example: 350' : 'Contoh: 350';
+  String get amountPositiveError => _en
+      ? 'Enter a positive number'
+      : 'Masukkan angka positif';
+  String get add => _en ? 'Add' : 'Tambah';
+  String get cancel => _en ? 'Cancel' : 'Batal';
 
   // ----------
 
